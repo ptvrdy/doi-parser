@@ -1,0 +1,44 @@
+# Import the libraries
+import requests
+import bs4
+import json
+
+# Access the cataloging page
+url = "https://ntlsearch.bts.gov/ntl/workroom/search.jsp?b1=1&f1=0&t1=mb%3Apeyton.tvrdy&r=1&d=all&p=2&z=1&s=mte%2Cf%2Cr&o="
+response = requests.get(url)
+html = response.text
+
+# Parse and scrape the HTML page
+soup = bs4.BeautifulSoup(html, "html.parser")
+title = soup.find("h1").text
+author = soup.find("p", class_="author").text
+publisher = soup.find("span", id="publisher").text
+date = soup.find("span", id="date").text
+format = soup.find("span", id="format").text
+identifier = soup.find("span", id="identifier").text
+subject = [s.text for s in soup.find_all("span", class_="subject")]
+
+# Map the information to the DCAT-US elements
+dcat_us = {
+  "@type": "dcat:Dataset",
+  "name": title,
+  "author": {
+    "@type": "foaf:Person",
+    "name": author
+  },
+  "publisher": {
+    "@type": "foaf:Organization",
+    "name": publisher
+  },
+  "issued": date,
+  "format": format,
+  "identifier": identifier,
+  "keyword": subject
+}
+
+# Generate a JSON file with the DCAT-US metadata elements
+with open('dcat_us.json', 'w') as f:
+  json.dump(dcat_us, f, indent=2)
+
+# Validate the JSON file using the Data.gov validator
+# https://labs.data.gov/dashboard/validate

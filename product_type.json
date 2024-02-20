@@ -1,0 +1,7 @@
+product_type_specific_lookup = {
+    "PDF": "Text",
+    "PPTX": "Text",
+    "ZIP": "Dataset",
+    "CSV": "Dataset",
+    "XLSX": "Dataset"
+}

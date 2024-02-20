@@ -1,0 +1,19 @@
+[
+	{
+		"id": "12345",
+		"site_code": "DOTNTL",
+		"accession_number": "95555",
+		"other_numbers": "dot:4832",
+		"contract_numbers": "69G930y527GKD",
+		"report_numbers": "DOT295820 248",
+		"site_url": "https://rosap.ntl.bts.gov/",
+		"doi": "10.21949/12345",
+		"title": "title",
+		"publication_date": "2023-01-01",
+		"product_type_specific": "Text",
+		"product_type": "PDF",
+		"publisher": "United States. Department of Transportation. Federal Aviation Administration",
+		"language": "English",
+		"description": "This report talks about lots of things"
+	}
+]

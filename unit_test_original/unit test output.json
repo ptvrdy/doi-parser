@@ -1,0 +1,19 @@
+[
+	{
+		"id": "12345",
+		"site_code": "DOTNTL",
+		"accession_number": "95555",
+		"other_numbers": "dot:4832",
+		"site_url": "https://rosap.org",
+		"doi": "10.21949/12345",
+		"title": "title",
+		"publication_date": "12/1/2023",
+		"product_type_specific": "text",
+		"product_type": "pdf",
+		"authors": [
+			{
+				"full_name": "United States. Department of Transportation"
+			}
+		]
+	}
+]
