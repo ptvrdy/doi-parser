@@ -3,42 +3,50 @@ import csv
 import sys
 import json
 import requests
+from post_processes import corporate_contributor, corporate_creator, NTL_Hosting_Institution
+
 	
 def unit_test():
+    #opening and reading csv and json versions of the unit test
 	csv_fp = open('test/unit test input.csv', 'r', encoding='utf-8')
 	json_fp = open('test/unit test output.json', 'r', encoding='utf-8')
 
 	expected_output = json.load(json_fp)
 
-	test_output = post_process_output(csv_to_json(csv.reader(csv_fp)))
+	#declaring that the csv unit test should be converted to json through the csv reader and be the model for the post process output
+	test_output = corporate_creator(csv_to_json(csv.reader(csv_fp)))
 
 	csv_fp.close()
 	json_fp.close()
 
+	#testing if the expected output of the program matches the unit test.
 	try:
 		assert expected_output == test_output
+  	#if they don't match, the test and expected output are both printed so the user can evaluate the difference between what they submitted and the unit test
 	except AssertionError as e:
 		print("Expected Output:", expected_output)
 		print("Actual Output:", test_output)
 		raise e
 
+#this function converts the csv file to json
 def csv_to_json(csv_reader):
 	output = []
 	header_row = True
 	keys = {}
 
+#this takes each row, strips it of extra spaces, creates an array for each row, with each value in the array representing a column
 	for row in csv_reader:
 		if header_row:
 			print("=> Parsing CSV")
 			row[0] = row[0].strip(codecs.BOM_UTF8.decode(sys.stdin.encoding))
 			keys = {i:row[i].strip() for i in range(len(row)) if row[i] != ''}
-			
+
 			header_row = False
 			continue
 
+#for each row, makes each key an element, and stops when out of rows, then returning the output
 		output_obj = {}
 		for i in range(len(keys)):
-			
 			key = keys[i]
 			element = row[i]
 
@@ -49,14 +57,7 @@ def csv_to_json(csv_reader):
 			output.append(output_obj)
 
 	return output
-
-def post_process_output(json_list):
-	for json_obj in json_list:
-		if 'full_name' in json_obj.keys():
-			full_name = json_obj.pop('full_name')
-			json_obj['authors'] = [{'full_name': full_name}]
-	return json_list
-
+    
 
 def main():
 	unit_test()
@@ -69,7 +70,9 @@ def main():
 	fp = open(sys.argv[1], 'r', encoding='utf-8')
 
 	
-	output = post_process_output(csv_to_json(csv.reader(fp)))
+	output = csv_to_json(csv.reader(fp))
+	for func in (corporate_creator,corporate_contributor,NTL_Hosting_Institution):
+		output = func(output)
 			
 	fp.close()
 	print("=> Finished Parsing\n")

@@ -14,6 +14,8 @@
 		"product_type": "PDF",
 		"publisher": "United States. Department of Transportation. Federal Aviation Administration",
 		"language": "English",
-		"description": "This report talks about lots of things"
+		"description": "This report talks about lots of things",
+		"research_organization": "research organization",
+		"keywords": "keyword 1, keyword 2"
 	}
 ]
