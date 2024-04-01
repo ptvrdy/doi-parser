@@ -93,7 +93,6 @@ def main():
 
 	if not should_continue:
 		print("=> Done !")
-		fpo.close()
 		sys.exit(0)
 
 	print("=> Preparing Request")
@@ -120,6 +119,7 @@ def main():
 		print("=> POST did not fire successfully! %s" % response.status_code)
 	else:
 		print("=> Writing Response to file")
+		fpo.open()
 		fpo.write('\n\n---------------------------------------------------------------------------------\n\nRESULTS\n\n')
 		json.dump(response.json(), fpo, indent=2)
 		fpo.close()

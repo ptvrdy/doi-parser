@@ -1,5 +1,6 @@
 
-# README for DOI Parser for Postman 
+# README for DOI Parser for Postman  
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 National Transportation Library (NTL). Bureau of Transportation Statistics (BTS), U.S. Department of Transportation (USDOT). <https://ror.org/00snbrd52>
 2023-03-25
 ## Links to Dataset  
@@ -16,7 +17,7 @@ Dataset Archive Link: https://github.com/tvrdy-ctr/doi-parser
 
 **Title of Program:**  DOI Parser for Postman
 
-**Description of the Program:** This program takes CSV files and transforms them to JSON files that can then be pushed to DOE's IAD API. These files are mostly compliant with Datacite's DOI metadata standards, but they have important differences that are due to the DOE's IAD API. The record metadata is based off of Datacite's 4.4 schema version.
+**Description of the Program:** This program takes CSV files and transforms them to JSON files that can then be pushed to DOE's IAD API. These files are mostly compliant with DataCite's DOI metadata standards, but they have important differences that are due to the DOE's IAD API. The record metadata is based off of DataCite's 4.4 schema version.
 
 **Dataset Archive Link:** https://github.com/tvrdy-ctr/doi-parser
 
@@ -43,7 +44,7 @@ Dataset Archive Link: https://github.com/tvrdy-ctr/doi-parser
 
 >  Tvrdy, Peyton and Joseph Lambeth. (2024). DOI Parser for Postman Updates. https://github.com/tvrdy-ctr/doi-parser  
 
-**Licenses/restrictions placed on the data:** https://creativecommons.org/licenses/by/4.0/legalcode  
+**Licenses/restrictions placed on the data:** https://creativecommons.org/publicdomain/zero/1.0/  
  
 ## C. File Overview  
 
@@ -86,5 +87,5 @@ This file is where you would make your additional functions. If implementing the
 
 This README.txt file was originally created on 2024-03-07 by Peyton Tvrdy ([0000-0002-9720-4725](https://orcid.org/0000-0002-9720-4725)), Data Management and Data Curation Fellow, National Transportation Library <peyton.tvrdy.ctr@dot.gov>  
  
-2024-03-25: Original file created
+2024-03-25: Original file created  
 2024-04-01: Changes made to functions in post_processes, fixed writing and save error when creating json file. Adjusted README
