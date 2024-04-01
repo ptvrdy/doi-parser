@@ -3,8 +3,7 @@ import csv
 import sys
 import json
 import requests
-from post_processes import corporate_contributor, corporate_creator, NTL_Hosting_Institution
-
+from post_processes import corporate_creator, NTL_Hosting_Institution, corporate_contributor
 	
 def unit_test():
     #opening and reading csv and json versions of the unit test
@@ -71,7 +70,7 @@ def main():
 
 	
 	output = csv_to_json(csv.reader(fp))
-	for func in (corporate_creator,corporate_contributor,NTL_Hosting_Institution):
+	for func in (corporate_creator,NTL_Hosting_Institution,corporate_contributor):
 		output = func(output)
 			
 	fp.close()
@@ -88,7 +87,7 @@ def main():
 	
 	fpo = open(out_filename, 'w')
 	json.dump(output, fpo, indent=2)
-	
+	fpo.close()
 
 	should_continue = input("\n=> Do you want to send the request now? [y/N]: ").upper() == 'Y'
 

@@ -3,8 +3,8 @@ from constants import acronym_to_url_lookup as pub_to_ror
 #this function matches the heading "full name" to the DOE object "authors." This is used when an organization is responsible for authorship
 def corporate_creator(json_list):
 	for json_obj in json_list:
-		if 'full_name' in json_obj.keys():
-			full_name = json_obj.pop('full_name')
+		if 'corporate_creator' in json_obj.keys():
+			full_name = json_obj.pop('corporate_creator')
 			json_obj.setdefault('authors', []).append({'full_name': full_name})
 	return json_list
 
@@ -13,9 +13,10 @@ def NTL_Hosting_Institution(json_list):
     for json_obj in json_list:
         json_obj.setdefault('contributors', []).append({'full_name': 'United States. Department of Transportation. National Transportation Library',
 				'contributor_type': 'HostingInstitution',
-				'nameIdentifier': 'https://ror.org/00snbrd52',
-				'schemeUri': 'https://ror.org',
-				'publisherIdentifierScheme': 'ROR'})
+				#'nameIdentifier': 'https://ror.org/00snbrd52',
+				#'schemeUri': 'https://ror.org',
+				#'publisherIdentifierScheme': 'ROR'
+				})
     return json_list
 
 #this function matches corporate contributors to the contributor type "Sponsor"

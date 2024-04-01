@@ -1,6 +1,6 @@
 
 # README for DOI Parser for Postman 
-National Transportation Library (NTL). Bureau of Transportation Statistics (BTS), U.S. Department of Transportation (USDOT)
+National Transportation Library (NTL). Bureau of Transportation Statistics (BTS), U.S. Department of Transportation (USDOT). <https://ror.org/00snbrd52>
 2023-03-25
 ## Links to Dataset  
 Dataset Archive Link: https://github.com/tvrdy-ctr/doi-parser
@@ -16,7 +16,7 @@ Dataset Archive Link: https://github.com/tvrdy-ctr/doi-parser
 
 **Title of Program:**  DOI Parser for Postman
 
-**Description of the Program:** This program takes CSV files and transforms them to JSON files that can then be pushed to the DOE's IAD API. These files are mostly compliant with Datacite's DOI metadata standards, but have important difference that are due to the DOE's IAD API. The record metadata is based off of Datacite's 4.4 schema version.
+**Description of the Program:** This program takes CSV files and transforms them to JSON files that can then be pushed to DOE's IAD API. These files are mostly compliant with Datacite's DOI metadata standards, but they have important differences that are due to the DOE's IAD API. The record metadata is based off of Datacite's 4.4 schema version.
 
 **Dataset Archive Link:** https://github.com/tvrdy-ctr/doi-parser
 
@@ -24,7 +24,7 @@ Dataset Archive Link: https://github.com/tvrdy-ctr/doi-parser
 
 >  *Principal Data Creator or Data Manager Contact Information*  
 >  Name: Peyton Tvrdy ([0000-0002-9720-4725](https://orcid.org/0000-0002-9720-4725))   
->  Institution: National Transportation Library   
+>  Institution: National Transportation Library <https://ror.org/00snbrd52>   
 >  Email: peyton.tvrdy.ctr@dot.gov  
 
 >  *Co-Author Contact Information*  
@@ -33,7 +33,7 @@ Dataset Archive Link: https://github.com/tvrdy-ctr/doi-parser
 
 >  *Organizational Contact Information*  
 >  Name: Peyton Tvrdy ([0000-0002-9720-4725](https://orcid.org/0000-0002-9720-4725))   
->  Institution: National Transportation Library   
+>  Institution: National Transportation Library <https://ror.org/00snbrd52>   
 >  Email: peyton.tvrdy.ctr@dot.gov  
  
 
@@ -47,7 +47,7 @@ Dataset Archive Link: https://github.com/tvrdy-ctr/doi-parser
  
 ## C. File Overview  
 
-File List for the `Insert Full Dataset ZIP File Name Here: Ex: 12348_DATASET`  
+File List for doi-parser  
 
 >  1. Filename: test  
 >  Short Description:  This folder contains the unit test csv and json files   
@@ -58,18 +58,21 @@ File List for the `Insert Full Dataset ZIP File Name Here: Ex: 12348_DATASET`
 >  3. Filename: constants.py  
 >  Short Description:  Contains the dictionary that maps publishers to their ROR IDs.  
 
->  4. Filename: doi-parser.py  
+>  4. Filename: doi_parser.py  
 >  Short Description:  Main python file that converts the csv file to json and posts to postman.  
 
->  5. Filename: post-processes.py
+>  5. Filename: post_processes.py
 >  Short Description:  Contains all the functions used on the data after processing. 
 
->  6. Filename: product-type.json
+>  6. Filename: product_type.json
 >  Short Description:  Dictionary containing product type values to match DOE's IAD product type field.  
 
 ## D. Software Information  
 
-**Instrument or software-specific information needed to interpret the data:** This software is best run through command prompt. It is best edited with visual studio code. Microsoft Excel was used to make csv files.  
+**Instrument or software-specific information needed to interpret the data:** This software is best run through command prompt. It is best edited with Visual Studio Code. Microsoft Excel was used to make csv files. To run this software, open the command prompt and navigate to the folder that contains this program. Then, type the following command:  
+
+`python doi_parser.py` + CSV file  
+ex: `python doi_parser.py CSV_1_20240101.csv`
 
 ## E. File Specific Information  
 
@@ -83,4 +86,5 @@ This file is where you would make your additional functions. If implementing the
 
 This README.txt file was originally created on 2024-03-07 by Peyton Tvrdy ([0000-0002-9720-4725](https://orcid.org/0000-0002-9720-4725)), Data Management and Data Curation Fellow, National Transportation Library <peyton.tvrdy.ctr@dot.gov>  
  
-2023-03-25: : Original file created
+2024-03-25: Original file created
+2024-04-01: Changes made to functions in post_processes, fixed writing and save error when creating json file. Adjusted README
