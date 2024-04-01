@@ -1,11 +1,7 @@
 
 # README for DOI Parser for Postman  
-<<<<<<< HEAD
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)  
 
-=======
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
->>>>>>> 3394d86d1efa0f200fc4af4d1379958db9daa0dc
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)  
 National Transportation Library (NTL). Bureau of Transportation Statistics (BTS), U.S. Department of Transportation (USDOT). <https://ror.org/00snbrd52>
 2023-03-25
 ## Links to Dataset  
