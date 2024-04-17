@@ -1,4 +1,5 @@
 from constants import acronym_to_url_lookup as pub_to_ror
+from constants import collections_to_doi_lookup
 
 #this function matches the heading "full name" to the DOE object "authors." This is used when an organization is responsible for authorship
 def corporate_creator(json_list):
@@ -42,3 +43,29 @@ def publisher_has_ROR(json_list):
 						'publisherIdentifierScheme': 'ROR',
 						'lang': 'en'})
 	return json_list
+
+#this function matches Series DOIs/IsPartOf to the correct related identifier structure
+#def series_DOI(json_list):
+	for json_obj in json_list:
+		if 'collection_series_identifier' in json_obj.keys():
+			series_dois = json_obj['collection_series_identifier'].split(';')
+			for series_doi in series_dois:
+				if series_doi in collections_to_doi_lookup:
+					json_obj.setdefault('related_identifiers', []).append({'identifier_type': 'DOI', 'identifier_value': collections_to_doi_lookup[series_doi], 'relation_type': 'IsPartOf'})
+		return json_list
+
+def series_DOI(json_list):
+    for json_obj in json_list:
+        if 'collection_series_identifier' in json_obj:
+            series_dois = json_obj['collection_series_identifier'].split(';')
+            for series_doi in series_dois:
+                if series_doi in collections_to_doi_lookup:
+                    # Create a new DOI-related entry
+                    doi_entry = {
+                        'identifier_type': 'DOI',
+                        'identifier_value': collections_to_doi_lookup[series_doi],
+                        'relation_type': 'IsPartOf'
+                    }
+                    # Initialize 'related_identifiers' if not already present
+                    json_obj.setdefault('related_identifiers', []).append(doi_entry)
+    return json_list

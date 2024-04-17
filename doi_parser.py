@@ -3,7 +3,7 @@ import csv
 import sys
 import json
 import requests
-from post_processes import corporate_creator, NTL_Hosting_Institution, corporate_contributor
+from post_processes import corporate_creator, NTL_Hosting_Institution, corporate_contributor, series_DOI
 	
 def unit_test():
     #opening and reading csv and json versions of the unit test
@@ -70,7 +70,7 @@ def main():
 
 	
 	output = csv_to_json(csv.reader(fp))
-	for func in (corporate_creator,NTL_Hosting_Institution,corporate_contributor):
+	for func in (corporate_creator,NTL_Hosting_Institution,corporate_contributor,series_DOI):
 		output = func(output)
 			
 	fp.close()
@@ -87,7 +87,6 @@ def main():
 	
 	fpo = open(out_filename, 'w')
 	json.dump(output, fpo, indent=2)
-	fpo.close()
 
 	should_continue = input("\n=> Do you want to send the request now? [y/N]: ").upper() == 'Y'
 
@@ -119,7 +118,6 @@ def main():
 		print("=> POST did not fire successfully! %s" % response.status_code)
 	else:
 		print("=> Writing Response to file")
-		fpo.open()
 		fpo.write('\n\n---------------------------------------------------------------------------------\n\nRESULTS\n\n')
 		json.dump(response.json(), fpo, indent=2)
 		fpo.close()

@@ -1,0 +1,791 @@
+[
+  {
+    "id": "1530703",
+    "site_code": "DOTNTL",
+    "accession_number": "96986",
+    "other_numbers": "dot:74121",
+    "site_url": "https://rosap.ntl.bts.gov/view/dot/74121",
+    "collection_series_identifier": "Civil Aerospace Medical Institute",
+    "doi": "10.21949/1530703",
+    "title": "Gene Expression and Biomarker Utility in Postmortem Samples [supporting dataset]",
+    "publication_date": "2024-04-08",
+    "product_type_specific": "ZIP ",
+    "product_type": "Dataset",
+    "publisher": "United States. Department of Transportation. Federal Aviation Administration. Office of Aviation. Civil Aerospace Medical Institute",
+    "keywords": "Marijuana, Aviation safety, Crash investigation sites, Air pilots, Forensic science, Transcriptome, cannabis, delta-9-tetrahydrocannabinol, THC, CBD, cannabidiol, thanatotranscriptome, RNA",
+    "report_numbers": "DOT/FAA/AM-24/02",
+    "language": "English",
+    "description": "This study assesses the suitability of aviation accident autopsy samples as RNA sequencing input and for detecting gene expression differences between THC-positive and THC-negative samples. Postmortem brain, lung, muscle, and blood samples were collected from 57 aviation accident fatalities and comparisons were made between each tissue based on the presence or absence of THC or its primary or secondary metabolites (28 positive, 29 negative). RNA was extracted, and global transcriptional analysis was performed using total RNA-Seq. Twenty-two genes in lung (18 of which had Entrez annotation data) and four in muscle showed significant differential gene expression between THC-positive and THC-negative samples. It is possible that the observed expression patterns between the THC-positive and THC-negative groups were induced by smoking and not by THC, as many of the observed genes were also reported in the literature to change in response to smoking. Cannabis use is often accompanied by other substance use, and evidence of co-use was observed among some subjects. Therefore, we cannot state conclusively that the observed differences between the THC-positive and THC-negative groups were due solely to THC consumption, only that significant differences exist when the subject groups are so segregated. Regardless, this study is the first of its kind in reporting RNA-Seq data from postmortem tissues collected from aviation accident victims and that said data are of sufficient quality to derive significant differences between subject groups.\n\nThe total size of the zip file is 13.7 MB. The .csv, Comma Separated Value, file is a simple format that is designed for a database table and supported by many applications. The .csv file is often used for moving tabular data between two different computer programs, due to its open format. The most common software used to open .csv files are Microsoft Excel and RecordEditor, (for more information on .csv files and software, please visit https://www.file-extensions.org/csv-file-extension). The .html file extension is mainly related to the Hypertext Markup Language that provides means to create structured documents by denoting structural semantics for text such as headings, paragraphs, lists, links, quotes and other items. It is the main language for writing web pages. HTML formats texts, tables, images, and other content that will be displayed on the page that can be viewed using any web browser (for more information on .html files and software, please visit https://www.file-extensions.org/html-file-extension). The .txt file type is a common text file, which can be opened with a basic text editor. The most common software used to open .txt files are Microsoft Windows Notepad, Sublime Text, Atom, and TextEdit (for more information on .txt files and software, please visit https://www.file-extensions.org/txt-file-extension). An .sh file is a script that can be run with the Bash Unix shell. It contains instructions written in the Bash command language. Users can execute the commands an SH file contains by calling the file in a Bash shell (https://fileinfo.com/extension/sh). The .rmd file extension is associated with the RStudio, an integrated development tool for Windows, macOS (OS X) and Linux operating systems, which allows users to create apps with R programming language. The .rmd file stores R markdown data (for more information on .rmd files and software, please visit https://www.file-extensions.org/rmd-file-extension-r-markdown-data). A .tsv file is a very simple textual data format which allows tabular data to be exchanged between applications that use different internal data formats. These files can be opened using open-source programs such as Notepad or other open source, tabular file readers. These files are also known as .tab files (for more information on .tsv files, please visit https://www.file-extensions.org/tsv-file-extension). The file extension .md is among others related to texts and source codes in Markdown markup language. Markdown is a lightweight markup language, to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML) (for more information on .md files and software, please visit https://www.file-extensions.org/md-file-extension). File extension .json is associated to JavaScript Object Notation file format, a lightweight, text-based, language-independent data interchange format. JSON defines a small set of formatting rules for the portable representation of structured data. It is used by various applications as alternative option to XML file format. The data in a json file are stored in simple text file format and the content is viewable in any simple text editor (for more information on .json files and software, please visit https://www.file-extensions.org/json-file-extension).",
+    "authors": [
+      {
+        "full_name": "United States. Department of Transportation. Federal Aviation Administration. Civil Aerospace Medical Institute"
+      }
+    ],
+    "contributors": [
+      {
+        "full_name": "United States. Department of Transportation. National Transportation Library",
+        "contributor_type": "HostingInstitution"
+      }
+    ],
+    "related_identifiers": [
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1530825",
+        "relation_type": "IsPartOf"
+      }
+    ]
+  },
+  {
+    "id": "1530699",
+    "site_code": "DOTNTL",
+    "accession_number": "97043",
+    "other_numbers": "dot:74180",
+    "site_url": "https://rosap.ntl.bts.gov/view/dot/74180",
+    "collection_series_identifier": "BTS Products;National Transportation Data Archive;National Transportation Atlas Database Archive",
+    "doi": "10.21949/1530699",
+    "title": "National Transportation Atlas Database (NTAD): Spaceports 2023-Present Datasets",
+    "publication_date": "2023-01-01",
+    "product_type_specific": "ZIP ",
+    "product_type": "Dataset",
+    "publisher": "United States. Department of Transportation. Bureau of Transportation Statistics",
+    "keywords": "Spacecraft, Commercial space transportation, Data, National Transportation Atlas Database, NTAD, Spaceports, Spaceport facilities, Space transportation",
+    "language": "English",
+    "description": "The Spaceports dataset is from the Bureau of Transportation Statistics (BTS), and is part of the U.S. Department of Transportation (USDOT)/Bureau of Transportation Statistics\u2019 (BTS\u2019) National Transportation Atlas Database (NTAD). This layer is meant to be a reference layer and features public and private spaceport facilities in the United States. The information found on FAA\u2019s Office of Spaceports was used in creating this layer by the Bureau of Transportation Statistics (BTS), found here https://www.faa.gov/space/office_spaceports. These facilities support the launching and receiving of spacecraft into and from space. As a result, U.S. spaceports have a critical role in the growing global commercial space transportation industry. The FAA Office of Spaceports is responsible for development of policies that promote infrastructure improvements and strengthen the competitiveness of U.S. spaceports, supporting launch and reentry site licensing activities, providing technical assistance and guidance to existing and proposed new spaceports, and the domestic and global promotion of U.S. spaceports. The mission of the FAA\u2019s Office of Spaceports is to enable the safest, most efficient network of launch and reentry spaceports in the world, along with a vision to advance a robust, innovative national system of spaceports supporting the U.S. as a global leader in the commercial space transportation industry.\n\nThe total size of the zip file is 0.23 MB. The txt is a common text file, which can be opened with a basic text editor. The most common software used to open .txt files are Microsoft Windows Notepad, Sublime Text, Atom, and TextEdit (for more information on .txt files and software, please visit https://www.file-extensions.org/txt-file-extension). Shapefiles (.shp, .shx, and .dbf) can be opened with any GIS software program. An open-source software that can open most ESRI file types is QGIS https://www.qgis.org/en/site/. The pdf file format was developed by Adobe Systems and represents two-dimensional documents in a device-independent and resolution-independent format. There are PDF readers available on many platforms, such as Xpdf, Foxit, and Adobe's own Adobe Acrobat Reader. PDF readers/viewers or online services for basic functions are generally free (for more information on .pdf files and software, please visit https://www.file-extensions.org/pdf-file-extension). The file extension .md is among others related to texts and source codes in Markdown markup language. Markdown is a lightweight markup language, to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML) (for more information on .md files and software, please visit https://www.file-extensions.org/md-file-extension). File extension .json is associated to JavaScript Object Notation file format, a lightweight, text-based, language-independent data interchange format. JSON defines a small set of formatting rules for the portable representation of structured data. It is used by various applications as alternative option to XML file format. The data in a json file are stored in simple text file format and the content is viewable in any simple text editor (for more information on .json files and software, please visit https://www.file-extensions.org/json-file-extension).",
+    "authors": [
+      {
+        "full_name": "United States. Bureau of Transportation Statistics. Office of Spatial Analysis and Visualization"
+      }
+    ],
+    "contributors": [
+      {
+        "full_name": "United States. Department of Transportation. National Transportation Library",
+        "contributor_type": "HostingInstitution"
+      }
+    ],
+    "related_identifiers": [
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1530822",
+        "relation_type": "IsPartOf"
+      },
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1504517",
+        "relation_type": "IsPartOf"
+      },
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1530842",
+        "relation_type": "IsPartOf"
+      }
+    ]
+  },
+  {
+    "id": "1530698",
+    "site_code": "DOTNTL",
+    "accession_number": "97042",
+    "other_numbers": "dot:74176",
+    "site_url": "https://rosap.ntl.bts.gov/view/dot/74176",
+    "collection_series_identifier": "BTS Products;National Transportation Data Archive;National Transportation Atlas Database Archive",
+    "doi": "10.21949/1530698",
+    "title": "National Transportation Atlas Database (NTAD): Section 15 Transit Agencies 1995 Dataset",
+    "publication_date": "1995-01-01",
+    "product_type_specific": "ZIP ",
+    "product_type": "Dataset",
+    "publisher": "United States. Department of Transportation. Bureau of Transportation Statistics",
+    "keywords": "Data, Transit operating agencies, National Transportation Atlas Database, NTAD",
+    "language": "English",
+    "description": "The Section 15 Transit Agencies 1995 dataset is from the Bureau of Transportation Statistics (BTS), and is part of the U.S. Department of Transportation (USDOT)/Bureau of Transportation Statistics\u2019 (BTS\u2019) National Transportation Atlas Database (NTAD). Transit agency locations for transit agencies that are required to report information to the Federal Transit Administration according to Section 15.\n\nThe total size of the zip file is 0.21 MB. The txt is a common text file, which can be opened with a basic text editor. The most common software used to open .txt files are Microsoft Windows Notepad, Sublime Text, Atom, and TextEdit (for more information on .txt files and software, please visit https://www.file-extensions.org/txt-file-extension). Shapefiles (.shp, .shx, and .dbf) can be opened with any GIS software program. An open-source software that can open most ESRI file types is QGIS https://www.qgis.org/en/site/. The pdf file format was developed by Adobe Systems and represents two-dimensional documents in a device-independent and resolution-independent format. There are PDF readers available on many platforms, such as Xpdf, Foxit, and Adobe's own Adobe Acrobat Reader. PDF readers/viewers or online services for basic functions are generally free (for more information on .pdf files and software, please visit https://www.file-extensions.org/pdf-file-extension). The file extension .md is among others related to texts and source codes in Markdown markup language. Markdown is a lightweight markup language, to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML) (for more information on .md files and software, please visit https://www.file-extensions.org/md-file-extension). File extension .json is associated to JavaScript Object Notation file format, a lightweight, text-based, language-independent data interchange format. JSON defines a small set of formatting rules for the portable representation of structured data. It is used by various applications as alternative option to XML file format. The data in a json file are stored in simple text file format and the content is viewable in any simple text editor (for more information on .json files and software, please visit https://www.file-extensions.org/json-file-extension).",
+    "authors": [
+      {
+        "full_name": "United States. Bureau of Transportation Statistics. Office of Spatial Analysis and Visualization"
+      }
+    ],
+    "contributors": [
+      {
+        "full_name": "United States. Department of Transportation. National Transportation Library",
+        "contributor_type": "HostingInstitution"
+      }
+    ],
+    "related_identifiers": [
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1530822",
+        "relation_type": "IsPartOf"
+      },
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1504517",
+        "relation_type": "IsPartOf"
+      },
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1530842",
+        "relation_type": "IsPartOf"
+      }
+    ]
+  },
+  {
+    "id": "1530697",
+    "site_code": "DOTNTL",
+    "accession_number": "97041",
+    "other_numbers": "dot:74175",
+    "site_url": "https://rosap.ntl.bts.gov/view/dot/74175",
+    "collection_series_identifier": "BTS Products;National Transportation Data Archive;National Transportation Atlas Database Archive",
+    "doi": "10.21949/1530697",
+    "title": "National Transportation Atlas Database (NTAD): Petroleum Liquids Transportation Network 1995 Dataset",
+    "publication_date": "1995-01-01",
+    "product_type_specific": "ZIP ",
+    "product_type": "Dataset",
+    "publisher": "United States. Department of Transportation. Bureau of Transportation Statistics",
+    "keywords": "Petroleum liquids, Crude oil, Data, National Transportation Atlas Database, NTAD, Transportation network",
+    "language": "English",
+    "description": "The Petroleum Liquids Transportation Network dataset is from the National Petroleum Council, and is part of the U.S. Department of Transportation (USDOT)/Bureau of Transportation Statistics\u2019 (BTS\u2019) National Transportation Atlas Database (NTAD). Petroleum Liquids transportation network for crude oil and petroleum products.  Straight line origin-to-destination network.\n\nThe total size of the zip file is 2.74 MB. The txt is a common text file, which can be opened with a basic text editor. The most common software used to open .txt files are Microsoft Windows Notepad, Sublime Text, Atom, and TextEdit (for more information on .txt files and software, please visit https://www.file-extensions.org/txt-file-extension). Shapefiles (.shp, .shx, and .dbf) can be opened with any GIS software program. An open-source software that can open most ESRI file types is QGIS https://www.qgis.org/en/site/. The pdf file format was developed by Adobe Systems and represents two-dimensional documents in a device-independent and resolution-independent format. There are PDF readers available on many platforms, such as Xpdf, Foxit, and Adobe's own Adobe Acrobat Reader. PDF readers/viewers or online services for basic functions are generally free (for more information on .pdf files and software, please visit https://www.file-extensions.org/pdf-file-extension). The file extension .md is among others related to texts and source codes in Markdown markup language. Markdown is a lightweight markup language, to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML) (for more information on .md files and software, please visit https://www.file-extensions.org/md-file-extension). File extension .json is associated to JavaScript Object Notation file format, a lightweight, text-based, language-independent data interchange format. JSON defines a small set of formatting rules for the portable representation of structured data. It is used by various applications as alternative option to XML file format. The data in a json file are stored in simple text file format and the content is viewable in any simple text editor (for more information on .json files and software, please visit https://www.file-extensions.org/json-file-extension).",
+    "authors": [
+      {
+        "full_name": "United States. Bureau of Transportation Statistics. Office of Spatial Analysis and Visualization"
+      }
+    ],
+    "contributors": [
+      {
+        "full_name": "United States. Department of Transportation. National Transportation Library",
+        "contributor_type": "HostingInstitution"
+      },
+      {
+        "full_name": "National Petroleum Council",
+        "contributor_type": "Sponsor"
+      }
+    ],
+    "related_identifiers": [
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1530822",
+        "relation_type": "IsPartOf"
+      },
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1504517",
+        "relation_type": "IsPartOf"
+      },
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1530842",
+        "relation_type": "IsPartOf"
+      }
+    ]
+  },
+  {
+    "id": "1530696",
+    "site_code": "DOTNTL",
+    "accession_number": "97040",
+    "other_numbers": "dot:74174",
+    "site_url": "https://rosap.ntl.bts.gov/view/dot/74174",
+    "collection_series_identifier": "National Transportation Atlas Database Archive;National Transportation Data Archive;BTS Products",
+    "doi": "10.21949/1530696",
+    "title": "National Transportation Atlas Database (NTAD): Oak Ridge Commodity Flow 1995 Dataset",
+    "publication_date": "1995-01-01",
+    "product_type_specific": "ZIP ",
+    "product_type": "Dataset",
+    "publisher": "United States. Department of Transportation. Bureau of Transportation Statistics",
+    "keywords": "Commodity flow, Databases, Highway transportation, Routing, Vehicles, Data, Geospatial data, Scheduling, National Transportation Atlas Database, NTAD",
+    "language": "English",
+    "description": "The Oak Ridge Commodity Flow dataset is from the Oak Ridge National Laboratory (ORNL), and is part of the U.S. Department of Transportation (USDOT)/Bureau of Transportation Statistics\u2019 (BTS\u2019) National Transportation Atlas Database (NTAD). The Oak Ridge Highway Planning Network is a database of major highways in the United States. It is a foundation for analytic studies of highway performance, for vehicle routing and scheduling problems, and for mapping purposes. The network is based on a set of roadways digitized from the National Atlas by the U.S. Geological Survey. It has been enhanced at Oak Ridge National Laboratory by adding additional roads and attribute detail and correcting topological errors to produce a true analytic network.  This documentation is intended primarily to assist users of this database by describing its structure, data elements, and development.\n\nThe total size of the zip file is 7.08 MB. The txt is a common text file, which can be opened with a basic text editor. The most common software used to open .txt files are Microsoft Windows Notepad, Sublime Text, Atom, and TextEdit (for more information on .txt files and software, please visit https://www.file-extensions.org/txt-file-extension). Shapefiles (.shp, .shx, and .dbf) can be opened with any GIS software program. An open-source software that can open most ESRI file types is QGIS https://www.qgis.org/en/site/. The pdf file format was developed by Adobe Systems and represents two-dimensional documents in a device-independent and resolution-independent format. There are PDF readers available on many platforms, such as Xpdf, Foxit, and Adobe's own Adobe Acrobat Reader. PDF readers/viewers or online services for basic functions are generally free (for more information on .pdf files and software, please visit https://www.file-extensions.org/pdf-file-extension). The file extension .md is among others related to texts and source codes in Markdown markup language. Markdown is a lightweight markup language, to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML) (for more information on .md files and software, please visit https://www.file-extensions.org/md-file-extension). File extension .json is associated to JavaScript Object Notation file format, a lightweight, text-based, language-independent data interchange format. JSON defines a small set of formatting rules for the portable representation of structured data. It is used by various applications as alternative option to XML file format. The data in a json file are stored in simple text file format and the content is viewable in any simple text editor (for more information on .json files and software, please visit https://www.file-extensions.org/json-file-extension).",
+    "authors": [
+      {
+        "full_name": "United States. Bureau of Transportation Statistics. Office of Spatial Analysis and Visualization"
+      }
+    ],
+    "contributors": [
+      {
+        "full_name": "United States. Department of Transportation. National Transportation Library",
+        "contributor_type": "HostingInstitution"
+      },
+      {
+        "full_name": "Oak Ridge National Laboratory",
+        "contributor_type": "Sponsor"
+      }
+    ],
+    "related_identifiers": [
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1530842",
+        "relation_type": "IsPartOf"
+      },
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1504517",
+        "relation_type": "IsPartOf"
+      },
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1530822",
+        "relation_type": "IsPartOf"
+      }
+    ]
+  },
+  {
+    "id": "1530531",
+    "site_code": "DOTNTL",
+    "accession_number": "97046",
+    "other_numbers": "dot:74179",
+    "site_url": "https://rosap.ntl.bts.gov/view/dot/74179",
+    "collection_series_identifier": "National Transportation Data Archive",
+    "doi": "10.21949/1530531",
+    "title": "Air Travel Consumer Report: August 2020",
+    "publication_date": "2020-08-01",
+    "product_type_specific": "PDF",
+    "product_type": "Text",
+    "publisher": "United States. Department of Transportation. Office of Aviation Consumer Protection",
+    "keywords": "Air transportation, Air travel, Baggage, Passenger service, Schedule maintenance, Aircraft carriers, Airlines, Flight delays, Security, Trend (Statistics), ",
+    "language": "English",
+    "description": "The Air Travel Consumer Report is a monthly product of the Department of Transportation's Office of Aviation Consumer Protection. The report is designed to assist consumers with information on the quality of services provided by the airlines. Data Included in this Report Flight Delays: Flight Delays: June 2020 / January - June 2020; Mishandled Baggage / Wheelchairs and Scooters: June 2020 / January - June 2020; Oversales: 2nd. Quarter 2020 / January - June 2020; Consumer Complaints: June 2020 / January - June 2020; Customer Service Reports to the Dept. of Homeland Security: June 2020; Airline Animal Incident Reports: June 2020.\n",
+    "authors": [
+      {
+        "full_name": "United States. Department of Transportation. Office of Aviation Consumer Protection"
+      }
+    ],
+    "contributors": [
+      {
+        "full_name": "United States. Department of Transportation. National Transportation Library",
+        "contributor_type": "HostingInstitution"
+      }
+    ],
+    "related_identifiers": [
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1504517",
+        "relation_type": "IsPartOf"
+      }
+    ]
+  },
+  {
+    "id": "1530530",
+    "site_code": "DOTNTL",
+    "accession_number": "97044",
+    "other_numbers": "dot:74177",
+    "site_url": "https://rosap.ntl.bts.gov/view/dot/74177",
+    "collection_series_identifier": "National Transportation Data Archive",
+    "doi": "10.21949/1530530",
+    "title": "Air Travel Consumer Report: June 2020",
+    "publication_date": "2020-06-01",
+    "product_type_specific": "PDF",
+    "product_type": "Text",
+    "publisher": "United States. Department of Transportation. Office of Aviation Consumer Protection",
+    "keywords": "Air transportation, Air travel, Baggage, Passenger service, Schedule maintenance, Aircraft carriers, Airlines, Flight delays, Security, Trend (Statistics), ",
+    "language": "English",
+    "description": "The Air Travel Consumer Report is a monthly product of the Department of Transportation's Office of Aviation Consumer Protection. The report is designed to assist consumers with information on the quality of services provided by the airlines. Data Included in this Report Flight Delays: Flight Delays: April 2020; Mishandled Baggage / Wheelchairs and Scooters: April 2020; Oversales: 1st. Quarter 2020; Consumer Complaints: April 2020; Customer Service Reports to the Dept. of Homeland Security: April 2020; Airline Animal Incident Reports: April 2020.",
+    "authors": [
+      {
+        "full_name": "United States. Department of Transportation. Office of Aviation Consumer Protection"
+      }
+    ],
+    "contributors": [
+      {
+        "full_name": "United States. Department of Transportation. National Transportation Library",
+        "contributor_type": "HostingInstitution"
+      }
+    ],
+    "related_identifiers": [
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1504517",
+        "relation_type": "IsPartOf"
+      }
+    ]
+  },
+  {
+    "id": "1530529",
+    "site_code": "DOTNTL",
+    "accession_number": "97045",
+    "other_numbers": "dot:74178",
+    "site_url": "https://rosap.ntl.bts.gov/view/dot/74178",
+    "collection_series_identifier": "National Transportation Data Archive",
+    "doi": "10.21949/1530529",
+    "title": "Air Travel Consumer Report: July 2020",
+    "publication_date": "2020-07-01",
+    "product_type_specific": "PDF",
+    "product_type": "Text",
+    "publisher": "United States. Department of Transportation. Office of Aviation Consumer Protection",
+    "keywords": "Air transportation, Air travel, Baggage, Passenger service, Schedule maintenance, Aircraft carriers, Airlines, Flight delays, Security, Trend (Statistics), ",
+    "language": "English",
+    "description": "The Air Travel Consumer Report is a monthly product of the Department of Transportation's Office of Aviation Consumer Protection. The report is designed to assist consumers with information on the quality of services provided by the airlines. Data Included in this Report Flight Delays: Flight Delays: May 2020; Mishandled Baggage / Wheelchairs and Scooters: May 2020; Oversales: 1st. Quarter 2020; Consumer Complaints: May 2020; Customer Service Reports to the Dept. of Homeland Security: May 2020; Airline Animal Incident Reports: May 2020.\n",
+    "authors": [
+      {
+        "full_name": "United States. Department of Transportation. Office of Aviation Consumer Protection"
+      }
+    ],
+    "contributors": [
+      {
+        "full_name": "United States. Department of Transportation. National Transportation Library",
+        "contributor_type": "HostingInstitution"
+      }
+    ],
+    "related_identifiers": [
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1504517",
+        "relation_type": "IsPartOf"
+      }
+    ]
+  },
+  {
+    "id": "1529631",
+    "site_code": "DOTNTL",
+    "accession_number": "96971",
+    "other_numbers": "dot:74107",
+    "site_url": "https://rosap.ntl.bts.gov/view/dot/74107",
+    "collection_series_identifier": "Civil Aerospace Medical Institute",
+    "doi": "10.21949/1529631",
+    "title": "Gene Expression and Biomarker Utility in Postmortem Samples",
+    "publication_date": "2024-04-01",
+    "product_type_specific": "PDF",
+    "product_type": "Text",
+    "publisher": "United States. Department of Transportation. Federal Aviation Administration. Office of Aviation. Civil Aerospace Medical Institute",
+    "keywords": "Marijuana, Aviation safety, Crash investigation sites, Air pilots, Forensic science, Transcriptome, cannabis, delta-9-tetrahydrocannabinol, THC, CBD, cannabidiol, thanatotranscriptome, RNA",
+    "report_numbers": "DOT/FAA/AM-24/02",
+    "language": "English",
+    "description": "This study assesses the suitability of aviation accident autopsy samples as RNA sequencing input and for detecting gene expression differences between THC-positive and THC-negative samples. Postmortem brain, lung, muscle, and blood samples were collected from 57 aviation accident fatalities and comparisons were made between each tissue based on the presence or absence of THC or its primary or secondary metabolites (28 positive, 29 negative). RNA was extracted, and global transcriptional analysis was performed using total RNA-Seq. Twenty-two genes in lung (18 of which had Entrez annotation data) and four in muscle showed significant differential gene expression between THC-positive and THC-negative samples. It is possible that the observed expression patterns between the THC-positive and THC-negative groups were induced by smoking and not by THC, as many of the observed genes were also reported in the literature to change in response to smoking. Cannabis use is often accompanied by other substance use, and evidence of co-use was observed among some subjects. Therefore, we cannot state conclusively that the observed differences between the THC-positive and THC-negative groups were due solely to THC consumption, only that significant differences exist when the subject groups are so segregated. Regardless, this study is the first of its kind in reporting RNA-Seq data from postmortem tissues collected from aviation accident victims and that said data are of sufficient quality to derive significant differences between subject groups.",
+    "authors": [
+      {
+        "full_name": "United States. Department of Transportation. Federal Aviation Administration. Civil Aerospace Medical Institute"
+      }
+    ],
+    "contributors": [
+      {
+        "full_name": "United States. Department of Transportation. National Transportation Library",
+        "contributor_type": "HostingInstitution"
+      }
+    ],
+    "related_identifiers": [
+      {
+        "identifier_type": "DOI",
+        "identifier_value": "10.21949/1530825",
+        "relation_type": "IsPartOf"
+      }
+    ]
+  }
+]
+
+---------------------------------------------------------------------------------
+
+RESULTS
+
+{
+  "records": [
+    {
+      "id": 1530703,
+      "site_code": "DOTNTL",
+      "title": "Gene Expression and Biomarker Utility in Postmortem Samples [supporting dataset]",
+      "accession_number": "96986",
+      "doi": "10.21949/1530703",
+      "authors": [
+        {
+          "full_name": "United States. Department of Transportation. Federal Aviation Administration. Civil Aerospace Medical Institute",
+          "affiliations": []
+        }
+      ],
+      "contributors": [
+        {
+          "full_name": "United States. Department of Transportation. National Transportation Library",
+          "affiliations": [],
+          "contributor_type": "HostingInstitution"
+        }
+      ],
+      "status": "Pending",
+      "report_numbers": "DOT/FAA/AM-24/02",
+      "other_numbers": "dot:74121",
+      "publisher": "United States. Department of Transportation. Federal Aviation Administration. Office of Aviation. Civil Aerospace Medical Institute",
+      "publication_date": "2024-04-08",
+      "language": "English",
+      "description": "This study assesses the suitability of aviation accident autopsy samples as RNA sequencing input and for detecting gene expression differences between THC-positive and THC-negative samples. Postmortem brain, lung, muscle, and blood samples were collected from 57 aviation accident fatalities and comparisons were made between each tissue based on the presence or absence of THC or its primary or secondary metabolites (28 positive, 29 negative). RNA was extracted, and global transcriptional analysis was performed using total RNA-Seq. Twenty-two genes in lung (18 of which had Entrez annotation data) and four in muscle showed significant differential gene expression between THC-positive and THC-negative samples. It is possible that the observed expression patterns between the THC-positive and THC-negative groups were induced by smoking and not by THC, as many of the observed genes were also reported in the literature to change in response to smoking. Cannabis use is often accompanied by other substance use, and evidence of co-use was observed among some subjects. Therefore, we cannot state conclusively that the observed differences between the THC-positive and THC-negative groups were due solely to THC consumption, only that significant differences exist when the subject groups are so segregated. Regardless, this study is the first of its kind in reporting RNA-Seq data from postmortem tissues collected from aviation accident victims and that said data are of sufficient quality to derive significant differences between subject groups.\n\nThe total size of the zip file is 13.7 MB. The .csv, Comma Separated Value, file is a simple format that is designed for a database table and supported by many applications. The .csv file is often used for moving tabular data between two different computer programs, due to its open format. The most common software used to open .csv files are Microsoft Excel and RecordEditor, (for more information on .csv files and software, please visit https://www.file-extensions.org/csv-file-extension). The .html file extension is mainly related to the Hypertext Markup Language that provides means to create structured documents by denoting structural semantics for text such as headings, paragraphs, lists, links, quotes and other items. It is the main language for writing web pages. HTML formats texts, tables, images, and other content that will be displayed on the page that can be viewed using any web browser (for more information on .html files and software, please visit https://www.file-extensions.org/html-file-extension). The .txt file type is a common text file, which can be opened with a basic text editor. The most common software used to open .txt files are Microsoft Windows Notepad, Sublime Text, Atom, and TextEdit (for more information on .txt files and software, please visit https://www.file-extensions.org/txt-file-extension). An .sh file is a script that can be run with the Bash Unix shell. It contains instructions written in the Bash command language. Users can execute the commands an SH file contains by calling the file in a Bash shell (https://fileinfo.com/extension/sh). The .rmd file extension is associated with the RStudio, an integrated development tool for Windows, macOS (OS X) and Linux operating systems, which allows users to create apps with R programming language. The .rmd file stores R markdown data (for more information on .rmd files and software, please visit https://www.file-extensions.org/rmd-file-extension-r-markdown-data). A .tsv file is a very simple textual data format which allows tabular data to be exchanged between applications that use different internal data formats. These files can be opened using open-source programs such as Notepad or other open source, tabular file readers. These files are also known as .tab files (for more information on .tsv files, please visit https://www.file-extensions.org/tsv-file-extension). The file extension .md is among others related to texts and source codes in Markdown markup language. Markdown is a lightweight markup language, to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML) (for more information on .md files and software, please visit https://www.file-extensions.org/md-file-extension). File extension .json is associated to JavaScript Object Notation file format, a lightweight, text-based, language-independent data interchange format. JSON defines a small set of formatting rules for the portable representation of structured data. It is used by various applications as alternative option to XML file format. The data in a json file are stored in simple text file format and the content is viewable in any simple text editor (for more information on .json files and software, please visit https://www.file-extensions.org/json-file-extension).",
+      "site_url": "https://rosap.ntl.bts.gov/view/dot/74121",
+      "product_type": "Dataset",
+      "product_type_specific": "ZIP ",
+      "related_identifiers": [
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1530825",
+          "relation_type": "IsPartOf"
+        }
+      ],
+      "date_record_added": "2024-04-10",
+      "date_record_updated": "2024-04-17",
+      "keywords": "Marijuana, Aviation safety, Crash investigation sites, Air pilots, Forensic science, Transcriptome, cannabis, delta-9-tetrahydrocannabinol, THC, CBD, cannabidiol, thanatotranscriptome, RNA",
+      "index": 1
+    },
+    {
+      "id": 1530699,
+      "site_code": "DOTNTL",
+      "title": "National Transportation Atlas Database (NTAD): Spaceports 2023-Present Datasets",
+      "accession_number": "97043",
+      "doi": "10.21949/1530699",
+      "authors": [
+        {
+          "full_name": "United States. Bureau of Transportation Statistics. Office of Spatial Analysis and Visualization",
+          "affiliations": []
+        }
+      ],
+      "contributors": [
+        {
+          "full_name": "United States. Department of Transportation. National Transportation Library",
+          "affiliations": [],
+          "contributor_type": "HostingInstitution"
+        }
+      ],
+      "status": "Pending",
+      "other_numbers": "dot:74180",
+      "publisher": "United States. Department of Transportation. Bureau of Transportation Statistics",
+      "publication_date": "2023-01-01",
+      "language": "English",
+      "description": "The Spaceports dataset is from the Bureau of Transportation Statistics (BTS), and is part of the U.S. Department of Transportation (USDOT)/Bureau of Transportation Statistics\u2019 (BTS\u2019) National Transportation Atlas Database (NTAD). This layer is meant to be a reference layer and features public and private spaceport facilities in the United States. The information found on FAA\u2019s Office of Spaceports was used in creating this layer by the Bureau of Transportation Statistics (BTS), found here https://www.faa.gov/space/office_spaceports. These facilities support the launching and receiving of spacecraft into and from space. As a result, U.S. spaceports have a critical role in the growing global commercial space transportation industry. The FAA Office of Spaceports is responsible for development of policies that promote infrastructure improvements and strengthen the competitiveness of U.S. spaceports, supporting launch and reentry site licensing activities, providing technical assistance and guidance to existing and proposed new spaceports, and the domestic and global promotion of U.S. spaceports. The mission of the FAA\u2019s Office of Spaceports is to enable the safest, most efficient network of launch and reentry spaceports in the world, along with a vision to advance a robust, innovative national system of spaceports supporting the U.S. as a global leader in the commercial space transportation industry.\n\nThe total size of the zip file is 0.23 MB. The txt is a common text file, which can be opened with a basic text editor. The most common software used to open .txt files are Microsoft Windows Notepad, Sublime Text, Atom, and TextEdit (for more information on .txt files and software, please visit https://www.file-extensions.org/txt-file-extension). Shapefiles (.shp, .shx, and .dbf) can be opened with any GIS software program. An open-source software that can open most ESRI file types is QGIS https://www.qgis.org/en/site/. The pdf file format was developed by Adobe Systems and represents two-dimensional documents in a device-independent and resolution-independent format. There are PDF readers available on many platforms, such as Xpdf, Foxit, and Adobe's own Adobe Acrobat Reader. PDF readers/viewers or online services for basic functions are generally free (for more information on .pdf files and software, please visit https://www.file-extensions.org/pdf-file-extension). The file extension .md is among others related to texts and source codes in Markdown markup language. Markdown is a lightweight markup language, to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML) (for more information on .md files and software, please visit https://www.file-extensions.org/md-file-extension). File extension .json is associated to JavaScript Object Notation file format, a lightweight, text-based, language-independent data interchange format. JSON defines a small set of formatting rules for the portable representation of structured data. It is used by various applications as alternative option to XML file format. The data in a json file are stored in simple text file format and the content is viewable in any simple text editor (for more information on .json files and software, please visit https://www.file-extensions.org/json-file-extension).",
+      "site_url": "https://rosap.ntl.bts.gov/view/dot/74180",
+      "product_type": "Dataset",
+      "product_type_specific": "ZIP ",
+      "related_identifiers": [
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1530822",
+          "relation_type": "IsPartOf"
+        },
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1504517",
+          "relation_type": "IsPartOf"
+        },
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1530842",
+          "relation_type": "IsPartOf"
+        }
+      ],
+      "date_record_added": "2024-04-09",
+      "date_record_updated": "2024-04-17",
+      "keywords": "Spacecraft, Commercial space transportation, Data, National Transportation Atlas Database, NTAD, Spaceports, Spaceport facilities, Space transportation",
+      "index": 2
+    },
+    {
+      "id": 1530698,
+      "site_code": "DOTNTL",
+      "title": "National Transportation Atlas Database (NTAD): Section 15 Transit Agencies 1995 Dataset",
+      "accession_number": "97042",
+      "doi": "10.21949/1530698",
+      "authors": [
+        {
+          "full_name": "United States. Bureau of Transportation Statistics. Office of Spatial Analysis and Visualization",
+          "affiliations": []
+        }
+      ],
+      "contributors": [
+        {
+          "full_name": "United States. Department of Transportation. National Transportation Library",
+          "affiliations": [],
+          "contributor_type": "HostingInstitution"
+        }
+      ],
+      "status": "Pending",
+      "other_numbers": "dot:74176",
+      "publisher": "United States. Department of Transportation. Bureau of Transportation Statistics",
+      "publication_date": "1995-01-01",
+      "language": "English",
+      "description": "The Section 15 Transit Agencies 1995 dataset is from the Bureau of Transportation Statistics (BTS), and is part of the U.S. Department of Transportation (USDOT)/Bureau of Transportation Statistics\u2019 (BTS\u2019) National Transportation Atlas Database (NTAD). Transit agency locations for transit agencies that are required to report information to the Federal Transit Administration according to Section 15.\n\nThe total size of the zip file is 0.21 MB. The txt is a common text file, which can be opened with a basic text editor. The most common software used to open .txt files are Microsoft Windows Notepad, Sublime Text, Atom, and TextEdit (for more information on .txt files and software, please visit https://www.file-extensions.org/txt-file-extension). Shapefiles (.shp, .shx, and .dbf) can be opened with any GIS software program. An open-source software that can open most ESRI file types is QGIS https://www.qgis.org/en/site/. The pdf file format was developed by Adobe Systems and represents two-dimensional documents in a device-independent and resolution-independent format. There are PDF readers available on many platforms, such as Xpdf, Foxit, and Adobe's own Adobe Acrobat Reader. PDF readers/viewers or online services for basic functions are generally free (for more information on .pdf files and software, please visit https://www.file-extensions.org/pdf-file-extension). The file extension .md is among others related to texts and source codes in Markdown markup language. Markdown is a lightweight markup language, to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML) (for more information on .md files and software, please visit https://www.file-extensions.org/md-file-extension). File extension .json is associated to JavaScript Object Notation file format, a lightweight, text-based, language-independent data interchange format. JSON defines a small set of formatting rules for the portable representation of structured data. It is used by various applications as alternative option to XML file format. The data in a json file are stored in simple text file format and the content is viewable in any simple text editor (for more information on .json files and software, please visit https://www.file-extensions.org/json-file-extension).",
+      "site_url": "https://rosap.ntl.bts.gov/view/dot/74176",
+      "product_type": "Dataset",
+      "product_type_specific": "ZIP ",
+      "related_identifiers": [
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1530822",
+          "relation_type": "IsPartOf"
+        },
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1504517",
+          "relation_type": "IsPartOf"
+        },
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1530842",
+          "relation_type": "IsPartOf"
+        }
+      ],
+      "date_record_added": "2024-04-09",
+      "date_record_updated": "2024-04-17",
+      "keywords": "Data, Transit operating agencies, National Transportation Atlas Database, NTAD",
+      "index": 3
+    },
+    {
+      "id": 1530697,
+      "site_code": "DOTNTL",
+      "title": "National Transportation Atlas Database (NTAD): Petroleum Liquids Transportation Network 1995 Dataset",
+      "accession_number": "97041",
+      "doi": "10.21949/1530697",
+      "authors": [
+        {
+          "full_name": "United States. Bureau of Transportation Statistics. Office of Spatial Analysis and Visualization",
+          "affiliations": []
+        }
+      ],
+      "contributors": [
+        {
+          "full_name": "United States. Department of Transportation. National Transportation Library",
+          "affiliations": [],
+          "contributor_type": "HostingInstitution"
+        },
+        {
+          "full_name": "National Petroleum Council",
+          "affiliations": [],
+          "contributor_type": "Sponsor"
+        }
+      ],
+      "status": "Pending",
+      "other_numbers": "dot:74175",
+      "publisher": "United States. Department of Transportation. Bureau of Transportation Statistics",
+      "publication_date": "1995-01-01",
+      "language": "English",
+      "description": "The Petroleum Liquids Transportation Network dataset is from the National Petroleum Council, and is part of the U.S. Department of Transportation (USDOT)/Bureau of Transportation Statistics\u2019 (BTS\u2019) National Transportation Atlas Database (NTAD). Petroleum Liquids transportation network for crude oil and petroleum products.  Straight line origin-to-destination network.\n\nThe total size of the zip file is 2.74 MB. The txt is a common text file, which can be opened with a basic text editor. The most common software used to open .txt files are Microsoft Windows Notepad, Sublime Text, Atom, and TextEdit (for more information on .txt files and software, please visit https://www.file-extensions.org/txt-file-extension). Shapefiles (.shp, .shx, and .dbf) can be opened with any GIS software program. An open-source software that can open most ESRI file types is QGIS https://www.qgis.org/en/site/. The pdf file format was developed by Adobe Systems and represents two-dimensional documents in a device-independent and resolution-independent format. There are PDF readers available on many platforms, such as Xpdf, Foxit, and Adobe's own Adobe Acrobat Reader. PDF readers/viewers or online services for basic functions are generally free (for more information on .pdf files and software, please visit https://www.file-extensions.org/pdf-file-extension). The file extension .md is among others related to texts and source codes in Markdown markup language. Markdown is a lightweight markup language, to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML) (for more information on .md files and software, please visit https://www.file-extensions.org/md-file-extension). File extension .json is associated to JavaScript Object Notation file format, a lightweight, text-based, language-independent data interchange format. JSON defines a small set of formatting rules for the portable representation of structured data. It is used by various applications as alternative option to XML file format. The data in a json file are stored in simple text file format and the content is viewable in any simple text editor (for more information on .json files and software, please visit https://www.file-extensions.org/json-file-extension).",
+      "site_url": "https://rosap.ntl.bts.gov/view/dot/74175",
+      "product_type": "Dataset",
+      "product_type_specific": "ZIP ",
+      "related_identifiers": [
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1530822",
+          "relation_type": "IsPartOf"
+        },
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1504517",
+          "relation_type": "IsPartOf"
+        },
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1530842",
+          "relation_type": "IsPartOf"
+        }
+      ],
+      "date_record_added": "2024-04-09",
+      "date_record_updated": "2024-04-17",
+      "keywords": "Petroleum liquids, Crude oil, Data, National Transportation Atlas Database, NTAD, Transportation network",
+      "index": 4
+    },
+    {
+      "id": 1530696,
+      "site_code": "DOTNTL",
+      "title": "National Transportation Atlas Database (NTAD): Oak Ridge Commodity Flow 1995 Dataset",
+      "accession_number": "97040",
+      "doi": "10.21949/1530696",
+      "authors": [
+        {
+          "full_name": "United States. Bureau of Transportation Statistics. Office of Spatial Analysis and Visualization",
+          "affiliations": []
+        }
+      ],
+      "contributors": [
+        {
+          "full_name": "United States. Department of Transportation. National Transportation Library",
+          "affiliations": [],
+          "contributor_type": "HostingInstitution"
+        },
+        {
+          "full_name": "Oak Ridge National Laboratory",
+          "affiliations": [],
+          "contributor_type": "Sponsor"
+        }
+      ],
+      "status": "Pending",
+      "other_numbers": "dot:74174",
+      "publisher": "United States. Department of Transportation. Bureau of Transportation Statistics",
+      "publication_date": "1995-01-01",
+      "language": "English",
+      "description": "The Oak Ridge Commodity Flow dataset is from the Oak Ridge National Laboratory (ORNL), and is part of the U.S. Department of Transportation (USDOT)/Bureau of Transportation Statistics\u2019 (BTS\u2019) National Transportation Atlas Database (NTAD). The Oak Ridge Highway Planning Network is a database of major highways in the United States. It is a foundation for analytic studies of highway performance, for vehicle routing and scheduling problems, and for mapping purposes. The network is based on a set of roadways digitized from the National Atlas by the U.S. Geological Survey. It has been enhanced at Oak Ridge National Laboratory by adding additional roads and attribute detail and correcting topological errors to produce a true analytic network.  This documentation is intended primarily to assist users of this database by describing its structure, data elements, and development.\n\nThe total size of the zip file is 7.08 MB. The txt is a common text file, which can be opened with a basic text editor. The most common software used to open .txt files are Microsoft Windows Notepad, Sublime Text, Atom, and TextEdit (for more information on .txt files and software, please visit https://www.file-extensions.org/txt-file-extension). Shapefiles (.shp, .shx, and .dbf) can be opened with any GIS software program. An open-source software that can open most ESRI file types is QGIS https://www.qgis.org/en/site/. The pdf file format was developed by Adobe Systems and represents two-dimensional documents in a device-independent and resolution-independent format. There are PDF readers available on many platforms, such as Xpdf, Foxit, and Adobe's own Adobe Acrobat Reader. PDF readers/viewers or online services for basic functions are generally free (for more information on .pdf files and software, please visit https://www.file-extensions.org/pdf-file-extension). The file extension .md is among others related to texts and source codes in Markdown markup language. Markdown is a lightweight markup language, to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML) (for more information on .md files and software, please visit https://www.file-extensions.org/md-file-extension). File extension .json is associated to JavaScript Object Notation file format, a lightweight, text-based, language-independent data interchange format. JSON defines a small set of formatting rules for the portable representation of structured data. It is used by various applications as alternative option to XML file format. The data in a json file are stored in simple text file format and the content is viewable in any simple text editor (for more information on .json files and software, please visit https://www.file-extensions.org/json-file-extension).",
+      "site_url": "https://rosap.ntl.bts.gov/view/dot/74174",
+      "product_type": "Dataset",
+      "product_type_specific": "ZIP ",
+      "related_identifiers": [
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1530842",
+          "relation_type": "IsPartOf"
+        },
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1504517",
+          "relation_type": "IsPartOf"
+        },
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1530822",
+          "relation_type": "IsPartOf"
+        }
+      ],
+      "date_record_added": "2024-04-09",
+      "date_record_updated": "2024-04-17",
+      "keywords": "Commodity flow, Databases, Highway transportation, Routing, Vehicles, Data, Geospatial data, Scheduling, National Transportation Atlas Database, NTAD",
+      "index": 5
+    },
+    {
+      "id": 1530531,
+      "site_code": "DOTNTL",
+      "title": "Air Travel Consumer Report: August 2020",
+      "accession_number": "97046",
+      "doi": "10.21949/1530531",
+      "authors": [
+        {
+          "full_name": "United States. Department of Transportation. Office of Aviation Consumer Protection",
+          "affiliations": []
+        }
+      ],
+      "contributors": [
+        {
+          "full_name": "United States. Department of Transportation. National Transportation Library",
+          "affiliations": [],
+          "contributor_type": "HostingInstitution"
+        }
+      ],
+      "status": "Pending",
+      "other_numbers": "dot:74179",
+      "publisher": "United States. Department of Transportation. Office of Aviation Consumer Protection",
+      "publication_date": "2020-08-01",
+      "language": "English",
+      "description": "The Air Travel Consumer Report is a monthly product of the Department of Transportation's Office of Aviation Consumer Protection. The report is designed to assist consumers with information on the quality of services provided by the airlines. Data Included in this Report Flight Delays: Flight Delays: June 2020 / January - June 2020; Mishandled Baggage / Wheelchairs and Scooters: June 2020 / January - June 2020; Oversales: 2nd. Quarter 2020 / January - June 2020; Consumer Complaints: June 2020 / January - June 2020; Customer Service Reports to the Dept. of Homeland Security: June 2020; Airline Animal Incident Reports: June 2020.\n",
+      "site_url": "https://rosap.ntl.bts.gov/view/dot/74179",
+      "product_type": "Text",
+      "product_type_specific": "PDF",
+      "related_identifiers": [
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1504517",
+          "relation_type": "IsPartOf"
+        }
+      ],
+      "date_record_added": "2024-03-19",
+      "date_record_updated": "2024-04-17",
+      "keywords": "Air transportation, Air travel, Baggage, Passenger service, Schedule maintenance, Aircraft carriers, Airlines, Flight delays, Security, Trend (Statistics), ",
+      "index": 6
+    },
+    {
+      "id": 1530530,
+      "site_code": "DOTNTL",
+      "title": "Air Travel Consumer Report: June 2020",
+      "accession_number": "97044",
+      "doi": "10.21949/1530530",
+      "authors": [
+        {
+          "full_name": "United States. Department of Transportation. Office of Aviation Consumer Protection",
+          "affiliations": []
+        }
+      ],
+      "contributors": [
+        {
+          "full_name": "United States. Department of Transportation. National Transportation Library",
+          "affiliations": [],
+          "contributor_type": "HostingInstitution"
+        }
+      ],
+      "status": "Pending",
+      "other_numbers": "dot:74177",
+      "publisher": "United States. Department of Transportation. Office of Aviation Consumer Protection",
+      "publication_date": "2020-06-01",
+      "language": "English",
+      "description": "The Air Travel Consumer Report is a monthly product of the Department of Transportation's Office of Aviation Consumer Protection. The report is designed to assist consumers with information on the quality of services provided by the airlines. Data Included in this Report Flight Delays: Flight Delays: April 2020; Mishandled Baggage / Wheelchairs and Scooters: April 2020; Oversales: 1st. Quarter 2020; Consumer Complaints: April 2020; Customer Service Reports to the Dept. of Homeland Security: April 2020; Airline Animal Incident Reports: April 2020.",
+      "site_url": "https://rosap.ntl.bts.gov/view/dot/74177",
+      "product_type": "Text",
+      "product_type_specific": "PDF",
+      "related_identifiers": [
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1504517",
+          "relation_type": "IsPartOf"
+        }
+      ],
+      "date_record_added": "2024-03-19",
+      "date_record_updated": "2024-04-17",
+      "keywords": "Air transportation, Air travel, Baggage, Passenger service, Schedule maintenance, Aircraft carriers, Airlines, Flight delays, Security, Trend (Statistics), ",
+      "index": 7
+    },
+    {
+      "id": 1530529,
+      "site_code": "DOTNTL",
+      "title": "Air Travel Consumer Report: July 2020",
+      "accession_number": "97045",
+      "doi": "10.21949/1530529",
+      "authors": [
+        {
+          "full_name": "United States. Department of Transportation. Office of Aviation Consumer Protection",
+          "affiliations": []
+        }
+      ],
+      "contributors": [
+        {
+          "full_name": "United States. Department of Transportation. National Transportation Library",
+          "affiliations": [],
+          "contributor_type": "HostingInstitution"
+        }
+      ],
+      "status": "Pending",
+      "other_numbers": "dot:74178",
+      "publisher": "United States. Department of Transportation. Office of Aviation Consumer Protection",
+      "publication_date": "2020-07-01",
+      "language": "English",
+      "description": "The Air Travel Consumer Report is a monthly product of the Department of Transportation's Office of Aviation Consumer Protection. The report is designed to assist consumers with information on the quality of services provided by the airlines. Data Included in this Report Flight Delays: Flight Delays: May 2020; Mishandled Baggage / Wheelchairs and Scooters: May 2020; Oversales: 1st. Quarter 2020; Consumer Complaints: May 2020; Customer Service Reports to the Dept. of Homeland Security: May 2020; Airline Animal Incident Reports: May 2020.\n",
+      "site_url": "https://rosap.ntl.bts.gov/view/dot/74178",
+      "product_type": "Text",
+      "product_type_specific": "PDF",
+      "related_identifiers": [
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1504517",
+          "relation_type": "IsPartOf"
+        }
+      ],
+      "date_record_added": "2024-03-19",
+      "date_record_updated": "2024-04-17",
+      "keywords": "Air transportation, Air travel, Baggage, Passenger service, Schedule maintenance, Aircraft carriers, Airlines, Flight delays, Security, Trend (Statistics), ",
+      "index": 8
+    },
+    {
+      "id": 1529631,
+      "site_code": "DOTNTL",
+      "title": "Gene Expression and Biomarker Utility in Postmortem Samples",
+      "accession_number": "96971",
+      "doi": "10.21949/1529631",
+      "authors": [
+        {
+          "full_name": "United States. Department of Transportation. Federal Aviation Administration. Civil Aerospace Medical Institute",
+          "affiliations": []
+        }
+      ],
+      "contributors": [
+        {
+          "full_name": "United States. Department of Transportation. National Transportation Library",
+          "affiliations": [],
+          "contributor_type": "HostingInstitution"
+        }
+      ],
+      "status": "Pending",
+      "report_numbers": "DOT/FAA/AM-24/02",
+      "other_numbers": "dot:74107",
+      "publisher": "United States. Department of Transportation. Federal Aviation Administration. Office of Aviation. Civil Aerospace Medical Institute",
+      "publication_date": "2024-04-01",
+      "language": "English",
+      "description": "This study assesses the suitability of aviation accident autopsy samples as RNA sequencing input and for detecting gene expression differences between THC-positive and THC-negative samples. Postmortem brain, lung, muscle, and blood samples were collected from 57 aviation accident fatalities and comparisons were made between each tissue based on the presence or absence of THC or its primary or secondary metabolites (28 positive, 29 negative). RNA was extracted, and global transcriptional analysis was performed using total RNA-Seq. Twenty-two genes in lung (18 of which had Entrez annotation data) and four in muscle showed significant differential gene expression between THC-positive and THC-negative samples. It is possible that the observed expression patterns between the THC-positive and THC-negative groups were induced by smoking and not by THC, as many of the observed genes were also reported in the literature to change in response to smoking. Cannabis use is often accompanied by other substance use, and evidence of co-use was observed among some subjects. Therefore, we cannot state conclusively that the observed differences between the THC-positive and THC-negative groups were due solely to THC consumption, only that significant differences exist when the subject groups are so segregated. Regardless, this study is the first of its kind in reporting RNA-Seq data from postmortem tissues collected from aviation accident victims and that said data are of sufficient quality to derive significant differences between subject groups.",
+      "site_url": "https://rosap.ntl.bts.gov/view/dot/74107",
+      "product_type": "Text",
+      "product_type_specific": "PDF",
+      "related_identifiers": [
+        {
+          "identifier_type": "DOI",
+          "identifier_value": "10.21949/1530825",
+          "relation_type": "IsPartOf"
+        }
+      ],
+      "date_record_added": "2023-09-27",
+      "date_record_updated": "2024-04-17",
+      "keywords": "Marijuana, Aviation safety, Crash investigation sites, Air pilots, Forensic science, Transcriptome, cannabis, delta-9-tetrahydrocannabinol, THC, CBD, cannabidiol, thanatotranscriptome, RNA",
+      "index": 9
+    }
+  ],
+  "total": 9,
+  "errors": 0,
+  "count": 9
+}
