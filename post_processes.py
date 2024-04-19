@@ -12,12 +12,16 @@ def corporate_creator(json_list):
 #this function adds the NTL contributor element to each record. Since each DOI record is always hosted by the National Transportation Library, this is the same for every record.
 def NTL_Hosting_Institution(json_list):
     for json_obj in json_list:
-        json_obj.setdefault('contributors', []).append({'full_name': 'United States. Department of Transportation. National Transportation Library',
-				'contributor_type': 'HostingInstitution',
-				#'nameIdentifier': 'https://ror.org/00snbrd52',
-				#'schemeUri': 'https://ror.org',
-				#'publisherIdentifierScheme': 'ROR'
-				})
+        if 'site_url' in json_obj and 'https://highways.dot.gov/' in json_obj['site_url']:
+            json_obj.setdefault('contributors', []).append({
+                'full_name': 'United States. Department of Transportation. Federal Highway Administration',
+                'contributor_type': 'HostingInstitution'
+            })
+        else:
+            json_obj.setdefault('contributors', []).append({
+                'full_name': 'United States. Department of Transportation. National Transportation Library',
+                'contributor_type': 'HostingInstitution'
+            })
     return json_list
 
 #this function matches corporate contributors to the contributor type "Sponsor"
