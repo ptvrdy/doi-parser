@@ -60,3 +60,6 @@ collections_to_doi_lookup = {
     "US Transportation Collection": "10.21949/1530857",
     "Volpe National Transportation Systems Center, Technical Reference Center": "10.21949/1530858",
 }
+series_to_doi_lookup = {
+    "Air Travel Consumer Report [Series]": "10.21949/1530607"
+}
