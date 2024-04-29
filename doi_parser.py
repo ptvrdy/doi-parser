@@ -3,7 +3,7 @@ import csv
 import sys
 import json
 import requests
-from post_processes import corporate_creator, NTL_Hosting_Institution, corporate_contributor, series_DOI
+from post_processes import corporate_creator, NTL_Hosting_Institution, corporate_contributor, collection_DOI, series_DOI
 	
 def unit_test():
     #opening and reading csv and json versions of the unit test
@@ -70,7 +70,7 @@ def main():
 
 	
 	output = csv_to_json(csv.reader(fp))
-	for func in (corporate_creator,NTL_Hosting_Institution,corporate_contributor,series_DOI):
+	for func in (corporate_creator,NTL_Hosting_Institution,corporate_contributor,collection_DOI,series_DOI):
 		output = func(output)
 			
 	fp.close()
