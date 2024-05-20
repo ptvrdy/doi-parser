@@ -61,5 +61,8 @@ collections_to_doi_lookup = {
     "Volpe National Transportation Systems Center, Technical Reference Center": "10.21949/1530858",
 }
 series_to_doi_lookup = {
-    "Air Travel Consumer Report [Series]": "10.21949/1530607"
+    "Air Travel Consumer Report [Series]": "10.21949/1530607",
+    "Boyd, Alan S. ": "10.21949/1530067",
+    "Boyd, Alan S.": "10.21949/1530067",
+    "Volpe, John A.": "10.21949/1530983",
 }
