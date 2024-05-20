@@ -1,19 +1,18 @@
-
 # README for DOI Parser for Postman  
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)  
 National Transportation Library (NTL). Bureau of Transportation Statistics (BTS), U.S. Department of Transportation (USDOT). <https://ror.org/00snbrd52>  
-2023-03-25
+2023-03-25  
 ## Links to Dataset  
-Dataset Archive Link: https://github.com/tvrdy-ctr/doi-parser
+Dataset Archive Link: https://github.com/tvrdy-ctr/doi-parser  
 
 ## Tables of Contents  
-##### A. General Information  
-##### B. Sharing/Access & Policies Information  
-##### C. Data and Related Files Overview  
-##### D. Software Information  
-##### E. File Specific Information  
-##### F. Update Log  
+##### A. [General Information](#a-general-information-1)  
+##### B. [Sharing/Access & Policies Information](#b-sharingaccess-and-policies-information)  
+##### C. [Data and Related Files Overview](#c-file-overview)  
+##### D. [Software Information](#d-software-information)  
+##### E. [File Specific Information](#e-file-specific-information)  
+##### F. [Update Log](#f-update-log)  
 ## A. General Information  
 
 **Title of Program:**  DOI Parser for Postman
@@ -30,7 +29,7 @@ Dataset Archive Link: https://github.com/tvrdy-ctr/doi-parser
 >  Email: peyton.tvrdy.ctr@dot.gov  
 
 >  *Co-Author Contact Information*  
->  Name: Joseph Lambeth 
+>  Name: Joseph Lambeth  
 >  Email: josephwlambeth@gmail.com  
 
 >  *Organizational Contact Information*  

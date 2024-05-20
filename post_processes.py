@@ -4,11 +4,13 @@ from constants import series_to_doi_lookup
 
 #this function matches the heading "full name" to the DOE object "authors." This is used when an organization is responsible for authorship
 def corporate_creator(json_list):
-	for json_obj in json_list:
-		if 'corporate_creator' in json_obj.keys():
-			full_name = json_obj.pop('corporate_creator')
-			json_obj.setdefault('authors', []).append({'full_name': full_name})
-	return json_list
+    for json_obj in json_list:
+        if 'corporate_creator' in json_obj.keys():
+            corporate_creators = json_obj.pop('corporate_creator').split(';')
+            for corporate_creator in corporate_creators:
+                corporate_creator = corporate_creator.strip()
+                json_obj.setdefault('authors', []).append({'full_name': corporate_creator})
+    return json_list
 
 #this function adds the NTL contributor element to each record. Since each DOI record is always hosted by the National Transportation Library, this is the same for every record.
 def NTL_Hosting_Institution(json_list):
@@ -27,11 +29,13 @@ def NTL_Hosting_Institution(json_list):
 
 #this function matches corporate contributors to the contributor type "Sponsor"
 def corporate_contributor(json_list):
-	for json_obj in json_list:
-		if 'corporate_contributor' in json_obj.keys():
-			full_name = json_obj.pop('corporate_contributor')
-			json_obj.setdefault('contributors', []).append({'full_name': full_name, 'contributor_type': 'Sponsor'})
-	return json_list
+    for json_obj in json_list:
+        if 'corporate_contributor' in json_obj.keys():
+            corporate_contributors = json_obj.pop('corporate_contributor').split(';')
+            for corporate_contributor in corporate_contributors:
+                corporate_contributor = corporate_contributor.strip()
+                json_obj.setdefault('contributors', []).append({'full_name': corporate_contributor, 'contributor_type': 'Sponsor'})
+    return json_list
 
 #this function matches publishers to their ROR ID if they have them        
 def publisher_has_ROR(json_list):
@@ -53,7 +57,7 @@ def publisher_has_ROR(json_list):
 def collection_DOI(json_list):
     for json_obj in json_list:
         if 'collection' in json_obj:
-            collection_dois = json_obj['collection'].split(';')
+            collection_dois = json_obj.pop('collection').split(';')
             for collection_doi in collection_dois:
                 if collection_doi in collections_to_doi_lookup:
                     # Create a new DOI-related entry
@@ -70,7 +74,7 @@ def collection_DOI(json_list):
 def series_DOI(json_list):
     for json_obj in json_list:
         if 'series' in json_obj:
-            series_dois = json_obj['series'].split(';')
+            series_dois = json_obj.pop('series').split(';')
             for series_doi in series_dois:
                 if series_doi in series_to_doi_lookup:
                     # Create a new DOI-related entry
