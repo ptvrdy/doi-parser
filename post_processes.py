@@ -2,6 +2,85 @@ from constants import acronym_to_url_lookup as pub_to_ror
 from constants import collections_to_doi_lookup
 from constants import series_to_doi_lookup
 
+#this function matches "Workroom ID" to Alternateidentifier
+def workroom_id(json_list):
+    for json_obj in json_list:
+        if 'Workroom ID' in json_obj.keys():
+            accession_number = json_obj.pop('Workroom ID')
+            json_obj.setdefault('Alternateidentifier', []).append({'Alternate Identifier': accession_number, 'alternateIdentifierType': "ROSA P Accession Number"})
+    return json_list
+
+#this function matches "ROSAP_ID" to Alternateidentifier
+def ROSAP_ID(json_list):
+    for json_obj in json_list:
+        if 'ROSAP_ID' in json_obj.keys():
+            swat_id = json_obj.pop('ROSAP_ID')
+            json_obj.setdefault('Alternateidentifier', []).append({'Alternate Identifier': swat_id, 'alternateIdentifierType': "CDC SWAT Identifier"})
+    return json_list
+    
+#this function matches "ROSAP_URL" to url
+def ROSAP_URL(json_list):
+    for json_obj in json_list:
+        if 'ROSAP_URL' in json_obj.keys():
+            url = json_obj.pop('ROSAP_URL').strip()
+            json_obj['url'] = url
+    return json_list
+
+#this function matches "sm:Collection" to RelatedIdentifier
+def sm_Collection(json_list):
+    for json_obj in json_list:
+        if 'sm:Collection' in json_obj.keys():
+            collections = json_obj.pop('sm:Collection').split(';')
+            for collection in collections:
+                collection = collection.strip()
+                if collection in collections_to_doi_lookup:
+                    #Create a new DOI-related entry
+                    doi_entry_collection = {
+                        'relatedIdentifier': collections_to_doi_lookup[collection],
+                        'relatedIdentifierType': 'DOI',
+                        'relationType': 'IsPartOf'
+                    }
+                    #Initialize 'related_identifiers' if not already present
+                    json_obj.setdefault("relatedIdentifiers", []).append(doi_entry_collection)
+    return json_list
+
+#this function matches "sm:Digital Object Identifier" to doi, prefix and id
+def sm_digital_object_identifier(json_list):
+    for json_obj in json_list:
+        if 'sm:Digital Object Identifier' in json_obj.keys():
+            doi = json_obj.pop('sm:Digital Object Identifier')
+            doi = doi.replace('https://doi.org/','').strip()
+            json_obj['id']=doi
+            json_obj.setdefault('attributes', {})['doi']=doi
+            prefix, suffix = doi.split('/')
+            json_obj.setdefault('attributes', {})['prefix']=prefix
+            json_obj.setdefault('attributes', {})['suffix']=suffix
+    return json_list
+            
+#this function matches "Title" to titles
+def title(json_list):
+    for json_obj in json_list:
+        title = json_obj.pop('Title')
+        json_obj.setdefault('titles', []).append({'title': title})
+    return json_list
+
+#this function matches "Alternative Title" to title and title type
+def alt_title(json_list):
+    for json_obj in json_list:
+        alt_title = json_obj.pop('Alternative Title')
+        json_obj.setdefault('titles', []).append({'title': alt_title, 'title_type': 'AlternativeTitle'})
+    return json_list
+        
+#this function matches "Published Date" to Publication Year, Date, and dateType
+def publication_date(json_list):
+    for json_obj in json_list:
+        if 'Published Date' in json_obj.keys():
+            date = json_obj.pop('Published Date')
+            json_obj.setdefault('dates', []).append({'date': date, 'dateType': 'Issued'})
+            published_year = date[:4]
+            json_obj['PublicationYear']=published_year
+    return json_list
+
 #this function matches the heading "full name" to the DOE object "authors." This is used when an organization is responsible for authorship
 def corporate_creator(json_list):
     for json_obj in json_list:
