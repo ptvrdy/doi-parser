@@ -1,6 +1,7 @@
 from constants import acronym_to_url_lookup as pub_to_ror
 from constants import collections_to_doi_lookup
 from constants import series_to_doi_lookup
+from constants import resource_type_lookup
 
 #this function matches "Workroom ID" to Alternateidentifier
 def workroom_id(json_list):
@@ -80,6 +81,19 @@ def publication_date(json_list):
             published_year = date[:4]
             json_obj['PublicationYear']=published_year
     return json_list
+
+#this function matches "sm:Format" to ResourceType and resourceTypeGeneral
+def resource_type(json_list):
+    for json_obj in json_list:
+            if 'sm:Format' and 'sm:Resource Type' in json_obj.keys():
+                resource_type_general = json_obj.pop('sm:Format')
+                resource_type = json_obj.pop('sm:Resource Type')
+                if resource_type in resource_type_lookup:
+                    resource_type = resource_type.strip()
+                    resource_type_general = resource_type_general.strip()
+                    json_obj.setdefault('Types', {})['resourceTypeGeneral']=resource_type_general
+                    json_obj.setdefault('Types', {})['ResoureceType']=resource_type_lookup[resource_type]
+                    return json_list
 
 #this function matches the heading "full name" to the DOE object "authors." This is used when an organization is responsible for authorship
 def corporate_creator(json_list):
