@@ -54,6 +54,7 @@ collections_to_doi_lookup = {
     "State Road Maps": "10.21949/1530851",
     "Transportation Librarians Roundtable": "10.21949/1530852",
     "United States Federal Motor Carrier Safety Administration": "10.21949/1530853",
+    "University Transportation Centers Program": "10.21949/1526531",
     "US DOT Public Access Data Management Plans": "10.21949/1530854",
     "US Transportation Collection": "10.21949/1530855",
     "US Coast Guard Circulars": "10.21949/1530856",
@@ -65,4 +66,6 @@ series_to_doi_lookup = {
     "Boyd, Alan S. ": "10.21949/1530067",
     "Boyd, Alan S.": "10.21949/1530067",
     "Volpe, John A.": "10.21949/1530983",
+    "What Do Americans Think About Federal Tax Options to Support Transportation?": "10.21949/1531029",
+    "Vehicle Inventory and Use Survey (VIUS)": "https://doi.org/10.21949/1524559"
 }
