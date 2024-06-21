@@ -3,7 +3,34 @@ import csv
 import sys
 import json
 import requests
-from post_processes import corporate_creator, NTL_Hosting_Institution, corporate_contributor, collection_DOI, series_DOI
+from post_processes import (
+	workroom_id,
+	ROSAP_ID,
+	ROSAP_URL,
+	sm_Collection,
+	sm_digital_object_identifier,
+	title,
+	alt_title,
+	publication_date,
+	resource_type,
+	creators,
+	corporate_creator,
+	corporate_contributor,
+	contributors,
+	publisher,
+	keywords,
+	report_number,
+	contract_number,
+	researchHub_id,
+	content_notes,
+	language,
+	edition,
+	series,
+ 	description
+)
+
+# DOI Prefix for the testing environment
+doi_prefix = "10.80510"
 	
 def unit_test():
     #opening and reading csv and json versions of the unit test
@@ -70,7 +97,29 @@ def main():
 
 	
 	output = csv_to_json(csv.reader(fp))
-	for func in (corporate_creator,NTL_Hosting_Institution,corporate_contributor,collection_DOI,series_DOI):
+	for func in (workroom_id,
+	ROSAP_ID,
+	ROSAP_URL,
+	sm_Collection,
+	sm_digital_object_identifier,
+	title,
+	alt_title,
+	publication_date,
+	resource_type,
+	creators,
+	corporate_creator,
+	corporate_contributor,
+	contributors,
+	publisher,
+	keywords,
+	report_number,
+	contract_number,
+	researchHub_id,
+	content_notes,
+	language,
+	edition,
+	series,
+ 	description):
 		output = func(output)
 			
 	fp.close()
@@ -96,19 +145,25 @@ def main():
 
 	print("=> Preparing Request")
 
-	url = "https://www.osti.gov/iad2/api/records"
-
+	url = "https://api.test.datacite.org"
 	payload = json.dumps(output)
  
-	config = open("config.txt", "r")
-	
-	headers = {
-	  'Authorization': config.read(),
-	  'Content-Type': 'application/json',
-	  'Cookie': 'BIGipServerwww.osti.gov_pool=1132494278.20480.0000'
-	}
+	# Read username and password from config.txt
+	with open("config.txt", "r") as config_file:
+		config_lines = config_file.readlines()
+		for line in config_lines:
+			if line.startswith("username"):
+				username = line.split("=")[1].strip()
+			elif line.startswith("password"):
+				password = line.split("=")[1].strip()
  
-	config.close()
+	# Encode username and password for Basic Authentication
+	auth_header = codecs.encode(f"{username}:{password}", 'base64').decode().replace('\n', '')
+ 
+	headers = {
+		'Authorization': 'Basic ' + auth_header,
+		'Content-Type': 'application/vnd.api+json',
+	}
 
 	print("=> Sending Request")
 	response = requests.request("POST", url, headers=headers, data=payload)
