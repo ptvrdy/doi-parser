@@ -302,3 +302,4 @@ language_dict = {
 "Zhuang, Chuang": "za",
 "Zulu": "zu",
 }
+confirmed_matches = {}

@@ -2,8 +2,10 @@ import codecs
 import csv
 import sys
 import json
+import logging
 import requests
 from post_processes import (
+    document_urls,
 	workroom_id,
 	ROSAP_ID,
 	ROSAP_URL,
@@ -15,9 +17,8 @@ from post_processes import (
 	resource_type,
 	creators,
 	corporate_creator,
-	corporate_contributor,
+	process_corporate_field,
 	contributors,
-	publisher,
 	keywords,
 	report_number,
 	contract_number,
@@ -29,9 +30,13 @@ from post_processes import (
  	description
 )
 
+# TODO: rename process.log to something more palatable
+logging.basicConfig(handlers=[logging.StreamHandler(), logging.FileHandler('process.log')], level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 # DOI Prefix for the testing environment
-doi_prefix = "10.80510"
-	
+doi_prefix = "10.80510" # TODO: do i need this?
+
+""""""	
 def unit_test():
     #opening and reading csv and json versions of the unit test
 	csv_fp = open('test/unit test input.csv', 'r', encoding='utf-8')
@@ -53,6 +58,7 @@ def unit_test():
 		print("Expected Output:", expected_output)
 		print("Actual Output:", test_output)
 		raise e
+""""""
 
 #this function converts the csv file to json
 def csv_to_json(csv_reader):
@@ -60,17 +66,17 @@ def csv_to_json(csv_reader):
 	header_row = True
 	keys = {}
 
-#this takes each row, strips it of extra spaces, creates an array for each row, with each value in the array representing a column
+	#this takes each row, strips it of extra spaces, creates an array for each row, with each value in the array representing a column
 	for row in csv_reader:
 		if header_row:
-			print("=> Parsing CSV")
+			logging.info("=> Parsing CSV")
 			row[0] = row[0].strip(codecs.BOM_UTF8.decode(sys.stdin.encoding))
 			keys = {i:row[i].strip() for i in range(len(row)) if row[i] != ''}
 
 			header_row = False
 			continue
 
-#for each row, makes each key an element, and stops when out of rows, then returning the output
+		#for each row, makes each key an element, and stops when out of rows, then returning the output
 		output_obj = {}
 		for i in range(len(keys)):
 			key = keys[i]
@@ -86,44 +92,51 @@ def csv_to_json(csv_reader):
     
 
 def main():
-	unit_test()
+	#unit_test()
+
+	# TODO: have some default logging configuration incase i don't have a filename
 
 	if len(sys.argv) != 2:
-		print("Error: Please provide a filename", file=sys.stderr)
+		log_name = 'processing.log'
+		logging.error("Error: Please provide a filename")
 		sys.exit(1)
 
-	print("=> Starting File Read: %s" % sys.argv[1])
+	# TODO: configure logger based on input file name
+
+	log_name = sys.argv[1].rstrip('csv') + 'log'
+	
+
+	logging.info("=> Starting File Read: %s" % sys.argv[1])
 	fp = open(sys.argv[1], 'r', encoding='utf-8')
 
 	
 	output = csv_to_json(csv.reader(fp))
-	for func in (workroom_id,
-	ROSAP_ID,
-	ROSAP_URL,
-	sm_Collection,
-	sm_digital_object_identifier,
-	title,
-	alt_title,
-	publication_date,
-	resource_type,
-	creators,
-	corporate_creator,
-	corporate_contributor,
-	contributors,
-	publisher,
-	keywords,
-	report_number,
-	contract_number,
-	researchHub_id,
-	content_notes,
-	language,
-	edition,
-	series,
- 	description):
+	for func in (document_urls,
+     		workroom_id,
+			ROSAP_ID,
+			ROSAP_URL,
+			sm_Collection,
+			sm_digital_object_identifier,
+			title,
+			alt_title,
+			publication_date,
+			resource_type,
+			creators,
+			process_corporate_field,
+			contributors,
+			keywords,
+			report_number,
+			contract_number,
+			researchHub_id,
+			content_notes,
+			language,
+			edition,
+			series,
+			description):
 		output = func(output)
 			
 	fp.close()
-	print("=> Finished Parsing\n")
+	logging.info("=> Finished Parsing\n")
 	print(json.dumps(output[0], indent=2))
 	should_continue = input("\n=> Does the above look good? [y/N]: ").upper() == 'Y'
 
@@ -132,23 +145,25 @@ def main():
 		sys.exit(2)
 
 	out_filename = sys.argv[1].rstrip('csv') + 'json'
-	print("=> Starting Output Write: %s " % out_filename)
+	logging.info("=> Starting Output Write: %s " % out_filename)
 	
 	fpo = open(out_filename, 'w')
 	json.dump(output, fpo, indent=2)
+ 
 
 	should_continue = input("\n=> Do you want to send the request now? [y/N]: ").upper() == 'Y'
 
 	if not should_continue:
-		print("=> Done !")
+		logging.info("=> Done !")
 		sys.exit(0)
 
-	print("=> Preparing Request")
+	logging.info("=> Preparing Request")
 
 	url = "https://api.test.datacite.org"
 	payload = json.dumps(output)
  
 	# Read username and password from config.txt
+	# TODO: any other supported method of authentication?
 	with open("config.txt", "r") as config_file:
 		config_lines = config_file.readlines()
 		for line in config_lines:
@@ -165,18 +180,18 @@ def main():
 		'Content-Type': 'application/vnd.api+json',
 	}
 
-	print("=> Sending Request")
+	logging.info("=> Sending Request")
 	response = requests.request("POST", url, headers=headers, data=payload)
 
-	print("=> Handling Response: %s" % response.status_code)
+	logging.info("=> Handling Response: %s" % response.status_code)
 	if response.status_code != 200:
-		print("=> POST did not fire successfully! %s" % response.status_code)
+		logging.error("=> POST did not fire successfully! %s" % response.status_code)
 	else:
-		print("=> Writing Response to file")
+		logging.info("=> Writing Response to file")
 		fpo.write('\n\n---------------------------------------------------------------------------------\n\nRESULTS\n\n')
 		json.dump(response.json(), fpo, indent=2)
 		fpo.close()
-		print("=> Done !")
+		logging.info("=> Done !")
 	
 
 if __name__ == '__main__':

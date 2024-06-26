@@ -1,14 +1,28 @@
 from constants import (
-    organization_to_ror_lookup,
     collections_to_doi_lookup,
     series_to_doi_lookup,
     resource_type_lookup,
     language_dict
 )
-import requests
+
 import logging
 
-logging.basicConfig(filename='process.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+from utils import (
+    get_ror_info
+)
+
+# logging.basicConfig(filename='process.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+#this function removes unneeded columns from the CSV: "Main Document URL", "Supporting Documents URLs", "sm:Publisher", "Geographical Coverage", "sm:Contracting Officer", "sm:Rights Statement"
+def document_urls(json_list):
+    for json_obj in (json_list):
+        json_obj.pop('Main Document URL', None)
+        json_obj.pop('Supporting Documents URLs', None)
+        json_obj.pop('sm:Publisher', None)
+        json_obj.pop('Geographical Coverage', None)
+        json_obj.pop('sm:Contracting Officer', None)
+        json_obj.pop('sm:Rights Statement', None)
+    return json_list
 
 #this function matches "Workroom ID" to Alternateidentifier
 def workroom_id(json_list):
@@ -66,6 +80,8 @@ def ROSAP_URL(json_list):
                          'schemeURI': "https://ror.org/"}
                     ]
                 })
+            else:
+                logging.warn(f"ROSAP_URL contributor not mapped for {index + 1}. URL: ${url}")
         else:
             logging.info(f'ROSAP_URL not found for row {index + 1}.')
     return json_list
@@ -87,7 +103,7 @@ def sm_Collection(json_list):
                     #Initialize 'related_identifiers' if not already present
                     json_obj.setdefault("relatedIdentifiers", []).append(doi_entry_collection)
                 else:
-                    logging.info(f'Collection {collection} not found in lookup for row {index + 1}.')
+                    logging.warn(f'Collection {collection} not found in lookup for row {index + 1}.')
         else:
             logging.info(f'sm:Collection not found for row {index + 1}.')
     return json_list
@@ -146,7 +162,7 @@ def resource_type(json_list):
                     json_obj.setdefault('Types', {})['resourceTypeGeneral']=resource_type_general
                     json_obj.setdefault('Types', {})['ResourceType']=resource_type_lookup[resource_type]
                 else:
-                    logging.info(f'Resource type {resource_type} is not found in the lookup for row {index + 1}.')
+                    logging.warn(f'Resource type {resource_type} is not found in the lookup for row {index + 1}.')
             else:
                 logging.info(f'sm: Format and/or sm:Resource Type not found in row {index + 1}.')
     return json_list
@@ -182,87 +198,49 @@ def creators(json_list):
             logging.info(f'sm:Creator not found for row {index + 1}.')
     return json_list
 
-def get_ror_info(corporate_creator):
-    # Check if the corporate creator exists in the dictionary
-    if corporate_creator in organization_to_ror_lookup:
-        ror_id = organization_to_ror_lookup[corporate_creator]
-        return ror_id
-    # Query the ROR API
-    API_URL = 'https://api.dev.ror.org/v2/organizations'
-    try:
-        corporate_creator_clean = corporate_creator.replace('United States. ','').strip()
-        corporate_creator_clean = corporate_creator.replace('Department of Transportation. ','').strip()
-        response = requests.get(API_URL, params={'query': corporate_creator_clean})
-        if response.status_code == 200:
-            ror_data = response.json()
-            if ror_data.get('items'):
-                closest_match = ror_data['items'][0]
-                # Extract relevant information from the API response
-                ror_id = closest_match['id']
-                for name_entry in closest_match.get('names', []):
-                    if 'ror_display' in name_entry.get('types', []):
-                        ror_name = name_entry.get('value')
-                        ror_name_lang = name_entry.get('lang')
-                        break # Stop after finding the first 'ror_display' name
-                return ror_id, ror_name, ror_name_lang
-            else:
-                # Handle the case when the API isn't working
-                print(f"API request failed for '{corporate_creator_clean}'")
-    except Exception as e:
-        print(f"Error fetching ROR data for '{corporate_creator}': {e}")
-    return None
-
-def corporate_creator(json_list):
+def process_corporate_field(json_list, field_name):
+    # Define a mapping of field names to output structures for "sm:Corporate Creator", "sm:Corporate Contributor", and "sm:Corporate Publisher"
+    field_mapping = {
+        'sm:Corporate Creator': {
+            'key': 'creators',
+            'nameType': 'Organization',
+            'contributorType': 'Sponsor',
+        },
+        'sm:Corporate Contributor': {
+            'key': 'contributors',
+            'nameType': 'Organization',
+            'contributorType': 'Sponsor',
+        },
+        'sm:Corporate Publisher': {
+            'key': 'publishers',
+            'lang': 'en',
+        },
+    }
     for index, json_obj in enumerate(json_list):
-        if 'sm:Corporate Creator' in json_obj:
-            corporate_creators = json_obj.pop('sm:Corporate Creator').split('\\n')
-            for corporate_creator in corporate_creators:
-                corporate_creator = corporate_creator.strip()
-                ror_id = get_ror_info(corporate_creator)
+        if field_name in json_obj:
+            corporate_values = json_obj.pop(field_name).split('\\n')
+            for corporate_value in corporate_values:
+                corporate_value = corporate_value.strip()
+                ror_id = get_ror_info(corporate_value)
+                output_structure = field_mapping.get(field_name, {})
                 if ror_id:
-                    json_obj.setdefault('creators', []).append({
-                        'name': corporate_creator, 
-                        'nameType': 'Organization', 
+                    json_obj.setdefault(output_structure['key'], []).append({
+                        'name': corporate_value, 
                         'nameIdentifier': ror_id, 
                         'nameIdentifierScheme': 'ROR', 
                         'schemeURI': 'https://ror.org/'
+                        **output_structure.get('additional_fields', {}),
                     })
                 else:
-                    json_obj.setdefault('creators', []).append({
-                        'name': corporate_creator, 
-                        'nameType': 'Organization'
-                        })
-                    logging.info(f'Corporate Creator ROR for {corporate_creator} not found for row {index + 1}.')
+                    json_obj.setdefault(output_structure['key'], []).append({
+                        'name': corporate_value, 
+                        **output_structure.get('additional_fields', {})
+                    })
+                logging.info(f'{field_name} ROR for {corporate_value} not found for row {index + 1}.')
         else:
-            logging.info(f'sm:Corporate Creator not found for row {index + 1}.')
+            logging.info(f'{field_name} not found for row {index + 1}.')
     return json_list
 
-def corporate_contributor(json_list):
-    for index, json_obj in enumerate(json_list):
-        if 'sm:Corporate Contributor' in json_obj:
-            corporate_contributors = json_obj.pop('sm:Corporate Creator').split('\\n')
-            for corporate_contributor in corporate_contributors:
-                corporate_contributor = corporate_contributor.strip()
-                ror_id = get_ror_info(corporate_contributor)
-                if ror_id:
-                    json_obj.setdefault('contributors', []).append({
-                        'name': corporate_contributor, 
-                        'nameType': 'Organization', 
-                        'contributorType': 'Sponsor',
-                        'nameIdentifier': ror_id, 
-                        'nameIdentifierScheme': 'ROR', 
-                        'schemeURI': 'https://ror.org/'
-                    })
-                else:
-                    json_obj.setdefault('contributors', []).append({
-                        'name': corporate_contributor, 
-                        'nameType': 'Organization',
-                        'contributorType': 'Sponsor'
-                        })
-                    logging.info(f'Corporate Contributor ROR for {corporate_contributor} not found for row {index + 1}.')
-        else:
-            logging.info(f'sm:Corporate Contributor not found for row {index + 1}.')
-    return json_list
                         
 #this functions matches "sm:Contributor" to the contributors object list
 def contributors(json_list):
@@ -296,33 +274,6 @@ def contributors(json_list):
         else:
             logging.info(f'sm:Contributor not found for row {index + 1}.')
     return json_list
-
-#this function matches "sm:Corporate Publisher" to their ROR ID if they have them
-def publisher(json_list):
-    for index, json_obj in enumerate(json_list):
-        if 'sm:Corporate Publisher' in json_obj:
-            publisher_names = json_obj['sm:Corporate Publisher'].split('\\n')
-            for publisher_name in publisher_names:
-                publisher_name = publisher_name.strip()
-                ror_id = get_ror_info(publisher_name)
-                if ror_id:
-                    json_obj.setdefault('publishers', []).append({
-                        'name': publisher_name, 
-                        'nameIdentifier': ror_id, 
-                        'nameIdentifierScheme': 'ROR', 
-                        'schemeURI': 'https://ror.org/',
-                        'lang': 'en'
-                    })
-                else:
-                    json_obj.setdefault('publishers', []).append({
-                        'name': publisher_name, 
-                        'lang': 'en'
-                        })
-                    logging.info(f'Corporate Publisher ROR for {publisher_name} not found for row {index + 1}.')
-        else:
-            logging.info(f'sm:Corporate Publisher not found in row {index + 1}.')
-    return json_list
-
 
 #this function matches "sm:Key words" to subjects
 def keywords(json_list):
@@ -410,7 +361,7 @@ def language(json_list):
             if language in language_dict:
                 json_obj['language']=language
             else:
-                logging.info(f'Language {language} not found in language dictionary for row {index + 1}.')
+                logging.warn(f'Language {language} not found in language dictionary for row {index + 1}.')
         else:
             logging.info(f'Language not found for row {index + 1}.')
     return json_list
@@ -440,7 +391,7 @@ def series(json_list):
                     # Initialize 'related_identifiers' if not already present
                     json_obj.setdefault("relatedIdentifiers", []).append(doi_entry_series)
                 else:
-                    logging.info(f'Series {series_doi} not found in series dictionary for row {index + 1}.')
+                    logging.warn(f'Series {series_doi} not found in series dictionary for row {index + 1}.')
     return json_list
 
 #this function matches 'Description' to 'Descriptions'/Abstract
