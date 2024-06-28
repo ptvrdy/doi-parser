@@ -31,7 +31,7 @@ from post_processes import (
 )
 
 # TODO: rename process.log to something more palatable
-logging.basicConfig(handlers=[logging.StreamHandler(), logging.FileHandler('process.log')], level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(handlers=[logging.StreamHandler(), logging.FileHandler('default_process.log')], level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # DOI Prefix for the testing environment
 doi_prefix = "10.80510" # TODO: do i need this?
@@ -97,14 +97,14 @@ def main():
 	# TODO: have some default logging configuration incase i don't have a filename
 
 	if len(sys.argv) != 2:
-		log_name = 'processing.log'
 		logging.error("Error: Please provide a filename")
+		handlers= logging.StreamHandler(), logging.FileHandler('system_failure_process.log')
+		logging.getLogger().addHandler(handlers)
 		sys.exit(1)
 
 	# TODO: configure logger based on input file name
 
-	log_name = sys.argv[1].rstrip('csv') + 'log'
-	
+	handlers = logging.StreamHandler(), sys.argv[1].rstrip('csv') + 'log'
 
 	logging.info("=> Starting File Read: %s" % sys.argv[1])
 	fp = open(sys.argv[1], 'r', encoding='utf-8')
@@ -163,7 +163,6 @@ def main():
 	payload = json.dumps(output)
  
 	# Read username and password from config.txt
-	# TODO: any other supported method of authentication?
 	with open("config.txt", "r") as config_file:
 		config_lines = config_file.readlines()
 		for line in config_lines:

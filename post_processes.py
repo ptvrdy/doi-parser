@@ -14,7 +14,7 @@ from utils import (
 # logging.basicConfig(filename='process.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 #this function removes unneeded columns from the CSV: "Main Document URL", "Supporting Documents URLs", "sm:Publisher", "Geographical Coverage", "sm:Contracting Officer", "sm:Rights Statement"
-def document_urls(json_list):
+def delete_unwanted_columns(json_list):
     for json_obj in (json_list):
         json_obj.pop('Main Document URL', None)
         json_obj.pop('Supporting Documents URLs', None)
@@ -180,6 +180,8 @@ def creators(json_list):
                 if "|" in first_name:
                     first_name, ORCID = first_name.split('|')
                     ORCID = ORCID.strip()
+                    if ORCID.startswith("https://orcid.org/"):
+                        ORCID = ORCID.replace('https://orcid.org/', '')
                     json_obj.setdefault('creators', []).append({
                         'name': creator, 
                         'nameType': 'Personal', 
@@ -221,16 +223,16 @@ def process_corporate_field(json_list, field_name):
             corporate_values = json_obj.pop(field_name).split('\\n')
             for corporate_value in corporate_values:
                 corporate_value = corporate_value.strip()
-                ror_id = get_ror_info(corporate_value)
+                ror_id, ror_name, ror_lang = get_ror_info(corporate_value)
                 output_structure = field_mapping.get(field_name, {})
                 if ror_id:
-                    json_obj.setdefault(output_structure['key'], []).append({
-                        'name': corporate_value, 
-                        'nameIdentifier': ror_id, 
+                    entry ={
+                        'name': ror_name, 
+                        'name_identifier': ror_id, 
                         'nameIdentifierScheme': 'ROR', 
-                        'schemeURI': 'https://ror.org/'
-                        **output_structure.get('additional_fields', {}),
-                    })
+                        'schemeURI': 'https://ror.org/',
+                        'lang': ror_lang
+                    }
                 else:
                     json_obj.setdefault(output_structure['key'], []).append({
                         'name': corporate_value, 
