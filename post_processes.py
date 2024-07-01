@@ -11,12 +11,6 @@ from utils import (
     get_ror_info
 )
 
-# TODO: Wrap output in attributes {}
-# TODO: Make sure ID is at the top outside attributes
-# TODO: Make sure output is in the right order
-# TODO: Look into if data wrapper needs to be there outside attributes
-
-
 # logging.basicConfig(filename="process.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 #this function removes unneeded columns from the CSV: "Main Document URL", "Supporting Documents URLs", "sm:Publisher", "Geographical Coverage", "sm:Contracting Officer", "sm:Rights Statement"
@@ -44,7 +38,7 @@ def workroom_id(json_list):
     return json_list
 
 #this function matches "ROSAP_ID" to Alternateidentifier
-def ROSAP_ID(json_list):
+def rosap_id(json_list):
     for index, json_obj in enumerate(json_list):
         if "ROSAP_ID" in json_obj:
             swat_id = json_obj.pop("ROSAP_ID")
@@ -57,7 +51,7 @@ def ROSAP_ID(json_list):
     return json_list
     
 #this function matches "ROSAP_URL" to url
-def ROSAP_URL(json_list):
+def rosap_url(json_list):
     for index, json_obj in enumerate(json_list):
         if "ROSAP_URL" in json_obj:
             url = json_obj.pop("ROSAP_URL").strip()
@@ -184,9 +178,16 @@ def creators(json_list):
             creators = json_obj.pop("sm:Creator").split("\\n")
             for creator in creators:
                 creator = creator.strip()
-                last_name, first_name = creator.split(",")
-                last_name = last_name.strip()
-                first_name = first_name.strip()
+                parts = creator.split(",")
+                
+                if len(parts) == 2:
+                        last_name, first_name = parts
+                elif len(parts) > 2:
+                    last_name, first_name = parts[0], " ".join(parts[1:])
+                else:
+                    logging.error(f"Unexpected format for creator: {creator}")
+                    continue # Skip to the next creator
+                
                 if "|" in first_name:
                     first_name, ORCID = first_name.split("|")
                     ORCID = ORCID.strip()
@@ -195,17 +196,20 @@ def creators(json_list):
                     json_obj.setdefault("creators", []).append({
                         "name": creator, 
                         "nameType": "Personal", 
-                        "givenName": first_name, 
-                        "familyName": last_name, 
-                        "nameIdentifiers": [
-                            {"nameIdentifier": ORCID, "nameIdentifierScheme": "ORCID", "schemeURI": "https://orcid.org/"}
+                        "givenName": first_name.strip(), 
+                        "familyName": last_name.strip(), 
+                        "nameIdentifiers": [{
+                            "nameIdentifier": ORCID, 
+                            "nameIdentifierScheme": "ORCID", 
+                            "schemeURI": "https://orcid.org/"}
                         ]})
                 else:
                     json_obj.setdefault("creators", []).append({
                         "name": creator, 
                         "nameType": "Personal", 
-                        "givenName": first_name, 
-                        "familyName": last_name})
+                        "givenName": first_name.strip(), 
+                        "familyName": last_name.strip()
+                        })
         else:
             logging.info(f"sm:Creator not found for row {index + 1}.")
     return json_list
@@ -226,6 +230,7 @@ def process_corporate_field(json_list, field_name):
             "key": "publishers",
         },
     }
+    
     for index, json_obj in enumerate(json_list):
         if field_name in json_obj:
             corporate_values = json_obj.pop(field_name).split("\\n")
@@ -233,35 +238,37 @@ def process_corporate_field(json_list, field_name):
                 corporate_value = corporate_value.strip()
                 ror_id, ror_name = get_ror_info(corporate_value)
                 output_structure = field_mapping.get(field_name, {})
-                if ror_id and field_mapping != "sm:Corporate Publisher":
-                    entry ={
-                        "name": ror_name, 
-                        "nameType": "Organizational",
-                        "nameIdentifiers": [
-                            {
-                                "schemeURI": "https://ror.org/",
-                                "name_identifier": ror_id,
-                                "nameIdentifierScheme": "ROR", 
-                            }
-                        ]
-                    }
-                if ror_id and field_mapping is "sm:Corporate Publisher":
-                    entry ={
-                        "name": ror_name, 
-                        "nameIdentifiers": [
-                            {
-                                "schemeURI": "https://ror.org/",
-                                "name_identifier": ror_id,
-                                "nameIdentifierScheme": "ROR", 
-                            }
-                        ]
-                    }
+                
+                if ror_id:
+                    if field_name == "sm:Corporate Publisher":
+                        entry = {
+                            "name": ror_name,
+                            "nameIdentifiers": [{
+                                    "schemeURI": "https://ror.org/",
+                                    "nameIdentifier": ror_id,
+                                    "nameIdentifierScheme": "ROR"}
+                            ]
+                        }
+                    else:
+                        entry = {
+                            "name": ror_name,
+                            "nameType": "Organizational",
+                            "nameIdentifiers": [
+                                {
+                                    "schemeURI": "https://ror.org/",
+                                    "nameIdentifier": ror_id,
+                                    "nameIdentifierScheme": "ROR"
+                                }
+                            ]
+                        }
                 else:
-                    json_obj.setdefault(output_structure["key"], []).append({
-                        "name": corporate_value, 
+                    entry = {
+                        "name": corporate_value,
                         **output_structure.get("additional_fields", {})
-                    })
-                logging.info(f"{field_name} ROR for {corporate_value} not found for row {index + 1}.")
+                    }
+                    logging.info(f"ROR for {corporate_value} not found for row {index +1}.")
+                    
+                json_obj.setdefault(output_structure["key"], []).append(entry)
         else:
             logging.info(f"{field_name} not found for row {index + 1}.")
     return json_list

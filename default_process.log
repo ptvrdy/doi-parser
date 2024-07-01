@@ -1,0 +1,35 @@
+2024-07-01 16:02:29,575 - INFO - => Parsing CSV
+2024-07-01 16:02:29,575 - INFO - Workroom ID not found for row 1.
+2024-07-01 16:35:07,428 - INFO - => Parsing CSV
+2024-07-01 16:35:07,428 - INFO - Workroom ID not found for row 1.
+2024-07-01 16:35:07,428 - ERROR - An error occurred during unit testing: too many values to unpack (expected 2)
+2024-07-01 16:42:52,950 - INFO - => Parsing CSV
+2024-07-01 16:42:52,950 - INFO - Workroom ID not found for row 1.
+2024-07-01 16:42:52,952 - ERROR - An error occurred during unit testing: process_corporate_field() missing 1 required positional argument: 'field_name'
+2024-07-01 16:48:09,349 - INFO - => Parsing CSV
+2024-07-01 16:48:09,349 - INFO - Workroom ID not found for row 1.
+2024-07-01 16:48:09,357 - INFO - Preparing ORG ID Request for Illinois Center for Transportation
+Governors State University
+University of Illinois at Urbana-Champaign. Department of Civil and Environmental Engineering
+2024-07-01 16:48:11,875 - INFO - Org ID Response Status: 200
+2024-07-01 16:48:11,875 - ERROR - Error fetching ROR data for 'Illinois Center for Transportation
+Governors State University
+University of Illinois at Urbana-Champaign. Department of Civil and Environmental Engineering': cannot access local variable 'ror_data' where it is not associated with a value
+2024-07-01 17:03:09,145 - INFO - => Parsing CSV
+2024-07-01 17:03:09,145 - INFO - Workroom ID not found for row 1.
+2024-07-01 17:03:09,145 - INFO - Preparing ORG ID Request for Illinois Center for Transportation
+Governors State University
+University of Illinois at Urbana-Champaign. Department of Civil and Environmental Engineering
+2024-07-01 17:03:11,229 - INFO - Org ID Response Status: 200
+2024-07-01 17:03:11,229 - ERROR - Error fetching ROR data for 'Illinois Center for Transportation
+Governors State University
+University of Illinois at Urbana-Champaign. Department of Civil and Environmental Engineering': cannot access local variable 'ror_data' where it is not associated with a value
+2024-07-01 17:09:30,001 - INFO - => Parsing CSV
+2024-07-01 17:09:30,002 - INFO - Workroom ID not found for row 1.
+2024-07-01 17:09:30,002 - INFO - Preparing ORG ID Request for Illinois Center for Transportation
+Governors State University
+University of Illinois at Urbana-Champaign. Department of Civil and Environmental Engineering
+2024-07-01 17:09:31,842 - INFO - Org ID Response Status: 200
+2024-07-01 17:09:31,842 - ERROR - Error fetching ROR data for 'Illinois Center for Transportation
+Governors State University
+University of Illinois at Urbana-Champaign. Department of Civil and Environmental Engineering': 'id'

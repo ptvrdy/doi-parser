@@ -4,112 +4,168 @@ import sys
 import json
 import logging
 import requests
-from post_processes import (
-    document_urls,
-	workroom_id,
-	ROSAP_ID,
-	ROSAP_URL,
-	sm_Collection,
-	sm_digital_object_identifier,
-	title,
-	alt_title,
-	publication_date,
-	resource_type,
-	creators,
-	corporate_creator,
-	process_corporate_field,
-	contributors,
-	keywords,
-	report_number,
-	contract_number,
-	researchHub_id,
-	content_notes,
-	language,
-	edition,
-	series,
- 	description
-)
+from post_processes import *
 
-logging.basicConfig(handlers=[logging.StreamHandler(), logging.FileHandler('default_process.log')], level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(handlers=[logging.StreamHandler(), logging.FileHandler('default_process.log')],
+                    level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 # DOI Prefix for the testing environment
-doi_prefix = "10.80510" # TODO: do i need this?
+doi_prefix = "10.80510"
 
-""""""	
-def unit_test():
-    #opening and reading csv and json versions of the unit test
-	csv_fp = open('test/unit test input.csv', 'r', encoding='utf-8')
-	json_fp = open('test/unit test output.json', 'r', encoding='utf-8')
+def read_csv_file(file_path):
+    with open(file_path, newline='', encoding='utf-8') as csvfile:
+        csv_reader = csv.reader(csvfile)
+        rows = [row[0].strip() for row in csv_reader if row]
+    return rows
 
-	expected_output = json.load(json_fp)
-
-	#declaring that the csv unit test should be converted to json through the csv reader and be the model for the post process output
-	test_output = corporate_creator(csv_to_json(csv.reader(csv_fp)))
-
-	csv_fp.close()
-	json_fp.close()
-
-	#testing if the expected output of the program matches the unit test.
+def unit_test(file_path):
 	try:
-		assert expected_output == test_output
-  	#if they don't match, the test and expected output are both printed so the user can evaluate the difference between what they submitted and the unit test
+			with open('Version 2.0 unit test/unit test input.csv', 'r', encoding='utf-8') as csv_fp:
+				csv_reader = csv.reader(csv_fp)
+				with open('Version 2.0 unit test/unit test output.json', 'r', encoding='utf-8') as json_fp:
+					expected_output = json.load(json_fp)
+
+					test_output = do_post_process(csv_to_json(csv_reader))
+
+					assert expected_output == test_output, "Test failed: Output does not match expected output"
+
 	except AssertionError as e:
-		print("Expected Output:", expected_output)
-		print("Actual Output:", test_output)
+		logging.error(f"Assertion error: {e}")
+		logging.error(f"Expected Output: {json.dumps(expected_output, indent=2)}")
+		logging.error(f"Actual Output: {json.dumps(test_output, indent=2)}")
 		raise e
-""""""
+	except Exception as e:
+		logging.error(f"An error occurred during unit testing: {e}")
+		raise e
+
+	json_list = csv_to_json(read_csv_file(file_path))
+	json_list = do_post_process(json_list)
+	return json_list
 
 #this function converts the csv file to json
+
 def csv_to_json(csv_reader):
-	output = []
-	header_row = True
-	keys = {}
+    output = []
+    header_row = True
+    keys = {}
 
-	#this takes each row, strips it of extra spaces, creates an array for each row, with each value in the array representing a column
-	for row in csv_reader:
-		if header_row:
-			logging.info("=> Parsing CSV")
-			row[0] = row[0].strip(codecs.BOM_UTF8.decode(sys.stdin.encoding))
-			keys = {i:row[i].strip() for i in range(len(row)) if row[i] != ''}
+    for row in csv_reader:
+        if header_row:
+            logging.info("=> Parsing CSV")
+            row[0] = row[0].strip(codecs.BOM_UTF8.decode('utf-8'))
+            keys = {i: row[i].strip() for i in range(len(row)) if row[i].strip()}
+            header_row = False
+            continue
+        
+        output_obj = {}
+        for i in range(len(keys)):
+            key = keys[i]
+            element = row[i].strip() if i < len(row) else ''
+            if element:
+                output_obj[key] = element
+        
+        if output_obj:
+            output.append(output_obj)
+    
+    json_list = [{"sm:Corporate Creator": data} for data in output]
+    return json_list, output
 
-			header_row = False
-			continue
-
-		#for each row, makes each key an element, and stops when out of rows, then returning the output
-		output_obj = {}
-		for i in range(len(keys)):
-			key = keys[i]
-			element = row[i]
-
-			if element != ''.strip():
-				output_obj[key] = element
-		
-		if output_obj != {}:
-			output.append(output_obj)
-
-	return output
     
 
 def main():
-	#unit_test()
+	unit_test()
 
 	if len(sys.argv) != 2:
 		logging.error("Error: Please provide a filename")
 		handlers= logging.StreamHandler(), logging.FileHandler('system_failure_process.log')
 		logging.getLogger().addHandler(handlers)
 		sys.exit(1)
+  
+	log_filename = sys.argv[1].rstrip('csv') + 'log'
+	logging.getLogger().addHandler(logging.FileHandler(log_filename))
+  
+	try:
+		logging.info(f"=> Starting File Read: {sys.argv[1]}")
+		with open(sys.argv[1], 'r', encoding='utf-8') as fp:
+			csv_reader = csv_reader(fp)
+			output = csv_to_json(csv_reader)
 
-	handlers = logging.StreamHandler(), sys.argv[1].rstrip('csv') + 'log'
+		
+		output = do_post_process(output)
+				
+		logging.info("=> Finished Parsing\n")
+		print(json.dumps(output[0], indent=2))
+		should_continue = input("\n=> Does the above look good? [y/N]: ").upper() == 'Y'
 
-	logging.info("=> Starting File Read: %s" % sys.argv[1])
-	fp = open(sys.argv[1], 'r', encoding='utf-8')
+		if not should_continue:
+			print("Aborting...")
+			sys.exit(2)
 
-	
-	output = csv_to_json(csv.reader(fp))
-	for func in (document_urls,
+		out_filename = sys.argv[1].rstrip('csv') + 'json'
+		logging.info("=> Starting Output Write: %s " % out_filename)
+		
+		fpo = open(out_filename, 'w')
+		json.dump(output, fpo, indent=2)
+
+		# Ask users if they would like to post the request to the DataCite API
+		should_continue = input("\n=> Do you want to send the request now? [y/N]: ").upper() == 'Y'
+
+		if not should_continue:
+			logging.info("=> Done !")
+			sys.exit(0)
+
+		logging.info("=> Preparing Request")
+
+		url = "https://api.test.datacite.org"
+		payload = json.dumps(output)
+
+		# Read username and password from config.txt
+		with open("config.txt", "r", encoding='utf-8') as config_file:
+			config_lines = config_file.readlines()
+			username = ""
+			password = ""
+			for line in config_lines:
+				if line.startswith("username"):
+					username = line.split("=")[1].strip()
+				elif line.startswith("password"):
+					password = line.split("=")[1].strip()
+
+		if not username or not password:
+			logging.error("Username or password not found in config.txt")
+			sys.exit(1)
+
+		# Encode username and password for Basic Authentication
+		auth_header = codecs.encode(f"{username}:{password}", 'ascii').decode().replace('\n', '')
+
+		headers = {
+			'Authorization': 'Basic ' + auth_header,
+			'Content-Type': 'application/vnd.api+json',
+		}
+
+		logging.info("=> Sending Request")
+		response = requests.post(url, headers=headers, data=payload)
+
+		logging.info("=> Handling Response: {response.status_code}")
+		if response.status_code != 200:
+			logging.error("=> POST did not fire successfully! {response.status_code}")
+		else:
+			with open(out_filename, 'a', encoding='utf-8') as fpo:
+				logging.info("=> Writing Response to file")
+				fpo.write('\n\n---------------------------------------------------------------------------------\n\nRESULTS\n\n')
+				json.dump(response.json(), fpo, indent=2)
+				fpo.close()
+			logging.info("=> Done !")
+   
+	except Exception as e:
+		logging.error(f"An error occurred: {e}")
+		sys.exit(1)
+
+def do_post_process(output, json_list):
+	for func in (delete_unwanted_columns,
      		workroom_id,
-			ROSAP_ID,
-			ROSAP_URL,
+			rosap_id,
+			rosap_url,
 			sm_Collection,
 			sm_digital_object_identifier,
 			title,
@@ -117,7 +173,9 @@ def main():
 			publication_date,
 			resource_type,
 			creators,
-			process_corporate_field,
+			lambda x: process_corporate_field(x, "sm:Corporate Creator"),
+			lambda x: process_corporate_field(x, "sm:Corporate Contributor"),
+			lambda x: process_corporate_field(x, "sm:Corporate Publisher"),
 			contributors,
 			keywords,
 			report_number,
@@ -128,65 +186,11 @@ def main():
 			edition,
 			series,
 			description):
-		output = func(output)
-			
-	fp.close()
-	logging.info("=> Finished Parsing\n")
-	print(json.dumps(output[0], indent=2))
-	should_continue = input("\n=> Does the above look good? [y/N]: ").upper() == 'Y'
-
-	if not should_continue:
-		print("Aborting...")
-		sys.exit(2)
-
-	out_filename = sys.argv[1].rstrip('csv') + 'json'
-	logging.info("=> Starting Output Write: %s " % out_filename)
-	
-	fpo = open(out_filename, 'w')
-	json.dump(output, fpo, indent=2)
+		# Ensure func is callable before calling it
+		output = func(output) if callable(func) else func
+	for field_name in ["sm:Corporate Creator", "sm:Corporate Contributor", "sm:Corporate Publisher"]: process_corporate_field(json_list, field_name)
+	return output, json_list
  
-
-	should_continue = input("\n=> Do you want to send the request now? [y/N]: ").upper() == 'Y'
-
-	if not should_continue:
-		logging.info("=> Done !")
-		sys.exit(0)
-
-	logging.info("=> Preparing Request")
-
-	url = "https://api.test.datacite.org"
-	payload = json.dumps(output)
- 
-	# Read username and password from config.txt
-	with open("config.txt", "r") as config_file:
-		config_lines = config_file.readlines()
-		for line in config_lines:
-			if line.startswith("username"):
-				username = line.split("=")[1].strip()
-			elif line.startswith("password"):
-				password = line.split("=")[1].strip()
- 
-	# Encode username and password for Basic Authentication
-	auth_header = codecs.encode(f"{username}:{password}", 'base64').decode().replace('\n', '')
- 
-	headers = {
-		'Authorization': 'Basic ' + auth_header,
-		'Content-Type': 'application/vnd.api+json',
-	}
-
-	logging.info("=> Sending Request")
-	response = requests.request("POST", url, headers=headers, data=payload)
-
-	logging.info("=> Handling Response: %s" % response.status_code)
-	if response.status_code != 200:
-		logging.error("=> POST did not fire successfully! %s" % response.status_code)
-	else:
-		logging.info("=> Writing Response to file")
-		fpo.write('\n\n---------------------------------------------------------------------------------\n\nRESULTS\n\n')
-		json.dump(response.json(), fpo, indent=2)
-		fpo.close()
-		logging.info("=> Done !")
-	
 
 if __name__ == '__main__':
 	main()
