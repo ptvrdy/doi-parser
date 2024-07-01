@@ -30,7 +30,6 @@ from post_processes import (
  	description
 )
 
-# TODO: rename process.log to something more palatable
 logging.basicConfig(handlers=[logging.StreamHandler(), logging.FileHandler('default_process.log')], level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # DOI Prefix for the testing environment
@@ -94,15 +93,11 @@ def csv_to_json(csv_reader):
 def main():
 	#unit_test()
 
-	# TODO: have some default logging configuration incase i don't have a filename
-
 	if len(sys.argv) != 2:
 		logging.error("Error: Please provide a filename")
 		handlers= logging.StreamHandler(), logging.FileHandler('system_failure_process.log')
 		logging.getLogger().addHandler(handlers)
 		sys.exit(1)
-
-	# TODO: configure logger based on input file name
 
 	handlers = logging.StreamHandler(), sys.argv[1].rstrip('csv') + 'log'
 

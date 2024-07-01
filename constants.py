@@ -1,3 +1,6 @@
+API_URL_Lookup = {
+    "API_URL": "https://api.dev.ror.org/v2/organizations",
+}
 organization_to_ror_lookup = {
     "United States. Department of Transportation. Federal Aviation Administration": ("https://ror.org/05q0y0j38", "en"),
     "United States. Department of Transportation. Federal Highway Administration": ("https://ror.org/0473rr271", "en"),
