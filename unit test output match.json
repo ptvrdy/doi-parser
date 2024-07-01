@@ -1,0 +1,257 @@
+{
+    "id": "https://doi.org/10.80510/a3g4-gt64",
+    "doi": "10.80510/A3G4-GT64",
+    "url": "https://rosap.ntl.bts.gov/view/dot/75291",
+    "types": {
+      "ris": "RRPT",
+      "bibtex": "misc",
+      "citeproc": "report",
+      "schemaOrg": "Report",
+      "resourceType": "PDF",
+      "resourceTypeGeneral": "Report"
+    },
+    "creators": [
+      {
+        "name": "Greenwood, Reggie",
+        "nameType": "Personal",
+        "givenName": "Reggie",
+        "familyName": "Greenwood",
+        "affiliation": [],
+        "nameIdentifiers": []
+      },
+      {
+        "name": "Reddy, Meghana Reddy Dharma",
+        "nameType": "Personal",
+        "givenName": "Meghana Reddy Dharma",
+        "familyName": "Reddy",
+        "affiliation": [],
+        "nameIdentifiers": []
+      },
+      {
+        "name": "Illinois Center for Transportation",
+        "nameType": "Organizational",
+        "givenName": null,
+        "familyName": null,
+        "affiliation": [],
+        "nameIdentifiers": []
+      },
+      {
+        "name": "Governors State University",
+        "nameType": "Organizational",
+        "givenName": null,
+        "familyName": null,
+        "affiliation": [],
+        "nameIdentifiers": [
+          {
+            "schemeUri": "https://ror.org",
+            "nameIdentifier": "https://ror.org/00wtq7t14",
+            "nameIdentifierScheme": "ROR"
+          }
+        ]
+      },
+      {
+        "name": "University of Illinois Urbana-Champaign",
+        "nameType": "Organizational",
+        "givenName": null,
+        "familyName": null,
+        "affiliation": [],
+        "nameIdentifiers": [
+          {
+            "schemeUri": "https://ror.org",
+            "nameIdentifier": "https://ror.org/047426m28",
+            "nameIdentifierScheme": "ROR"
+          }
+        ]
+      }
+    ],
+    "titles": [
+      {
+        "lang": null,
+        "title": "Electrification of Illinois Transit: Bridging the Gap With Heavy-Duty Technician Training Initiatives",
+        "titleType": null
+      },
+      {
+        "lang": null,
+        "title": "Alt Title 1",
+        "titleType": "AlternativeTitle"
+      }
+    ],
+    "publisher": {
+      "name": "Illinois Center for Transportation"
+    },
+    "subjects": [
+      {
+        "subject": "Electric vehicles",
+        "schemeUri": "https://trt.trb.org/",
+        "subjectScheme": "Transportation Research Thesaurus"
+      },
+      {
+        "subject": "Transit traffic",
+        "schemeUri": "https://trt.trb.org/",
+        "subjectScheme": "Transportation Research Thesaurus"
+      },
+      {
+        "subject": "Public private partnerships",
+        "schemeUri": "https://trt.trb.org/",
+        "subjectScheme": "Transportation Research Thesaurus"
+      },
+      {
+        "subject": "Bus transit",
+        "schemeUri": "https://trt.trb.org/",
+        "subjectScheme": "Transportation Research Thesaurus"
+      },
+      {
+        "subject": "Sustainable transportation",
+        "schemeUri": "https://trt.trb.org/",
+        "subjectScheme": "Transportation Research Thesaurus"
+      }
+    ],
+    "contributors": [
+      {
+        "name": "Illinois Department of Transportation",
+        "nameType": "Organizational",
+        "givenName": null,
+        "familyName": null,
+        "affiliation": [
+          {
+            "name": null,
+            "schemeUri": null,
+            "affiliationIdentifier": null,
+            "affiliationIdentifierScheme": null
+          }
+        ],
+        "contributorType": "Sponsor",
+        "nameIdentifiers": [
+          {
+            "schemeUri": "https://ror.org",
+            "nameIdentifier": "https://ror.org/02vgzrk89",
+            "nameIdentifierScheme": "ROR"
+          }
+        ]
+      },
+      {
+        "name": "Federal Highway Administration",
+        "nameType": "Organizational",
+        "givenName": null,
+        "familyName": null,
+        "affiliation": [
+          {
+            "name": null,
+            "schemeUri": null,
+            "affiliationIdentifier": null,
+            "affiliationIdentifierScheme": null
+          }
+        ],
+        "contributorType": "Sponsor",
+        "nameIdentifiers": [
+          {
+            "schemeUri": "https://ror.org",
+            "nameIdentifier": "https://ror.org/0473rr271",
+            "nameIdentifierScheme": "ROR"
+          }
+        ]
+      },
+      {
+        "name": "Greenwood, Reggie",
+        "nameType": "Personal",
+        "givenName": "Reggie",
+        "familyName": "Greenwood",
+        "affiliation": [
+          {
+            "name": null,
+            "schemeUri": null,
+            "affiliationIdentifier": null,
+            "affiliationIdentifierScheme": null
+          }
+        ],
+        "contributorType": "Researcher",
+        "nameIdentifiers": [
+          {
+            "schemeUri": null,
+            "nameIdentifier": null,
+            "nameIdentifierScheme": null
+          }
+        ]
+      }
+    ],
+    "dates": [
+      {
+        "date": "2024-06-01",
+        "dateType": "Issued",
+        "dateInformation": null
+      }
+    ],
+    "publicationYear": 2024,
+    "language": "en",
+    "identifiers": [
+      {
+        "identifier": "98485",
+        "identifierType": "DOT ROSA P Accession Number"
+      },
+      {
+        "identifier": "dot:75291",
+        "identifierType": "CDC SWAT Identifier"
+      },
+      {
+        "identifier": "FHWA-ICT-24-014",
+        "identifierType": "USDOT Report Number"
+      },
+      {
+        "identifier": "11111",
+        "identifierType": "USDOT ResearchHub Display ID"
+      }
+    ],
+    "sizes": [],
+    "formats": [],
+    "version": "Final Report 6/1/23–6/30/24",
+    "rightsList": [],
+    "descriptions": [
+      {
+        "lang": "en",
+        "description": "Content Note Here",
+        "descriptionType": "TechnicalInfo"
+      },
+      {
+        "lang": "en",
+        "description": "This report examines the evolving landscape of technician training in Illinois’ transit industry, with a particular focus on electric vehicle (EV) technology. The report aims to identify the current challenges, explore collaborative training initiatives between community colleges and transit agencies, and provide actionable recommendations to the Illinois Department of Transportation (IDOT). The research methodology involved a comprehensive review of training programs at Illinois community colleges. Additionally, the researchers conducted interviews with key Illinois transit agencies to understand their training challenges and needs. The study also analyzed successful EV training models and partnerships between educational institutions and the transit industry. The study found that community colleges are pioneering in developing EV training programs, while transit agencies face significant challenges in adapting to new technologies due to a reliance on equipment suppliers for training. Collaborative efforts between colleges and transit agencies show potential in developing more comprehensive training programs. However, there is a need for more standardized curricula and better-equipped training facilities. To address these challenges, the report recommends that IDOT support the standardization of EV technician training curricula. IDOT should also facilitate the provision of advanced training equipment to community colleges. Additionally, IDOT should support the establishment of a pilot specialized regional training center at Heartland Community College. This initiative will advance the quality of EV training and serve as a model for subsequent centers across the state. The insights from this report are intended to guide policy development and bolster the collaborative efforts of educational institutions and transit authorities in nurturing a workforce skilled in technology. This endeavor aims to synchronize training programs and curricula across institutions, fostering a cohesive and continuous educational pathway. The collaboration is set to cultivate an extensive partnership among community colleges and with transit agencies that develop standardized curriculum with needed training equipment and apprenticeships.",
+        "descriptionType": "Abstract"
+      }
+    ],
+    "geoLocations": [],
+    "fundingReferences": [
+      {
+        "awardUri": null,
+        "awardTitle": null,
+        "funderName": "U.S. Department of Transportation",
+        "awardNumber": "R27-SP57",
+        "funderIdentifier": "https://doi.org/10.13039/100000140",
+        "funderIdentifierType": "Crossref Funder ID"
+      }
+    ],
+    "relatedIdentifiers": [
+      {
+        "schemeUri": null,
+        "schemeType": null,
+        "relationType": "IsPartOf",
+        "relatedIdentifier": "https://doi.org/10.21949/1530857",
+        "resourceTypeGeneral": null,
+        "relatedIdentifierType": "DOI",
+        "relatedMetadataScheme": null
+      },
+      {
+        "schemeUri": null,
+        "schemeType": null,
+        "relationType": "IsPartOf",
+        "relatedIdentifier": "https://doi.org/10.21949/1530607",
+        "resourceTypeGeneral": null,
+        "relatedIdentifierType": "DOI",
+        "relatedMetadataScheme": null
+      }
+    ],
+    "relatedItems": [],
+    "schemaVersion": "http://datacite.org/schema/kernel-4",
+    "providerId": "dot",
+    "clientId": "dot.test",
+    "agency": "datacite",
+    "state": "draft"
+  }

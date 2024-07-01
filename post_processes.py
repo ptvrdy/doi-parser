@@ -35,7 +35,7 @@ def workroom_id(json_list):
     for index, json_obj in enumerate(json_list):
         if "Workroom ID" in json_obj:
             accession_number = json_obj.pop("Workroom ID")
-            json_obj.setdefault("alternateIdentifiers", []).append({
+            json_obj.setdefault("identifiers", []).append({
                 "alternateIdentifier": accession_number, 
                 "alternateIdentifierType": "DOT ROSA P Accession Number"
                 })
@@ -48,7 +48,7 @@ def ROSAP_ID(json_list):
     for index, json_obj in enumerate(json_list):
         if "ROSAP_ID" in json_obj:
             swat_id = json_obj.pop("ROSAP_ID")
-            json_obj.setdefault("alternateIdentifiers", []).append({
+            json_obj.setdefault("identifiers", []).append({
                 "alternateIdentifier": swat_id, 
                 "alternateIdentifierType": "CDC SWAT Identifier"
                 })
@@ -104,7 +104,8 @@ def sm_Collection(json_list):
                     doi_entry_collection = {
                         "relatedIdentifier": collections_to_doi_lookup[collection],
                         "relatedIdentifierType": "DOI",
-                        "relationType": "IsPartOf"
+                        "relationType": "IsPartOf",
+                        "resourceTypeGeneral": "Collection"
                     }
                     #Initialize "related_identifiers" if not already present
                     json_obj.setdefault("relatedIdentifiers", []).append(doi_entry_collection)
@@ -119,12 +120,11 @@ def sm_digital_object_identifier(json_list):
     for index, json_obj in enumerate(json_list):
         if "sm:Digital Object Identifier" in json_obj:
             doi = json_obj.pop("sm:Digital Object Identifier")
-            doi = doi.replace("https://doi.org/","").strip()
+            if not doi.startswith('https://doi.org/'):
+                doi = "https://doi.org/" + doi
             json_obj["id"]=doi
-            json_obj.setdefault("attributes", {})["doi"]=doi
-            prefix, suffix = doi.split("/")
-            json_obj.setdefault("attributes", {})["prefix"]=prefix
-            json_obj.setdefault("attributes", {})["suffix"]=suffix
+            doi_identifier = doi.replace("https://doi.org/","").strip()
+            json_obj["doi"]= doi_identifier
         else:
             logging.info(f"DOI not found for row {index + 1}.")
     return json_list
@@ -133,7 +133,10 @@ def sm_digital_object_identifier(json_list):
 def title(json_list):
     for json_obj in json_list:
         title = json_obj.pop("Title")
-        json_obj.setdefault("titles", []).append({"title": title})
+        json_obj.setdefault("titles", []).append({
+            "title": title, 
+            "lang": "en"
+            })
     return json_list
 
 #this function matches "Alternative Title" to title and title type
@@ -143,7 +146,8 @@ def alt_title(json_list):
             alt_title = json_obj.pop("Alternative Title")
             json_obj.setdefault("titles", []).append({
                 "title": alt_title, 
-                "titleType": "AlternativeTitle"
+                "titleType": "AlternativeTitle", 
+                "lang": "en"
                 })
     return json_list
         
@@ -211,16 +215,15 @@ def process_corporate_field(json_list, field_name):
     field_mapping = {
         "sm:Corporate Creator": {
             "key": "creators",
-            "nameType": "Organization",
+            "nameType": "Organizational",
         },
         "sm:Corporate Contributor": {
             "key": "contributors",
-            "nameType": "Organization",
+            "nameType": "Organizational",
             "contributorType": "Sponsor",
         },
         "sm:Corporate Publisher": {
             "key": "publishers",
-            "lang": "en",
         },
     }
     for index, json_obj in enumerate(json_list):
@@ -228,15 +231,30 @@ def process_corporate_field(json_list, field_name):
             corporate_values = json_obj.pop(field_name).split("\\n")
             for corporate_value in corporate_values:
                 corporate_value = corporate_value.strip()
-                ror_id, ror_name, ror_lang = get_ror_info(corporate_value)
+                ror_id, ror_name = get_ror_info(corporate_value)
                 output_structure = field_mapping.get(field_name, {})
-                if ror_id:
+                if ror_id and field_mapping != "sm:Corporate Publisher":
                     entry ={
                         "name": ror_name, 
-                        "name_identifier": ror_id, 
-                        "nameIdentifierScheme": "ROR", 
-                        "schemeURI": "https://ror.org/",
-                        "lang": ror_lang
+                        "nameType": "Organizational",
+                        "nameIdentifiers": [
+                            {
+                                "schemeURI": "https://ror.org/",
+                                "name_identifier": ror_id,
+                                "nameIdentifierScheme": "ROR", 
+                            }
+                        ]
+                    }
+                if ror_id and field_mapping is "sm:Corporate Publisher":
+                    entry ={
+                        "name": ror_name, 
+                        "nameIdentifiers": [
+                            {
+                                "schemeURI": "https://ror.org/",
+                                "name_identifier": ror_id,
+                                "nameIdentifierScheme": "ROR", 
+                            }
+                        ]
                     }
                 else:
                     json_obj.setdefault(output_structure["key"], []).append({
@@ -293,8 +311,8 @@ def keywords(json_list):
                 keyword = keyword.strip()
                 json_obj.setdefault("subjects", []).append({
                     "subject": keyword,
-                    "subjectScheme": "Transportation Research Thesaurus",
-                    "schemeURI": "https://trt.trb.org/"
+                    "schemeURI": "https://trt.trb.org/",
+                    "subjectScheme": "Transportation Research Thesaurus"
                 })
         else:
             logging.info(f"sm:Key words not found for row {index + 1}.")
@@ -306,7 +324,7 @@ def report_number(json_list):
         if "sm:Report Number" in json_obj:
             report_number = json_obj.pop("sm:Report Number")
             report_number = report_number.strip()
-            json_obj.setdefault("alternateIdentifiers", []).append({
+            json_obj.setdefault("identifiers", []).append({
                 "alternateIdentifier": report_number, 
                 "alternateIdentifierType": "USDOT Report Number"
                 })
@@ -318,9 +336,11 @@ def contract_number(json_list):
         if "Grants, Contracts, Cooperative Agreements" in json_obj:
             contract_number = json_obj.pop("Grants, Contracts, Cooperative Agreements")
             contract_number = contract_number.strip()
-            json_obj.setdefault("alternateIdentifiers", []).append({
-                "alternateIdentifier": contract_number, 
-                "alternateIdentifierType": "DOT Contract, Grant, or Cooperative Agreement Number"
+            json_obj.setdefault("fundingReferences", []).append({
+                "funderName": "U.S. Department of Transportation",
+                "awardNumber": contract_number, 
+                "funderIdentifier": "https://doi.org/10.13039/100000140", 
+                "funderIdentifierType": "Crossref Funder ID"
                 })
     return json_list
 
@@ -330,7 +350,7 @@ def researchHub_id(json_list):
         if "sm:ResearchHub ID" in json_obj:
             researchhub_id = json_obj.pop("sm:ResearchHub ID")
             researchhub_id = researchhub_id.strip()
-            json_obj.setdefault("alternateIdentifiers", []).append({
+            json_obj.setdefault("identifiers", []).append({
                 "alternateIdentifier": researchhub_id, 
                 "alternateIdentifierType": "USDOT ResearchHub Display ID"})
     return json_list
@@ -342,8 +362,8 @@ def content_notes(json_list):
         if "Content Notes" in json_obj:
             content_note = json_obj.pop("Content Notes").strip()
             json_obj.setdefault("Descriptions", []).append({
-                "description": content_note, 
                 "lang": "en", 
+                "description": content_note, 
                 "descriptionType": "TechnicalInfo"
                 })
             if curation_note in content_note:
@@ -393,7 +413,8 @@ def series(json_list):
                     doi_entry_series = {
                         "relatedIdentifierType": "DOI", 
                         "relatedIdentifier": series_to_doi_lookup[series_doi], 
-                        "relationType": "IsPartOf"
+                        "relationType": "IsPartOf",
+                        "resourceTypeGeneral": "Collection"
                     }
                     # Initialize "related_identifiers" if not already present
                     json_obj.setdefault("relatedIdentifiers", []).append(doi_entry_series)
@@ -407,8 +428,8 @@ def description(json_list):
         if "Description" in json_obj:
             description = json_obj.pop("Description")
             json_obj.setdefault("Descriptions", []).append({
-                "description": description, 
                 "lang": "en", 
+                "description": description, 
                 "descriptionType": "Abstract"
                 })
         else:
