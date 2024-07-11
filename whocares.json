@@ -1,0 +1,74 @@
+{
+    "substring": "Illinois Center for Transportation",
+    "score": 0.79,
+    "matching_type": "COMMON TERMS",
+    "chosen": False,
+    "organization": {
+        "admin": {
+            "created": {
+                "date": "2019-05-06",
+                "schema_version": "1.0"
+            },
+            "last_modified": {
+                "date": "2021-03-17",
+                "schema_version": "1.0"
+            }
+        },
+        "domains": [],
+        "established": 1998,
+        "external_ids": [
+            {
+                "all": [
+                    "grid.505675.4"
+                ],
+                "preferred": "grid.505675.4",
+                "type": "grid"
+            }
+        ],
+        "id": "https: //ror.org/0230s3k26",
+        "links": [
+            {
+                "type": "website",
+                "value": "https://www.metrans.org/"
+            }
+        ],
+        "locations": [
+            {
+                "geonames_details": {
+                    "country_code": "US",
+                    "country_name": "United States",
+                    "lat": 34.092228,
+                    "lng": -118.245058,
+                    "name": "Los Angeles"
+                },
+                "geonames_id": 5368361
+            }
+        ],
+        "names": [
+            {
+                "lang": None,
+                "types": [
+                    "ror_display",
+                    "label"
+                ],
+                "value": "METRANS Transportation Center"
+            }
+        ],
+        "relationships": [
+            {
+                "label": "California State University, Long Beach",
+                "type": "parent",
+                "id": "https://ror.org/0080fxk18"
+            },
+            {
+                "label": "University of Southern California",
+                "type": "parent",
+                "id": "https://ror.org/03taz7m60"
+            }
+        ],
+        "status": "active",
+        "types": [
+            "other"
+        ]
+    }
+}
