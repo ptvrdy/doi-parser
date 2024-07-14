@@ -8,7 +8,7 @@ from post_processes import *
 
 logging.basicConfig(handlers=[logging.StreamHandler(), logging.FileHandler('default_process.log')],
                     level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s')
+                    format='%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] %(message)s')
 
 # DOI Prefix for the testing environment
 doi_prefix = "10.80510"
@@ -19,16 +19,16 @@ def read_csv_file(file_path):
         rows = [row[0].strip() for row in csv_reader if row]
     return rows
 
-def unit_test(file_path):
+def unit_test():
 	try:
-			with open('Version 2.0 unit test/unit test input.csv', 'r', encoding='utf-8') as csv_fp:
-				csv_reader = csv.reader(csv_fp)
-				with open('Version 2.0 unit test/unit test output.json', 'r', encoding='utf-8') as json_fp:
-					expected_output = json.load(json_fp)
+		with open('Version 2.0 unit test/unit test input.csv', 'r', encoding='utf-8') as csv_fp:
+			csv_reader = csv.reader(csv_fp)
+			with open('Version 2.0 unit test/unit test output.json', 'r', encoding='utf-8') as json_fp:
+				expected_output = json.load(json_fp)
 
-					test_output = do_post_process(csv_to_json(csv_reader))
+				test_output = do_post_process(csv_to_json(csv_reader))
 
-					assert expected_output == test_output, "Test failed: Output does not match expected output"
+				assert expected_output == test_output, "Test failed: Output does not match expected output"
 
 	except AssertionError as e:
 		logging.error(f"Assertion error: {e}")
@@ -38,10 +38,6 @@ def unit_test(file_path):
 	except Exception as e:
 		logging.error(f"An error occurred during unit testing: {e}")
 		raise e
-
-	json_list = csv_to_json(read_csv_file(file_path))
-	json_list = do_post_process(json_list)
-	return json_list
 
 #this function converts the csv file to json
 
@@ -68,8 +64,7 @@ def csv_to_json(csv_reader):
         if output_obj:
             output.append(output_obj)
     
-    json_list = [{"sm:Corporate Creator": data} for data in output]
-    return json_list, output
+    return output
 
     
 
@@ -117,7 +112,7 @@ def main():
 
 		logging.info("=> Preparing Request")
 
-		url = "https://api.test.datacite.org"
+		url = "https://api.test.datacite.org/dois"
 		payload = json.dumps(output)
 
 		# Read username and password from config.txt
@@ -154,14 +149,13 @@ def main():
 				logging.info("=> Writing Response to file")
 				fpo.write('\n\n---------------------------------------------------------------------------------\n\nRESULTS\n\n')
 				json.dump(response.json(), fpo, indent=2)
-				fpo.close()
 			logging.info("=> Done !")
    
 	except Exception as e:
 		logging.error(f"An error occurred: {e}")
 		sys.exit(1)
 
-def do_post_process(output, json_list):
+def do_post_process(output):
 	for func in (delete_unwanted_columns,
      		workroom_id,
 			rosap_id,
@@ -188,8 +182,7 @@ def do_post_process(output, json_list):
 			description):
 		# Ensure func is callable before calling it
 		output = func(output) if callable(func) else func
-	for field_name in ["sm:Corporate Creator", "sm:Corporate Contributor", "sm:Corporate Publisher"]: process_corporate_field(json_list, field_name)
-	return output, json_list
+	return output
  
 
 if __name__ == '__main__':

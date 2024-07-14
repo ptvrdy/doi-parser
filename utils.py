@@ -138,7 +138,8 @@ def get_ror_info(corporate_creator):
         if closest_match is None:
             closest_match = items_list[0]
         
-        ror_id = closest_match['id']
+        logging.debug(f"My Closest Match Is: {closest_match}")
+        ror_id = closest_match["organization"]['id']
         
         for name_entry in closest_match.get('names', []):
             if 'ror_display' in name_entry.get('types', []):
@@ -171,7 +172,11 @@ def get_ror_info(corporate_creator):
                         return ror_id, ror_name
         
     except Exception as e:
-        logging.error(f"Error fetching ROR data for '{corporate_creator}': {e}")
+        logging.error(f"Error fetching ROR data for '{corporate_creator}'", e)
         sys.exit(1)
     
     return None, None
+
+def delete_unwanted(json_obj, key):
+    if key in json_obj:
+        del json_obj[key]

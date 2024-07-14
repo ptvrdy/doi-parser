@@ -8,7 +8,8 @@ from constants import (
 import logging
 
 from utils import (
-    get_ror_info
+    get_ror_info,
+    delete_unwanted
 )
 
 # logging.basicConfig(filename="process.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -16,12 +17,12 @@ from utils import (
 #this function removes unneeded columns from the CSV: "Main Document URL", "Supporting Documents URLs", "sm:Publisher", "Geographical Coverage", "sm:Contracting Officer", "sm:Rights Statement"
 def delete_unwanted_columns(json_list):
     for json_obj in (json_list):
-        json_obj.pop("Main Document URL", None)
-        json_obj.pop("Supporting Documents URLs", None)
-        json_obj.pop("sm:Publisher", None)
-        json_obj.pop("Geographical Coverage", None)
-        json_obj.pop("sm:Contracting Officer", None)
-        json_obj.pop("sm:Rights Statement", None)
+        delete_unwanted(json_obj, "Main Document URL")
+        delete_unwanted(json_obj, "Supporting Documents URLs")
+        delete_unwanted(json_obj, "sm:Publisher")
+        delete_unwanted(json_obj, "sm:Geographical Coverage")
+        delete_unwanted(json_obj, "sm:Contracting Officer")
+        delete_unwanted(json_obj, "sm:Rights Statement")
     return json_list
 
 #this function matches "Workroom ID" to Alternateidentifier
@@ -126,6 +127,7 @@ def sm_digital_object_identifier(json_list):
 #this function matches "Title" to titles
 def title(json_list):
     for json_obj in json_list:
+        logging.debug("My object is " + str(json_obj))
         title = json_obj.pop("Title")
         json_obj.setdefault("titles", []).append({
             "title": title, 
@@ -175,7 +177,7 @@ def resource_type(json_list):
 def creators(json_list):
     for index, json_obj in enumerate(json_list):
         if "sm:Creator" in json_obj:
-            creators = json_obj.pop("sm:Creator").split("\\n")
+            creators = json_obj.pop("sm:Creator").split("\n")
             for creator in creators:
                 creator = creator.strip()
                 parts = creator.split(",")
@@ -233,7 +235,8 @@ def process_corporate_field(json_list, field_name):
     
     for index, json_obj in enumerate(json_list):
         if field_name in json_obj:
-            corporate_values = json_obj.pop(field_name).split("\\n")
+            corporate_values = json_obj.pop(field_name).split("\n")
+            logging.debug("My object is " + str (corporate_values))
             for corporate_value in corporate_values:
                 corporate_value = corporate_value.strip()
                 ror_id, ror_name = get_ror_info(corporate_value)
@@ -278,7 +281,7 @@ def process_corporate_field(json_list, field_name):
 def contributors(json_list):
     for index, json_obj in enumerate(json_list):
         if "sm:Contributor" in json_obj:
-            contributors = json_obj.pop("sm:Contributor").split("\\n")
+            contributors = json_obj.pop("sm:Contributor").split("\n")
             for contributor in contributors:
                 contributor = contributor.strip()
                 last_name, first_name = contributor.split(",")
@@ -311,9 +314,10 @@ def contributors(json_list):
 def keywords(json_list):
     for index, json_obj in enumerate(json_list):
         if "sm:Key words" in json_obj:
-            keywords_str = json_obj["sm:Key words"].split("\\n")
+            keywords_str = json_obj.pop("sm:Key words")
             if keywords_str.endswith(", "):
                     keywords_str = keywords_str[:-2]
+            keywords_str = keywords_str.split("\n")
             for keyword in keywords_str:
                 keyword = keyword.strip()
                 json_obj.setdefault("subjects", []).append({
@@ -327,7 +331,7 @@ def keywords(json_list):
 
 #this function matches "sm:Report Number" to alternateIdentifier
 def report_number(json_list):
-    for json_obj in enumerate:
+    for json_obj in json_list:
         if "sm:Report Number" in json_obj:
             report_number = json_obj.pop("sm:Report Number")
             report_number = report_number.strip()
@@ -413,7 +417,7 @@ def edition(json_list):
 def series(json_list):
     for index, json_obj in enumerate(json_list):
         if "Series Name" in json_obj:
-            series_dois = json_obj.pop("Series Name").split("\\n")
+            series_dois = json_obj.pop("Series Name").split("\n")
             for series_doi in series_dois:
                 if series_doi in series_to_doi_lookup:
                     # Create a new DOI-related entry
