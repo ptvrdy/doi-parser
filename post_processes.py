@@ -30,10 +30,10 @@ def workroom_id(json_list):
     for index, json_obj in enumerate(json_list):
         if "Workroom ID" in json_obj:
             accession_number = json_obj.pop("Workroom ID")
-            json_obj.setdefault("identifiers", []).append({
+            json_obj.setdefault("alternateIdentifiers", []).append({
                 "alternateIdentifier": accession_number, 
                 "alternateIdentifierType": "DOT ROSA P Accession Number"
-                })
+            })
         else:
             logging.info(f"Workroom ID not found for row {index +1}.")
     return json_list
@@ -43,7 +43,7 @@ def rosap_id(json_list):
     for index, json_obj in enumerate(json_list):
         if "ROSAP_ID" in json_obj:
             swat_id = json_obj.pop("ROSAP_ID")
-            json_obj.setdefault("identifiers", []).append({
+            json_obj.setdefault("alternateIdentifiers", []).append({
                 "alternateIdentifier": swat_id, 
                 "alternateIdentifierType": "CDC SWAT Identifier"
                 })
@@ -58,7 +58,7 @@ def rosap_url(json_list):
             url = json_obj.pop("ROSAP_URL").strip()
             json_obj["url"] = url
             if "https://highways.dot.gov/" in url:
-                json_obj.setdefault("Contributors", []).append({
+                json_obj.setdefault("contributors", []).append({
                     "name": "United States. Department of Transportation. Federal Highway Administration", 
                     "nameType": "Organizational", 
                     "contributorType": "HostingInstitution", 
@@ -66,11 +66,11 @@ def rosap_url(json_list):
                     "nameIdentifiers": [
                         {"nameIdentifier": "https://ror.org/0473rr271", 
                          "nameIdentifierScheme": "ROR", 
-                         "schemeURI": "https://ror.org/"}
+                         "schemeUri": "https://ror.org/"}
                     ]
                 })
             elif "https://rosap.ntl.bts.gov/" in url:
-                json_obj.setdefault("Contributors", []).append({
+                json_obj.setdefault("contributors", []).append({
                     "name": "United States. Department of Transportation. National Transportation Library", 
                     "nameType": "Organizational", 
                     "contributorType": "HostingInstitution", 
@@ -78,7 +78,7 @@ def rosap_url(json_list):
                     "nameIdentifiers": [
                         {"nameIdentifier": "https://ror.org/00snbrd52", 
                          "nameIdentifierScheme": "ROR", 
-                         "schemeURI": "https://ror.org/"}
+                         "schemeUri": "https://ror.org/"}
                     ]
                 })
             else:
@@ -117,9 +117,12 @@ def sm_digital_object_identifier(json_list):
             doi = json_obj.pop("sm:Digital Object Identifier")
             if not doi.startswith('https://doi.org/'):
                 doi = "https://doi.org/" + doi
-            json_obj["id"]=doi
             doi_identifier = doi.replace("https://doi.org/","").strip()
             json_obj["doi"]= doi_identifier
+
+            prefix, suffix = doi.split('/', 2)
+            json_obj["prefix"] = prefix
+            json_obj["suffix"] = suffix
         else:
             logging.info(f"DOI not found for row {index + 1}.")
     return json_list
@@ -153,7 +156,7 @@ def publication_date(json_list):
         date = json_obj.pop("Published Date")
         json_obj.setdefault("dates", []).append({"date": date, "dateType": "Issued"})
         published_year = date[:4]
-        json_obj["PublicationYear"]=published_year
+        json_obj["publicationYear"] = int(published_year)
     return json_list
 
 #this function matches "sm:Format" to ResourceType and resourceTypeGeneral
@@ -203,7 +206,7 @@ def creators(json_list):
                         "nameIdentifiers": [{
                             "nameIdentifier": ORCID, 
                             "nameIdentifierScheme": "ORCID", 
-                            "schemeURI": "https://orcid.org/"}
+                            "schemeUri": "https://orcid.org/"}
                         ]})
                 else:
                     json_obj.setdefault("creators", []).append({
@@ -228,6 +231,7 @@ def process_corporate_field(json_list, field_name):
             "nameType": "Organizational",
             "contributorType": "Sponsor",
         },
+        # TODO: decouple this into a new method, should look like {"publisher": {"name": "..."}}
         "sm:Corporate Publisher": {
             "key": "publishers",
         },
@@ -247,7 +251,7 @@ def process_corporate_field(json_list, field_name):
                         entry = {
                             "name": ror_name,
                             "nameIdentifiers": [{
-                                    "schemeURI": "https://ror.org/",
+                                    "schemeUri": "https://ror.org/",
                                     "nameIdentifier": ror_id,
                                     "nameIdentifierScheme": "ROR"}
                             ]
@@ -258,7 +262,7 @@ def process_corporate_field(json_list, field_name):
                             "nameType": "Organizational",
                             "nameIdentifiers": [
                                 {
-                                    "schemeURI": "https://ror.org/",
+                                    "schemeUri": "https://ror.org/",
                                     "nameIdentifier": ror_id,
                                     "nameIdentifierScheme": "ROR"
                                 }
@@ -297,7 +301,7 @@ def contributors(json_list):
                         "familyName": last_name, 
                         "contributorType": "Researcher", 
                         "nameIdentifiers": [
-                            {"nameIdentifier": ORCID, "nameIdentifierScheme": "ORCID", "schemeURI": "https://orcid.org/"}
+                            {"nameIdentifier": ORCID, "nameIdentifierScheme": "ORCID", "schemeUri": "https://orcid.org/"}
                         ]})
                 else:
                     json_obj.setdefault("contributors", []).append({
@@ -322,7 +326,7 @@ def keywords(json_list):
                 keyword = keyword.strip()
                 json_obj.setdefault("subjects", []).append({
                     "subject": keyword,
-                    "schemeURI": "https://trt.trb.org/",
+                    "schemeUri": "https://trt.trb.org/",
                     "subjectScheme": "Transportation Research Thesaurus"
                 })
         else:
@@ -335,7 +339,7 @@ def report_number(json_list):
         if "sm:Report Number" in json_obj:
             report_number = json_obj.pop("sm:Report Number")
             report_number = report_number.strip()
-            json_obj.setdefault("identifiers", []).append({
+            json_obj.setdefault("alternateIdentifiers", []).append({
                 "alternateIdentifier": report_number, 
                 "alternateIdentifierType": "USDOT Report Number"
                 })
@@ -350,8 +354,8 @@ def contract_number(json_list):
             json_obj.setdefault("fundingReferences", []).append({
                 "funderName": "U.S. Department of Transportation",
                 "awardNumber": contract_number, 
-                "funderIdentifier": "https://doi.org/10.13039/100000140", 
-                "funderIdentifierType": "Crossref Funder ID"
+                "funderIdentifier": "https://ror.org/02xfw2e90", 
+                "funderIdentifierType": "ROR"
                 })
     return json_list
 
@@ -361,7 +365,7 @@ def researchHub_id(json_list):
         if "sm:ResearchHub ID" in json_obj:
             researchhub_id = json_obj.pop("sm:ResearchHub ID")
             researchhub_id = researchhub_id.strip()
-            json_obj.setdefault("identifiers", []).append({
+            json_obj.setdefault("alternateIdentifiers", []).append({
                 "alternateIdentifier": researchhub_id, 
                 "alternateIdentifierType": "USDOT ResearchHub Display ID"})
     return json_list
@@ -372,7 +376,7 @@ def content_notes(json_list):
         curation_note = "National Transportation Library (NTL) Curation Note: This dataset has been curated to CoreTrustSeal's curation level \"B. Logical-Technical Curation.\""
         if "Content Notes" in json_obj:
             content_note = json_obj.pop("Content Notes").strip()
-            json_obj.setdefault("Descriptions", []).append({
+            json_obj.setdefault("descriptions", []).append({
                 "lang": "en", 
                 "description": content_note, 
                 "descriptionType": "TechnicalInfo"
@@ -385,7 +389,7 @@ def content_notes(json_list):
                     "familyName": "Tvrdy", 
                     "contributorType": "DataCurator", 
                     "nameIdentifiers": [
-                        {"nameIdentifier": "https://orcid.org/0000-0002-9720-4725", "nameIdentifierScheme": "ORCID", "schemeURI": "https://orcid.org/"}
+                        {"nameIdentifier": "https://orcid.org/0000-0002-9720-4725", "nameIdentifierScheme": "ORCID", "schemeUri": "https://orcid.org/"}
                     ]  
                 })
     return json_list
@@ -407,8 +411,8 @@ def language(json_list):
 #this function matches "Edition" to version
 def edition(json_list):
     for json_obj in json_list:
-        if "Edition" in json_obj:
-            version = json_obj.pop("Edition")
+        if "sm:Edition" in json_obj:
+            version = json_obj.pop("sm:Edition")
             version = language.strip()
             json_obj["version"]=version
     return json_list
@@ -438,7 +442,7 @@ def description(json_list):
     for index, json_obj in enumerate(json_list):
         if "Description" in json_obj:
             description = json_obj.pop("Description")
-            json_obj.setdefault("Descriptions", []).append({
+            json_obj.setdefault("descriptions", []).append({
                 "lang": "en", 
                 "description": description, 
                 "descriptionType": "Abstract"
@@ -446,3 +450,15 @@ def description(json_list):
         else:
             logging.info(f"Description not found for row {index + 1}.")
     return json_list
+
+def schema(json_list):
+    for json_obj in json_list:
+        json_obj['schemaVersion'] = "https://schema.datacite.org/meta/kernel-4.5/"
+    return json_list
+
+def wrap_object(json_list):
+    output_list = list()
+    for json_obj in json_list:
+        output_obj = {"data": {"type": "dois", "attributes": json_obj}}
+        output_list.append(output_obj)
+    return output_list

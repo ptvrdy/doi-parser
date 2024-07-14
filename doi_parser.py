@@ -83,7 +83,7 @@ def main():
 	try:
 		logging.info(f"=> Starting File Read: {sys.argv[1]}")
 		with open(sys.argv[1], 'r', encoding='utf-8') as fp:
-			csv_reader = csv_reader(fp)
+			csv_reader = csv.reader(fp)
 			output = csv_to_json(csv_reader)
 
 		
@@ -179,9 +179,11 @@ def do_post_process(output):
 			language,
 			edition,
 			series,
-			description):
-		# Ensure func is callable before calling it
-		output = func(output) if callable(func) else func
+			description,
+   			schema,
+      		wrap_object):
+
+		output = func(output)
 	return output
  
 
