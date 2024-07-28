@@ -110,22 +110,32 @@ def sm_Collection(json_list):
             logging.info(f"sm:Collection not found for row {index + 1}.")
     return json_list
 
-#this function matches "sm:Digital Object Identifier" to doi, prefix and id
-def sm_digital_object_identifier(json_list):
-    for index, json_obj in enumerate(json_list):
-        if "sm:Digital Object Identifier" in json_obj:
-            doi = json_obj.pop("sm:Digital Object Identifier")
-            if not doi.startswith('https://doi.org/'):
-                doi = "https://doi.org/" + doi
-            doi_identifier = doi.replace("https://doi.org/","").strip()
-            json_obj["doi"]= doi_identifier
 
-            prefix, suffix = doi.split('/', 2)
-            json_obj["prefix"] = prefix
-            json_obj["suffix"] = suffix
+def handle_draft_vs_publish(json_list):
+    for json_obj in json_list:
+        if not json_obj.get("sm:Digital Object Identifier") and json_obj['sm:Digital Object Identifier'].strip():
+            sm_digital_object_identifier(json_obj)
         else:
-            logging.info(f"DOI not found for row {index + 1}.")
+            draft_state(json_obj)
     return json_list
+
+#this function matches "sm:Digital Object Identifier" to doi, prefix and id
+def sm_digital_object_identifier(json_obj):
+    doi = json_obj.pop("sm:Digital Object Identifier")
+    if not doi.startswith('https://doi.org/'):
+        doi = "https://doi.org/" + doi
+    doi_identifier = doi.replace("https://doi.org/","").strip()
+    json_obj["doi"]= doi_identifier
+
+    prefix, suffix = doi.split('/', 2)
+    json_obj["prefix"] = prefix
+    json_obj["suffix"] = suffix
+    json_obj["event"]= "publish"
+
+#this function registers the DOI and the metadata in the "draft" state. This state functions much like a reserve. The attribute "prefix", without the attribute "doi", triggers suffix auto-generation.
+def draft_state(json_obj):
+    json_obj['prefix'] = "10.80510" # TODO: redo config.txt to something better !
+
             
 #this function matches "Title" to titles
 def title(json_list):
@@ -240,7 +250,7 @@ def process_corporate_field(json_list, field_name):
     for index, json_obj in enumerate(json_list):
         if field_name in json_obj:
             corporate_values = json_obj.pop(field_name).split("\n")
-            logging.debug("My object is " + str (corporate_values))
+            logging.debug("My object is " + str(corporate_values))
             for corporate_value in corporate_values:
                 corporate_value = corporate_value.strip()
                 ror_id, ror_name = get_ror_info(corporate_value)
@@ -273,7 +283,7 @@ def process_corporate_field(json_list, field_name):
                         "name": corporate_value,
                         **output_structure.get("additional_fields", {})
                     }
-                    logging.info(f"ROR for {corporate_value} not found for row {index +1}.")
+                    logging.info(f"ROR for {corporate_value} not found for row {index + 1}.")
                     
                 json_obj.setdefault(output_structure["key"], []).append(entry)
         else:

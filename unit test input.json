@@ -1,0 +1,177 @@
+[
+  {
+    "data": {
+      "type": "dois",
+      "attributes": {
+        "Workroom_ID": "98485",
+        "sm:Edition": "Final Report 6/1/23\u20136/30/24",
+        "identifiers": [
+          {
+            "alternateIdentifier": "dot:75291",
+            "alternateIdentifierType": "CDC SWAT Identifier"
+          },
+          {
+            "alternateIdentifier": "FHWA-ICT-24-014",
+            "alternateIdentifierType": "USDOT Report Number"
+          },
+          {
+            "alternateIdentifier": "11111",
+            "alternateIdentifierType": "USDOT ResearchHub Display ID"
+          }
+        ],
+        "url": "https://rosap.ntl.bts.gov/view/dot/75291",
+        "contributors": [
+          {
+            "name": "United States. Department of Transportation. National Transportation Library",
+            "nameType": "Organizational",
+            "contributorType": "HostingInstitution",
+            "lang": "en",
+            "nameIdentifiers": [
+              {
+                "nameIdentifier": "https://ror.org/00snbrd52",
+                "nameIdentifierScheme": "ROR",
+                "schemeUri": "https://ror.org/"
+              }
+            ]
+          },
+          {
+            "name": "Illinois. Department of Transportation"
+          },
+          {
+            "name": "Federal Highway Administration",
+            "nameType": "Organizational",
+            "nameIdentifiers": [
+              {
+                "schemeUri": "https://ror.org/",
+                "nameIdentifier": "https://ror.org/0473rr271",
+                "nameIdentifierScheme": "ROR"
+              }
+            ]
+          },
+          {
+            "contributorName": "Greenwood, Reggie",
+            "nameType": "Personal",
+            "givenName": "Reggie",
+            "contributorType": "Researcher",
+            "familyName": "Greenwood"
+          }
+        ],
+        "relatedIdentifiers": [
+          {
+            "relatedIdentifier": "10.21949/1530857",
+            "relatedIdentifierType": "DOI",
+            "relationType": "IsPartOf",
+            "resourceTypeGeneral": "Collection"
+          },
+          {
+            "relatedIdentifierType": "DOI",
+            "relatedIdentifier": "10.21949/1530607",
+            "relationType": "IsPartOf",
+            "resourceTypeGeneral": "Collection"
+          }
+        ],
+        "id": "https://doi.org/10.21949/12345",
+        "doi": "10.21949/12345",
+        "titles": [
+          {
+            "title": "Electrification of Illinois Transit: Bridging the Gap With Heavy-Duty Technician Training Initiatives",
+            "lang": "en"
+          },
+          {
+            "title": "Alt Title 1",
+            "titleType": "AlternativeTitle",
+            "lang": "en"
+          }
+        ],
+        "dates": [
+          {
+            "date": "2024-06-01",
+            "dateType": "Issued"
+          }
+        ],
+        "PublicationYear": "2024",
+        "types": {
+          "resourceTypeGeneral": "PDF",
+          "resourceType": "Report"
+        },
+        "creators": [
+          {
+            "name": "Greenwood, Reggie",
+            "nameType": "Personal",
+            "givenName": "Reggie",
+            "familyName": "Greenwood"
+          },
+          {
+            "name": "Reddy, Meghana Reddy Dharma",
+            "nameType": "Personal",
+            "givenName": "Meghana Reddy Dharma",
+            "familyName": "Reddy"
+          },
+          {
+            "name": "Illinois Center for Transportation"
+          },
+          {
+            "name": "Governors State University"
+          },
+          {
+            "name": "University of Illinois at Urbana-Champaign. Department of Civil and Environmental Engineering"
+          }
+        ],
+        "publishers": [
+          {
+            "name": "Illinois Center for Transportation"
+          }
+        ],
+        "subjects": [
+          {
+            "subject": "Electric vehicles",
+            "schemeUri": "https://trt.trb.org/",
+            "subjectScheme": "Transportation Research Thesaurus"
+          },
+          {
+            "subject": "Transit traffic",
+            "schemeUri": "https://trt.trb.org/",
+            "subjectScheme": "Transportation Research Thesaurus"
+          },
+          {
+            "subject": "Public private partnerships",
+            "schemeUri": "https://trt.trb.org/",
+            "subjectScheme": "Transportation Research Thesaurus"
+          },
+          {
+            "subject": "Bus transit",
+            "schemeUri": "https://trt.trb.org/",
+            "subjectScheme": "Transportation Research Thesaurus"
+          },
+          {
+            "subject": "Sustainable transportation",
+            "schemeUri": "https://trt.trb.org/",
+            "subjectScheme": "Transportation Research Thesaurus"
+          }
+        ],
+        "fundingReferences": [
+          {
+            "funderName": "U.S. Department of Transportation",
+            "awardNumber": "R27-SP57",
+            "funderIdentifier": "https://doi.org/10.13039/100000140",
+            "funderIdentifierType": "Crossref Funder ID"
+          }
+        ],
+        "descriptions": [
+          {
+            "lang": "en",
+            "description": "Content Note Here",
+            "descriptionType": "TechnicalInfo"
+          },
+          {
+            "lang": "en",
+            "description": "This report examines the evolving landscape of technician training in Illinois\u2019 transit industry, with a particular focus on electric vehicle (EV) technology.",
+            "descriptionType": "Abstract"
+          }
+        ],
+        "language": "English",
+        "schemaVersion": "https://schema.datacite.org/meta/kernel-4.5/"
+      }
+    }
+  }
+]

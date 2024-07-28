@@ -135,7 +135,7 @@ def main():
 
 		headers = {
 			'Authorization': 'Basic ' + auth_header,
-			'Content-Type': 'application/vnd.api+json',
+			'Content-Type': 'application/json',
 		}
 
 		logging.info("=> Sending Request")
