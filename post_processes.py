@@ -38,24 +38,24 @@ def workroom_id(json_list):
             logging.info(f"Workroom ID not found for row {index +1}.")
     return json_list
 
-#this function matches "ROSAP_ID" to Alternateidentifier
+#this function matches "ROSAP ID" to Alternateidentifier
 def rosap_id(json_list):
     for index, json_obj in enumerate(json_list):
-        if "ROSAP_ID" in json_obj:
-            swat_id = json_obj.pop("ROSAP_ID")
+        if "ROSAP ID" in json_obj:
+            swat_id = json_obj.pop("ROSAP ID")
             json_obj.setdefault("alternateIdentifiers", []).append({
                 "alternateIdentifier": swat_id, 
                 "alternateIdentifierType": "CDC SWAT Identifier"
                 })
         else:
-            logging.info(f"ROSAP_ID not found for row {index + 1}.")
+            logging.info(f"ROSAP ID not found for row {index + 1}.")
     return json_list
     
-#this function matches "ROSAP_URL" to url
+#this function matches "ROSAP URLs" to url
 def rosap_url(json_list):
     for index, json_obj in enumerate(json_list):
-        if "ROSAP_URL" in json_obj:
-            url = json_obj.pop("ROSAP_URL").strip()
+        if "ROSAP URLs" in json_obj:
+            url = json_obj.pop("ROSAP URLs").strip()
             json_obj["url"] = url
             if "https://highways.dot.gov/" in url:
                 json_obj.setdefault("contributors", []).append({
@@ -82,9 +82,9 @@ def rosap_url(json_list):
                     ]
                 })
             else:
-                logging.warn(f"ROSAP_URL contributor not mapped for {index + 1}. URL: ${url}")
+                logging.warn(f"ROSAP URLs contributor not mapped for {index + 1}. URL: ${url}")
         else:
-            logging.info(f"ROSAP_URL not found for row {index + 1}.")
+            logging.info(f"ROSAP URL not found for row {index + 1}.")
     return json_list
 
 #this function matches "sm:Collection" to RelatedIdentifier
@@ -112,22 +112,21 @@ def sm_Collection(json_list):
 
 
 def handle_draft_vs_publish(json_list):
-    for json_obj in json_list:
-        if not json_obj.get("sm:Digital Object Identifier") and json_obj['sm:Digital Object Identifier'].strip():
+    for i, json_obj in enumerate(json_list):
+        if json_obj.get("sm:Digital Object Identifier") and json_obj['sm:Digital Object Identifier'].strip():
             sm_digital_object_identifier(json_obj)
         else:
+            logging.info(f"Setting to draft state for row {i}")
             draft_state(json_obj)
     return json_list
 
 #this function matches "sm:Digital Object Identifier" to doi, prefix and id
 def sm_digital_object_identifier(json_obj):
     doi = json_obj.pop("sm:Digital Object Identifier")
-    if not doi.startswith('https://doi.org/'):
-        doi = "https://doi.org/" + doi
     doi_identifier = doi.replace("https://doi.org/","").strip()
     json_obj["doi"]= doi_identifier
 
-    prefix, suffix = doi.split('/', 2)
+    prefix, suffix = doi_identifier.split('/', 2)
     json_obj["prefix"] = prefix
     json_obj["suffix"] = suffix
     json_obj["event"]= "publish"
@@ -423,7 +422,7 @@ def edition(json_list):
     for json_obj in json_list:
         if "sm:Edition" in json_obj:
             version = json_obj.pop("sm:Edition")
-            version = language.strip()
+            version = version.strip()
             json_obj["version"]=version
     return json_list
 

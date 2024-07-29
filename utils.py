@@ -6,45 +6,22 @@ import csv
 import logging
 import os
 import requests
+from confirmed_matches import (
+    confirmed_matches
+)
 import sys
-
-# Load confirmed user matches from the CSV file if it already exists
-def load_confirmed_matches():
-    confirmed_matches = {}
-    csv_file = "confirmed_matched_ror.csv"
-    if os.path.exists(csv_file):
-        with open(csv_file, 'r', newline='') as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                ror_id = row["ror_id"]
-                ror_name = row["ror_name"]
-                confirmed_matches[ror_name] = (ror_id)
-    return confirmed_matches
-
-# Saves the confirmed matches to the JSON file
-def save_confirmed_matches(matches):
-    csv_file = "confirmed_matched_ror.csv"
-    with open(csv_file, 'w', newline='') as f:
-        fieldnames = ["ror_id", "ror_name"]
-        writer = csv.DictWriter(f, fieldnames-fieldnames)
-        writer.writeheader()
-        for ror_id, ror_name, in matches.items():
-            writer.writerow({"ror_id": ror_id, "ror_name": ror_name})
-
-# Load confirmed matches
-confirmed_matches = load_confirmed_matches()
 
 # Prompts users to manually provide ROR ID for an organization if API search was not successful and didn't find a good match
 def ror_manual_search(corporate_creator):
     while True:
         ror_id = input("Please enter the ROR ID (either the full URL or just the ID) or type 'exit' to cancel: ").strip()
         if ror_id.lower() == 'exit':
-            return None, None, None
+            return None, None
         if ror_id.startswith("https://ror.org/"):
             ror_id = ror_id.replace("https://ror.org/", "")
         ror_name = input("Please enter the ROR Display Name for your organization or type 'exit' to cancel: ").strip()
         if ror_name.lower() == 'exit':
-            return None, None, None
+            return None, None
         return ror_id, ror_name
 
 # Prompts users to manually provide ROR ID information if the API isn't working
@@ -76,7 +53,6 @@ def verify_match(corporate_creator_clean, ror_id, ror_name):
             return False
         if user_input == 'Y':
             confirmed_matches[corporate_creator_clean] = {"ror_id": ror_id, "ror_name": ror_name}
-            save_confirmed_matches(confirmed_matches)
             return True
         else:
             print("Invalid input. Please enter 'Y' or 'N'.")
@@ -96,7 +72,7 @@ def get_ror_info(corporate_creator):
         if corporate_creator in confirmed_matches:
             logging.info(f'Using previously confirmed match for {corporate_creator}.')
             ror_info = confirmed_matches[corporate_creator]
-            return ror_info['id'], ror_info['name']
+            return ror_info['ror_id'], ror_info['ror_name']
         
         # Query the ROR API
         API_URL = API_URL_Lookup["API_URL"]
@@ -141,15 +117,15 @@ def get_ror_info(corporate_creator):
         logging.debug(f"My Closest Match Is: {closest_match}")
         ror_id = closest_match["organization"]['id']
         
-        for name_entry in closest_match.get('names', []):
+        for name_entry in closest_match['organization'].get('names', []):
             if 'ror_display' in name_entry.get('types', []):
                 ror_name = name_entry.get('value')
+                logging.debug("Taking ror_display as the name {ror_name}")
                 if verify_match(corporate_creator_clean, ror_id, ror_name):
                     confirmed_matches[corporate_creator_clean] = {
-                        'id': ror_id, 
-                        'name': ror_name
+                        'ror_id': ror_id, 
+                        'ror_name': ror_name
                     }
-                    save_confirmed_matches(confirmed_matches)
                     return ror_id, ror_name
                 else:
                     ror_id, ror_name = ror_manual_search(corporate_creator_clean)
@@ -158,10 +134,9 @@ def get_ror_info(corporate_creator):
                         return None, None
                     if verify_match(corporate_creator_clean, ror_id, ror_name):
                         confirmed_matches[corporate_creator_clean] = {
-                            'id': ror_id, 
-                            'name': ror_name
+                            'ror_id': ror_id, 
+                            'ror_name': ror_name
                         }
-                        save_confirmed_matches(confirmed_matches)
                         return ror_id, ror_name
                     else:
                         logging.info("User cancelled verifying match. Proceeding to manual addition")

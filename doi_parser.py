@@ -5,10 +5,18 @@ import json
 import logging
 import requests
 from post_processes import *
+from confirmed_matches import (
+    save_confirmed_matches,
+    confirmed_matches
+)
+import constants
 
-logging.basicConfig(handlers=[logging.StreamHandler(), logging.FileHandler('default_process.log')],
-                    level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] %(message)s')
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(logging.WARN)
+
+logging.basicConfig(handlers=[stream_handler],
+					level=logging.INFO,
+                    format=constants.LOG_FORMAT)
 
 # DOI Prefix for the testing environment
 doi_prefix = "10.80510"
@@ -72,13 +80,17 @@ def main():
 	unit_test()
 
 	if len(sys.argv) != 2:
+		file_handler = logging.FileHandler('default_process.log')
+		logging.getLogger().addHandler(file_handler)
+		file_handler.setLevel(logging.INFO)
 		logging.error("Error: Please provide a filename")
-		handlers= logging.StreamHandler(), logging.FileHandler('system_failure_process.log')
-		logging.getLogger().addHandler(handlers)
 		sys.exit(1)
   
 	log_filename = sys.argv[1].rstrip('csv') + 'log'
-	logging.getLogger().addHandler(logging.FileHandler(log_filename))
+	local_file_handler = logging.FileHandler(log_filename)
+	local_file_handler.setLevel(logging.INFO)
+	local_file_handler.setFormatter(logging.Formatter(constants.LOG_FORMAT))
+	logging.getLogger().addHandler(local_file_handler)
   
 	try:
 		logging.info(f"=> Starting File Read: {sys.argv[1]}")
@@ -86,8 +98,9 @@ def main():
 			csv_reader = csv.reader(fp)
 			output = csv_to_json(csv_reader)
 
-		
 		output = do_post_process(output)
+		
+		save_confirmed_matches(confirmed_matches)
 				
 		logging.info("=> Finished Parsing\n")
 		print(json.dumps(output[0], indent=2))
@@ -161,7 +174,7 @@ def do_post_process(output):
 			rosap_id,
 			rosap_url,
 			sm_Collection,
-			sm_digital_object_identifier,
+			handle_draft_vs_publish,
 			title,
 			alt_title,
 			publication_date,

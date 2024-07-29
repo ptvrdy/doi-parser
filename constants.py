@@ -1,7 +1,10 @@
+LOG_FORMAT = "%(asctime)s - %(levelname)s - [%(filename)s:%(lineno)d] %(message)s"
+
 API_URL_Lookup = {
     "API_URL": "https://api.dev.ror.org/v2/organizations",
 }
 organization_to_ror_lookup = {
+    "United States. Department of Transportation": "https://ror.org/02xfw2e90",
     "United States. Department of Transportation. Federal Aviation Administration": "https://ror.org/05q0y0j38",
     "United States. Department of Transportation. Federal Highway Administration": "https://ror.org/0473rr271",
     "United States. Department of Transportation. Federal Railroad Administration": "https://ror.org/0275ebj77",
