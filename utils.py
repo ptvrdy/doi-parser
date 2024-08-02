@@ -1,61 +1,70 @@
+from colorama import Fore, Style, init
 from constants import (
     organization_to_ror_lookup,
     API_URL_Lookup,
 )
-import csv
 import logging
-import os
 import requests
 from confirmed_matches import (
     confirmed_matches
 )
 import sys
 
+init(autoreset=True)
+
 # Prompts users to manually provide ROR ID for an organization if API search was not successful and didn't find a good match
 def ror_manual_search(corporate_creator):
     while True:
-        ror_id = input("Please enter the ROR ID (either the full URL or just the ID) or type 'exit' to cancel: ").strip()
+        ror_id = input(f"\nPlease enter the {Fore.CYAN}ROR ID {Style.RESET_ALL}(either the full URL or just the ID) or type 'exit' to cancel: ").strip()
         if ror_id.lower() == 'exit':
             return None, None
-        if ror_id.startswith("https://ror.org/"):
-            ror_id = ror_id.replace("https://ror.org/", "")
-        ror_name = input("Please enter the ROR Display Name for your organization or type 'exit' to cancel: ").strip()
+        if not ror_id.startswith("https://ror.org/"):
+            ror_id = "https://ror.org/" + ror_id
+        ror_name = input(f"Please enter the {Fore.CYAN}ROR Display Name{Style.RESET_ALL} for your organization or type 'exit' to cancel: ").strip()
         if ror_name.lower() == 'exit':
             return None, None
-        return ror_id, ror_name
+        user_input_correct = input(f"You have entered the ROR ID {Fore.GREEN}{ror_id}{Style.RESET_ALL} and the ROR Display Name {Fore.GREEN}{ror_name}{Style.RESET_ALL}. Is this correct? (Y/n): ").strip().upper()
+        if user_input_correct == 'N':
+            retry_input = input(f"\nWould you like to retry entry? (y/n): ").strip().upper()
+            if retry_input != 'N':
+                return None, None
+            else:
+                continue
+        elif user_input_correct == 'Y':
+            return ror_id, ror_name
 
 # Prompts users to manually provide ROR ID information if the API isn't working
 def ror_manual_addition(corporate_creator):
     while True:
-        ror_id = input("Please enter the ROR ID (either the full URL or just the ID): or type 'exit' to cancel: ").strip()
+        ror_id = input(f"\nPlease enter the {Fore.CYAN}ROR ID {Style.RESET_ALL}(either the full URL or just the ID): or type 'exit' to cancel: ").strip()
         if ror_id.lower() == 'exit':
             return None, None, None
         if not ror_id.startswith("https://ror.org/"):
             ror_id = "https://ror.org/" + ror_id
-        ror_name = input("Please enter the ROR Display Name for your organization or type exit to cancel: ").strip()
+        ror_name = input(f"Please enter the {Fore.CYAN}ROR Display Name{Style.RESET_ALL} for your organization or type exit to cancel: ").strip()
         if ror_name.lower() == 'exit':
-            return None, None, None
-        user_input_correct = input(f'You have entered the ROR ID {ror_id} and the ROR Display Name {ror_name}. Is this correct? (Y/n): ').strip().upper()
+            return None, None
+        user_input_correct = input(f"You have entered the ROR ID {Fore.GREEN}{ror_id}{Style.RESET_ALL} and the ROR Display Name {Fore.GREEN}{ror_name}{Style.RESET_ALL}. Is this correct? (Y/n): ").strip().upper()
         if user_input_correct == 'N':
-            retry_input = input('Would you like to retry entry? (y/n): ').strip().upper()
+            retry_input = input(f"\nWould you like to retry entry? (y/n): ").strip().upper()
             if retry_input != 'N':
-                return None, None, None
+                return None, None
             else:
                 continue
         elif user_input_correct == 'Y':
             return ror_id, ror_name
         
 # Prompts user to verify the match the ROR API provided and saves the confirmed match 
-def verify_match(corporate_creator_clean, ror_id, ror_name):
+def verify_match(corporate_creator, ror_id, ror_name):
     while True:
-        user_input = input(f"ROR would like to match '{corporate_creator_clean}' to '{ror_name}' (ROR ID: {ror_id}). Is this a correct match? (y/N): ").strip().upper()
+        user_input = input(f"\n\nROR would like to match {Fore.GREEN}'{corporate_creator}{Style.RESET_ALL}' to {Fore.CYAN}'{ror_name}' (ROR ID: {ror_id}){Style.RESET_ALL}. Is this a correct match? (y/N): ").strip().upper()
         if user_input == 'N':
             return False
         if user_input == 'Y':
-            confirmed_matches[corporate_creator_clean] = {"ror_id": ror_id, "ror_name": ror_name}
+            confirmed_matches[corporate_creator] = {"ror_id": ror_id, "ror_name": ror_name}
             return True
         else:
-            print("Invalid input. Please enter 'Y' or 'N'.")
+            print(f"{Fore.RED}Invalid input.{Style.RESET_ALL} Please enter 'Y' or 'N'.")
     
 
 def get_ror_info(corporate_creator):
@@ -76,15 +85,13 @@ def get_ror_info(corporate_creator):
         
         # Query the ROR API
         API_URL = API_URL_Lookup["API_URL"]
-        corporate_creator_clean = corporate_creator.replace('United States. ','').strip()
-        corporate_creator_clean = corporate_creator.replace('Department of Transportation. ','').strip()
-        logging.info(f"Preparing ORG ID Request for {corporate_creator_clean}")
+        logging.info(f"Preparing ORG ID Request for {corporate_creator}")
         
-        response = requests.get(API_URL, params={'affiliation': corporate_creator_clean})
+        response = requests.get(API_URL, params={'affiliation': corporate_creator})
         logging.info(f"Org ID Response Status: {response.status_code}")
         
         if response.status_code != 200:
-            logging.error(f"API request failed for '{corporate_creator_clean}' with status code {response.status_code}.")
+            logging.error(f"API request failed for '{corporate_creator}' with status code {response.status_code}.")
             ror_id, ror_name = ror_manual_addition(corporate_creator)
             if ror_id is None:
                 logging.info("User canceled manual entry.")
@@ -95,7 +102,7 @@ def get_ror_info(corporate_creator):
         ror_data = response.json()
         
         if ror_data.get('items') is None:
-            logging.error(f"Malformed ROR response for {corporate_creator_clean}")
+            logging.error(f"Malformed ROR response for {corporate_creator}")
             ror_id, ror_name = ror_manual_addition(corporate_creator)
             if ror_id is None:
                 logging.info("User canceled manual entry.")
@@ -121,26 +128,26 @@ def get_ror_info(corporate_creator):
             if 'ror_display' in name_entry.get('types', []):
                 ror_name = name_entry.get('value')
                 logging.debug("Taking ror_display as the name {ror_name}")
-                if verify_match(corporate_creator_clean, ror_id, ror_name):
-                    confirmed_matches[corporate_creator_clean] = {
+                if verify_match(corporate_creator, ror_id, ror_name):
+                    confirmed_matches[corporate_creator] = {
                         'ror_id': ror_id, 
                         'ror_name': ror_name
                     }
                     return ror_id, ror_name
                 else:
-                    ror_id, ror_name = ror_manual_search(corporate_creator_clean)
+                    ror_id, ror_name = ror_manual_search(corporate_creator)
                     if ror_id is None:
                         logging.info("User canceled manual search.")
                         return None, None
-                    if verify_match(corporate_creator_clean, ror_id, ror_name):
-                        confirmed_matches[corporate_creator_clean] = {
+                    if verify_match(corporate_creator, ror_id, ror_name):
+                        confirmed_matches[corporate_creator] = {
                             'ror_id': ror_id, 
                             'ror_name': ror_name
                         }
                         return ror_id, ror_name
                     else:
                         logging.info("User cancelled verifying match. Proceeding to manual addition")
-                        ror_id, ror_name = ror_manual_addition(corporate_creator_clean)
+                        ror_id, ror_name = ror_manual_addition(corporate_creator)
                         if ror_id is None:
                             logging.info("User canceled manual entry.")
                             return None, None

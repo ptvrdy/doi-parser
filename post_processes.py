@@ -128,7 +128,6 @@ def sm_digital_object_identifier(json_obj):
 
     prefix, suffix = doi_identifier.split('/', 2)
     json_obj["prefix"] = prefix
-    json_obj["suffix"] = suffix
     json_obj["event"]= "publish"
 
 #this function registers the DOI and the metadata in the "draft" state. This state functions much like a reserve. The attribute "prefix", without the attribute "doi", triggers suffix auto-generation.
@@ -172,17 +171,17 @@ def publication_date(json_list):
 def resource_type(json_list):
     for index, json_obj in enumerate(json_list):
             if "sm:Format" and "sm:Resource Type" in json_obj:
-                resource_type_general = json_obj.pop("sm:Format")
-                resource_type = json_obj.pop("sm:Resource Type")
-                if resource_type in resource_type_lookup:
-                    resource_type = resource_type.strip()
+                resource_type = json_obj.pop("sm:Format")
+                resource_type_general = json_obj.pop("sm:Resource Type")
+                if resource_type_general in resource_type_lookup:
                     resource_type_general = resource_type_general.strip()
-                    json_obj.setdefault("types", {})["resourceTypeGeneral"]=resource_type_general
-                    json_obj.setdefault("types", {})["resourceType"]=resource_type_lookup[resource_type]
+                    resource_type = resource_type.strip()
+                    json_obj.setdefault("types", {})["resourceType"]=resource_type
+                    json_obj.setdefault("types", {})["resourceTypeGeneral"]=resource_type_lookup[resource_type_general]
                 else:
-                    logging.warn(f"Resource type {resource_type} is not found in the lookup for row {index + 1}.")
+                    logging.warn(f"Resource type {resource_type_general} is not found in the lookup for row {index + 1}.")
             else:
-                logging.info(f"sm: Format and/or sm:Resource Type not found in row {index + 1}.")
+                logging.info(f"sm: Format and/or sm:Format not found in row {index + 1}.")
     return json_list
 
 #this function matches "sm:Creator" to creators and splits it.
@@ -242,7 +241,7 @@ def process_corporate_field(json_list, field_name):
         },
         # TODO: decouple this into a new method, should look like {"publisher": {"name": "..."}}
         "sm:Corporate Publisher": {
-            "key": "publishers",
+            "key": "publisher",
         },
     }
     
@@ -265,6 +264,17 @@ def process_corporate_field(json_list, field_name):
                                     "nameIdentifierScheme": "ROR"}
                             ]
                         }
+                    elif field_name == "sm:Corporate Contributor":
+                        entry = {
+                            "name": ror_name,
+                            "nameType": "Organizational",
+                            "contributorType": "Sponsor",
+                            "nameIdentifiers": [{
+                                "schemeUri": "https://ror.org/",
+                                "nameIdentifier": ror_id,
+                                "nameIdentifierScheme": "ROR"}
+                            ]
+                        }
                     else:
                         entry = {
                             "name": ror_name,
@@ -284,7 +294,10 @@ def process_corporate_field(json_list, field_name):
                     }
                     logging.info(f"ROR for {corporate_value} not found for row {index + 1}.")
                     
-                json_obj.setdefault(output_structure["key"], []).append(entry)
+                if field_name == "sm:Corporate Publisher":
+                    json_obj[output_structure["key"]] = entry
+                else:
+                    json_obj.setdefault(output_structure["key"], []).append(entry)
         else:
             logging.info(f"{field_name} not found for row {index + 1}.")
     return json_list
@@ -382,7 +395,8 @@ def researchHub_id(json_list):
 #this function matches "Content Notes" to "Descriptions"/TechnicalInfo
 def content_notes(json_list):
     for json_obj in json_list:
-        curation_note = "National Transportation Library (NTL) Curation Note: This dataset has been curated to CoreTrustSeal's curation level \"B. Logical-Technical Curation.\""
+        curation_note_level_b = "National Transportation Library (NTL) Curation Note: This dataset has been curated to CoreTrustSeal's curation level \"B. Logical-Technical Curation.\""
+        curation_note_level_a = "National Transportation Library (NTL) Curation Note: This dataset has been curated to CoreTrustSeal's curation level \"A. Active Preservation\""
         if "Content Notes" in json_obj:
             content_note = json_obj.pop("Content Notes").strip()
             json_obj.setdefault("descriptions", []).append({
@@ -390,7 +404,7 @@ def content_notes(json_list):
                 "description": content_note, 
                 "descriptionType": "TechnicalInfo"
                 })
-            if curation_note in content_note:
+            if curation_note_level_b or curation_note_level_a in content_note:
                 json_obj.setdefault("contributors", []).append({
                     "contributorName": "Peyton Tvrdy", 
                     "nameType": "Personal", 
@@ -460,11 +474,13 @@ def description(json_list):
             logging.info(f"Description not found for row {index + 1}.")
     return json_list
 
+# this function declares the schema version at the end of the payload. This statement is required for objects to be accepted by the DataCite API
 def schema(json_list):
     for json_obj in json_list:
         json_obj['schemaVersion'] = "https://schema.datacite.org/meta/kernel-4.5/"
     return json_list
 
+# this function wraps the entire payload in the "data" structure with the type of "dois". This also puts all the metadata created in the process into the object "attributes."
 def wrap_object(json_list):
     output_list = list()
     for json_obj in json_list:

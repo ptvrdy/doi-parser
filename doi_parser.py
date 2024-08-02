@@ -1,15 +1,17 @@
 import codecs
-import csv
-import sys
-import json
-import logging
-import requests
-from post_processes import *
+from colorama import Fore, Back, init
 from confirmed_matches import (
     save_confirmed_matches,
     confirmed_matches
 )
 import constants
+import csv
+import json
+import logging
+from post_processes import *
+import requests
+import sys
+
 
 stream_handler = logging.StreamHandler()
 stream_handler.setLevel(logging.WARN)
@@ -18,15 +20,19 @@ logging.basicConfig(handlers=[stream_handler],
 					level=logging.INFO,
                     format=constants.LOG_FORMAT)
 
+init(autoreset=True)
+
 # DOI Prefix for the testing environment
 doi_prefix = "10.80510"
 
+# this is where your input csv is read, each row is equal to 1 DOI record/request
 def read_csv_file(file_path):
     with open(file_path, newline='', encoding='utf-8') as csvfile:
         csv_reader = csv.reader(csvfile)
         rows = [row[0].strip() for row in csv_reader if row]
     return rows
 
+# unit test work is a work in progress. not currently running
 def unit_test():
 	try:
 		with open('Version 2.0 unit test/unit test input.csv', 'r', encoding='utf-8') as csv_fp:
@@ -48,7 +54,6 @@ def unit_test():
 		raise e
 
 #this function converts the csv file to json
-
 def csv_to_json(csv_reader):
     output = []
     header_row = True
@@ -77,15 +82,17 @@ def csv_to_json(csv_reader):
     
 
 def main():
-	unit_test()
+	#unit_test()
 
+	# if user forgets to say which CSV to read for input
 	if len(sys.argv) != 2:
 		file_handler = logging.FileHandler('default_process.log')
 		logging.getLogger().addHandler(file_handler)
 		file_handler.setLevel(logging.INFO)
-		logging.error("Error: Please provide a filename")
+		logging.error(f"{Fore.RED}Error: Please provide a filename")
 		sys.exit(1)
   
+	# this changes the log names so that it is named after the input file and not a generic file name that will be overwritten
 	log_filename = sys.argv[1].rstrip('csv') + 'log'
 	local_file_handler = logging.FileHandler(log_filename)
 	local_file_handler.setLevel(logging.INFO)
@@ -93,79 +100,134 @@ def main():
 	logging.getLogger().addHandler(local_file_handler)
   
 	try:
-		logging.info(f"=> Starting File Read: {sys.argv[1]}")
+		print(f"{Back.WHITE}{Fore.GREEN}\n===============================================================================================================")
+		print(f"{Back.WHITE}{Fore.GREEN}         Welcome to DOI Parser!                                                                                ")
+		print(f"{Back.WHITE}{Fore.GREEN}===============================================================================================================")
+		logging.info(f"====> Starting File Read: {sys.argv[1]}")
+		print(f"{Fore.YELLOW}\n\n====> Starting File Read: {sys.argv[1]}")
 		with open(sys.argv[1], 'r', encoding='utf-8') as fp:
 			csv_reader = csv.reader(fp)
 			output = csv_to_json(csv_reader)
 
+		# this initializes post_processes.py
 		output = do_post_process(output)
+		print(f"{Fore.YELLOW}\n\n\n\n====> Now beginning transformation processes...")
+		print(f"\n====> Now Reviewing ROR Info...")
+		print(f"\n===============================================================================================================")
 		
+		
+  		# this saves any confirmed matches to the confirmed matches csv at the end of the post_processes
 		save_confirmed_matches(confirmed_matches)
-				
-		logging.info("=> Finished Parsing\n")
+		
+		# this prints the 1st individual item of the CSV in the JSON DataCite schema to spot any errors you might have made/check the structure
+		logging.info("====> Finished Parsing\n")
+		print(f"{Fore.YELLOW}\n\n\n====> Finished Parsing\n")
 		print(json.dumps(output[0], indent=2))
-		should_continue = input("\n=> Does the above look good? [y/N]: ").upper() == 'Y'
+		should_continue = input(f"{Fore.CYAN}\n====> Does the above look good? [y/N]: ").upper() == 'Y'
 
 		if not should_continue:
-			print("Aborting...")
+			print(f"{Fore.RED}Aborting...")
 			sys.exit(2)
 
-		out_filename = sys.argv[1].rstrip('csv') + 'json'
-		logging.info("=> Starting Output Write: %s " % out_filename)
+		# this gets the file names so that the API entire response can be record and the DOIs/Titles can be recorded in a CSV
+		out_filename_json = sys.argv[1].rstrip('csv') + 'json'
+		out_filename_dois_csv = sys.argv[1].replace('.csv', '') + "_doi_results.csv"
+		logging.info(f"{Fore.YELLOW}\n\n====> Starting Output Write: %s " % out_filename_json)
+		print(f"{Fore.YELLOW}\n\n====> Starting Output Write: %s " % out_filename_json)
+		logging.info(f"{Fore.YELLOW}\n\n====> Starting Output Write: %s " % out_filename_dois_csv)
+		print(f"{Fore.YELLOW}\n\n====> Starting Output Write: %s " % out_filename_dois_csv)
 		
-		fpo = open(out_filename, 'w')
+		fpo = open(out_filename_json, 'w')
+		csv_file =  open(out_filename_dois_csv, 'w', newline='', encoding='utf-8')
+		csv_writer = csv.writer(csv_file)
+		csv_writer.writerow(['DOI', 'Title'])  # Write the header row
+   
 		json.dump(output, fpo, indent=2)
 
 		# Ask users if they would like to post the request to the DataCite API
-		should_continue = input("\n=> Do you want to send the request now? [y/N]: ").upper() == 'Y'
+		should_continue = input(f"{Fore.CYAN}\n\n====> Do you want to send the request now? [y/N]: ").upper() == 'Y'
 
 		if not should_continue:
-			logging.info("=> Done !")
+			logging.info(f"{Fore.GREEN}\n====> Done !")
+			print(f"{Fore.GREEN}\n====> Done !")
 			sys.exit(0)
 
-		logging.info("=> Preparing Request")
-
 		url = "https://api.test.datacite.org/dois"
-		payload = json.dumps(output)
-
-		# Read username and password from config.txt
+  
+		# Read basic authentication from config.txt
 		with open("config.txt", "r", encoding='utf-8') as config_file:
 			config_lines = config_file.readlines()
-			username = ""
-			password = ""
+			basic = ""
 			for line in config_lines:
-				if line.startswith("username"):
-					username = line.split("=")[1].strip()
-				elif line.startswith("password"):
-					password = line.split("=")[1].strip()
-
-		if not username or not password:
-			logging.error("Username or password not found in config.txt")
+				if line.startswith("Basic"):
+					basic = line.split(" ")[1].strip()
+		if not basic:
+			logging.error(f"{Fore.RED}Authentication not found in config.txt")
+			print(f"{Fore.RED}Authentication not found in config.txt")
 			sys.exit(1)
-
-		# Encode username and password for Basic Authentication
-		auth_header = codecs.encode(f"{username}:{password}", 'ascii').decode().replace('\n', '')
+	
 
 		headers = {
-			'Authorization': 'Basic ' + auth_header,
-			'Content-Type': 'application/json',
+			"content-type": "application/json",
+			"authorization": "Basic " + basic
 		}
+  
+		for obj in output:
+			logging.info(f"\n====> Preparing Request")
+			print(f"\n====> Preparing Request")
 
-		logging.info("=> Sending Request")
-		response = requests.post(url, headers=headers, data=payload)
+			
+			payload = json.dumps(obj)
 
-		logging.info("=> Handling Response: {response.status_code}")
-		if response.status_code != 200:
-			logging.error("=> POST did not fire successfully! {response.status_code}")
-		else:
-			with open(out_filename, 'a', encoding='utf-8') as fpo:
-				logging.info("=> Writing Response to file")
-				fpo.write('\n\n---------------------------------------------------------------------------------\n\nRESULTS\n\n')
+			logging.debug(f"{headers}")
+
+			logging.info(f"{Fore.YELLOW}===> Sending Request")
+			response = requests.post(url, data=payload, headers=headers)
+
+			logging.info("====> Handling Response: {response.status_code}")
+			if response.status_code // 100 != 2:
+				logging.debug(f"{Fore.RED}====> POST did not fire successfully! {response.status_code}")
+				print(f"{Fore.RED}====> POST did not fire successfully! {response.status_code}. Please read the log file to debug.")
+				logging.debug(f"The json response body is {response.json()}")
+			else:
+				logging.info(f"{Fore.YELLOW}====> Writing DOIs and Titles to {out_filename_dois_csv}")
+				print(f"{Fore.YELLOW}====> Writing DOIs and Titles to {out_filename_dois_csv}")
+				data = response.json()
+    
+				# Access the attributes
+				attributes = data.get('data').get('attributes', {})
+
+				# Retrieve the id and titles from attributes
+				doi_id = attributes.get('doi', 'No ID')  # Use a default value if 'id' is not found
+				titles = attributes.get('titles', [])
+
+
+				# Process the titles
+				title = None  # Initialize title variable
+				for response_title in titles:
+					if 'titleType' not in response_title:
+						title = response_title['title']
+						break  # Break if you want only the first title without 'titleType'
+
+				if title:  # Only write if title is found
+					logging.info(f"{Fore.YELLOW}====> Writing DOIs and Titles to {out_filename_dois_csv}")
+					csv_writer.writerow([doi_id, title])
+				else:
+					logging.warning(f"{Fore.RED}====> No suitable title found for DOI {doi_id}")
+
+			with open(out_filename_json, 'a', encoding='utf-8') as fpo:
+				logging.info(f"{Fore.YELLOW}====> Writing Response to JSON file {out_filename_json}")
+				fpo.write("\n\n---------------------------------------------------------------------------------\n\nRESULTS\n\n")
+				# fpo.write(f"\n{doi['id']},{doi['title']}")
 				json.dump(response.json(), fpo, indent=2)
-			logging.info("=> Done !")
+
+		csv_file.close()
+		
+		logging.info(f"{Fore.GREEN}====> Done !")
+		print(f"{Fore.GREEN}====> Done !")
    
 	except Exception as e:
-		logging.error(f"An error occurred: {e}")
+		logging.error(f"{Fore.RED}An error occurred: {e}")
 		sys.exit(1)
 
 def do_post_process(output):

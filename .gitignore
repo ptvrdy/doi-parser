@@ -6,3 +6,13 @@ test_csv.csv
 __pycache__/**
 *.log
 confirmed_matched_ror.csv
+NEW_ALL_DOIS_20240624_20240701_20240701 (003).log
+unit test input.json
+unit test input.log
+whocares.json
+config - version1.txt
+config - version2.txt
+input_dois_doi_results.csv
+input_dois.csv
+input_dois.json
+orcid_id_logo.PNG
