@@ -11,7 +11,9 @@ import logging
 from post_processes import *
 import requests
 import sys
-
+from utils import (
+	doi_publish
+)
 
 stream_handler = logging.StreamHandler()
 stream_handler.setLevel(logging.WARN)
@@ -176,13 +178,10 @@ def main():
 			logging.info(f"\n====> Preparing Request")
 			print(f"\n====> Preparing Request")
 
-			
-			payload = json.dumps(obj)
-
 			logging.debug(f"{headers}")
 
 			logging.info(f"{Fore.YELLOW}===> Sending Request")
-			response = requests.post(url, data=payload, headers=headers)
+			response = doi_publish(url, obj, headers)
 
 			logging.info("====> Handling Response: {response.status_code}")
 			if response.status_code // 100 != 2:

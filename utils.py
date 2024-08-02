@@ -3,6 +3,7 @@ from constants import (
     organization_to_ror_lookup,
     API_URL_Lookup,
 )
+import json
 import logging
 import requests
 from confirmed_matches import (
@@ -162,3 +163,12 @@ def get_ror_info(corporate_creator):
 def delete_unwanted(json_obj, key):
     if key in json_obj:
         del json_obj[key]
+        
+        
+def doi_publish(url, obj, headers):
+    payload = json.dumps(obj)
+    if 'doi' in obj['data']['attributes']:
+        doi = obj['data']['attributes']['doi']
+        return requests.put(url + '/' + doi, data=payload, headers=headers)
+    else:
+        return requests.post(url, data=payload, headers=headers)
