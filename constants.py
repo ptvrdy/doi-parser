@@ -67,5 +67,6 @@ series_to_doi_lookup = {
     "Boyd, Alan S.": "10.21949/1530067",
     "Volpe, John A.": "10.21949/1530983",
     "What Do Americans Think About Federal Tax Options to Support Transportation?": "10.21949/1531029",
-    "Vehicle Inventory and Use Survey (VIUS)": "https://doi.org/10.21949/1524559"
+    "Vehicle Inventory and Use Survey (VIUS)": "10.21949/1524559",
+    
 }

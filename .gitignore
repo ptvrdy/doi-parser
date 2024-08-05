@@ -13,3 +13,10 @@ NEW_ALL_DOIS_20240624_20240701_20240701 (003).log
 unit test input.json
 unit test input.log
 whocares.json
+config - version1.txt
+config - version2.txt
+confirmed_matched_ror.csv
+input_dois_doi_results.csv
+input_dois.csv
+input_dois.json
+input_dois.log
