@@ -258,11 +258,9 @@ def process_corporate_field(json_list, field_name):
                     if field_name == "sm:Corporate Publisher":
                         entry = {
                             "name": ror_name,
-                            "nameIdentifiers": [{
-                                    "schemeUri": "https://ror.org/",
-                                    "nameIdentifier": ror_id,
-                                    "nameIdentifierScheme": "ROR"}
-                            ]
+                            "schemeUri": "https://ror.org/",
+                            "nameIdentifier": ror_id, # TODO: what's wrong with this structure? only 'name' and 'schemeUri' are being published !!
+                            "nameIdentifierScheme": "ROR"
                         }
                     elif field_name == "sm:Corporate Contributor":
                         entry = {
