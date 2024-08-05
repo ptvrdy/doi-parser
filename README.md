@@ -41,7 +41,7 @@ F. [Update Log](#f-update-log)
 **Authorship Information:**  
 
 >  *Co-Author Contact Information*  
->  Name: Peyton Tvrdy <a href="https://orcid.org/0000-0002-9720-4725"><img src="/orcid_id_logo.PNG" height="19"> ([0000-0002-9720-4725](https://orcid.org/0000-0002-9720-4725))   
+>  Name: Peyton Tvrdy <a href="https://orcid.org/0000-0002-9720-4725"><img src="https://th.bing.com/th/id/OIP.8aLkQghWV6uvFMxGtFAgmwHaHa?rs=1&pid=ImgDetMain" height="19"> ([0000-0002-9720-4725](https://orcid.org/0000-0002-9720-4725))   
 >  Institution: National Transportation Library [(ROR ID: https://ror.org/00snbrd52)](https://ror.org/00snbrd52)   
 >  Email: peyton.tvrdy.ctr@dot.gov  
 
