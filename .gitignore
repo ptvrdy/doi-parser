@@ -16,3 +16,6 @@ input_dois_doi_results.csv
 input_dois.csv
 input_dois.json
 orcid_id_logo.PNG
+unit test input.csv
+unit test input.json
+unit test output match.json
