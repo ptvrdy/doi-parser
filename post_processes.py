@@ -41,8 +41,8 @@ def workroom_id(json_list):
 #this function matches "ROSAP ID" to Alternateidentifier
 def rosap_id(json_list):
     for index, json_obj in enumerate(json_list):
-        if "ROSAP ID" in json_obj:
-            swat_id = json_obj.pop("ROSAP ID")
+        if "ROSAP ID" in json_obj or "ROSAP_ID" in json_obj:
+            swat_id = json_obj.pop("ROSAP ID", json_obj.pop("ROSAP_ID", None))
             json_obj.setdefault("alternateIdentifiers", []).append({
                 "alternateIdentifier": swat_id, 
                 "alternateIdentifierType": "CDC SWAT Identifier"
@@ -54,8 +54,8 @@ def rosap_id(json_list):
 #this function matches "ROSAP URLs" to url
 def rosap_url(json_list):
     for index, json_obj in enumerate(json_list):
-        if "ROSAP URLs" in json_obj:
-            url = json_obj.pop("ROSAP URLs").strip()
+        if "ROSAP URLs" in json_obj or "ROSAP_URL" in json_obj:
+            url = json_obj.pop("ROSAP URLs", json_obj.pop("ROSAP_URL", None)).strip()
             json_obj["url"] = url
             if "https://highways.dot.gov/" in url:
                 json_obj.setdefault("contributors", []).append({
@@ -132,7 +132,7 @@ def sm_digital_object_identifier(json_obj):
 
 #this function registers the DOI and the metadata in the "draft" state. This state functions much like a reserve. The attribute "prefix", without the attribute "doi", triggers suffix auto-generation.
 def draft_state(json_obj):
-    json_obj['prefix'] = "10.80510" # TODO: redo config.txt to something better !
+    json_obj['prefix'] = "10.21949" # TODO: redo config.txt to something better !
 
             
 #this function matches "Title" to titles
@@ -228,23 +228,6 @@ def creators(json_list):
     return json_list
 
 def process_corporate_field(json_list, field_name):
-    # Define a mapping of field names to output structures for "sm:Corporate Creator", "sm:Corporate Contributor", and "sm:Corporate Publisher"
-    field_mapping = {
-        "sm:Corporate Creator": {
-            "key": "creators",
-            "nameType": "Organizational",
-        },
-        "sm:Corporate Contributor": {
-            "key": "contributors",
-            "nameType": "Organizational",
-            "contributorType": "Sponsor",
-        },
-        # TODO: decouple this into a new method, should look like {"publisher": {"name": "..."}}
-        "sm:Corporate Publisher": {
-            "key": "publisher",
-        },
-    }
-    
     for index, json_obj in enumerate(json_list):
         if field_name in json_obj:
             corporate_values = json_obj.pop(field_name).split("\n")
@@ -252,6 +235,27 @@ def process_corporate_field(json_list, field_name):
             for corporate_value in corporate_values:
                 corporate_value = corporate_value.strip()
                 ror_id, ror_name = get_ror_info(corporate_value)
+                
+                # Now define the field_mapping using corporate_value
+                field_mapping = {
+                    "sm:Corporate Creator": {
+                        "name": corporate_value,
+                        "key": "creators",
+                        "nameType": "Organizational",
+                    },
+                    "sm:Corporate Contributor": {
+                        "name": corporate_value,
+                        "key": "contributors",
+                        "nameType": "Organizational",
+                        "contributorType": "Sponsor",
+                    },
+                    # TODO: decouple this into a new method, should look like {"publisher": {"name": "..."}}
+                    "sm:Corporate Publisher": {
+                        "name": corporate_value,
+                        "key": "publisher",
+                    },
+                }
+
                 output_structure = field_mapping.get(field_name, {})
                 
                 if ror_id:
@@ -287,8 +291,7 @@ def process_corporate_field(json_list, field_name):
                         }
                 else:
                     entry = {
-                        "name": corporate_value,
-                        **output_structure.get("additional_fields", {})
+                        **{k: v for k, v in output_structure.items() if k != "key"}
                     }
                     logging.info(f"ROR for {corporate_value} not found for row {index + 1}.")
                     
@@ -299,6 +302,40 @@ def process_corporate_field(json_list, field_name):
         else:
             logging.info(f"{field_name} not found for row {index + 1}.")
     return json_list
+
+# This function matches "sm:Contributor" to the contributors object list
+def contributors(json_list):
+    for index, json_obj in enumerate(json_list):
+        if "sm:Contributor" in json_obj:
+            contributors = json_obj.pop("sm:Contributor").split("\n")
+            for contributor in contributors:
+                contributor = contributor.strip()
+                last_name, first_name = contributor.split(",")
+                last_name = last_name.strip()
+                first_name = first_name.strip()
+                if "|" in first_name:
+                    first_name, ORCID = first_name.split("|")
+                    ORCID = ORCID.strip()
+                    json_obj.setdefault("contributors", []).append({
+                        "name": contributor, 
+                        "nameType": "Personal", 
+                        "givenName": first_name, 
+                        "familyName": last_name, 
+                        "contributorType": "Researcher", 
+                        "nameIdentifiers": [
+                            {"nameIdentifier": ORCID, "nameIdentifierScheme": "ORCID", "schemeUri": "https://orcid.org/"}
+                        ]})
+                else:
+                    json_obj.setdefault("contributors", []).append({
+                        "name": contributor, 
+                        "nameType": "Personal", 
+                        "givenName": first_name, 
+                        "contributorType": "Researcher",
+                        "familyName": last_name})
+        else:
+            logging.info(f"sm:Contributor not found for row {index + 1}.")
+    return json_list
+
 
                         
 #this functions matches "sm:Contributor" to the contributors object list
@@ -315,7 +352,7 @@ def contributors(json_list):
                     first_name, ORCID = first_name.split("|")
                     ORCID = ORCID.strip()
                     json_obj.setdefault("contributors", []).append({
-                        "contributorName": contributor, 
+                        "name": contributor, 
                         "nameType": "Personal", 
                         "givenName": first_name, 
                         "familyName": last_name, 
@@ -325,7 +362,7 @@ def contributors(json_list):
                         ]})
                 else:
                     json_obj.setdefault("contributors", []).append({
-                        "contributorName": contributor, 
+                        "name": contributor, 
                         "nameType": "Personal", 
                         "givenName": first_name, 
                         "contributorType": "Researcher",
@@ -393,8 +430,8 @@ def researchHub_id(json_list):
 #this function matches "Content Notes" to "Descriptions"/TechnicalInfo
 def content_notes(json_list):
     for json_obj in json_list:
-        curation_note_level_b = "National Transportation Library (NTL) Curation Note: This dataset has been curated to CoreTrustSeal's curation level \"B. Logical-Technical Curation.\""
-        curation_note_level_a = "National Transportation Library (NTL) Curation Note: This dataset has been curated to CoreTrustSeal's curation level \"A. Active Preservation\""
+        curation_note_level_b = "CoreTrustSeal's curation level \"B. Logical-Technical Curation.\""
+        curation_note_level_a = "CoreTrustSeal's curation level \"A. Active Preservation\""
         if "Content Notes" in json_obj:
             content_note = json_obj.pop("Content Notes").strip()
             json_obj.setdefault("descriptions", []).append({
@@ -402,9 +439,9 @@ def content_notes(json_list):
                 "description": content_note, 
                 "descriptionType": "TechnicalInfo"
                 })
-            if curation_note_level_b or curation_note_level_a in content_note:
+            if curation_note_level_b in content_note or curation_note_level_a in content_note:
                 json_obj.setdefault("contributors", []).append({
-                    "contributorName": "Peyton Tvrdy", 
+                    "name": "Peyton Tvrdy", 
                     "nameType": "Personal", 
                     "givenName": "Peyton", 
                     "familyName": "Tvrdy", 
