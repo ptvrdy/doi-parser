@@ -25,7 +25,7 @@ logging.basicConfig(handlers=[stream_handler],
 init(autoreset=True)
 
 # DOI Prefix for the testing environment
-doi_prefix = "10.80510"
+doi_prefix = "10.21949"
 
 # this is where your input csv is read, each row is equal to 1 DOI record/request
 def read_csv_file(file_path):
@@ -154,7 +154,7 @@ def main():
 			print(f"{Fore.GREEN}\n====> Done !")
 			sys.exit(0)
 
-		url = "https://api.test.datacite.org/dois"
+		url = "https://api.datacite.org/dois/"
   
 		# Read basic authentication from config.txt
 		with open("config.txt", "r", encoding='utf-8') as config_file:
