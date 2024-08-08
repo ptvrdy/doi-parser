@@ -111,7 +111,7 @@ resource_type_lookup = {
     "Other": "Other",
     "Personal Info": "Other",
     "Policy Statement": "Standard",
-    "Presentation": "AudioVisual",
+    "Presentations": "Audiovisual",
     "Press Release": "Text",
     "Proceedings": "ConferenceProceedings",
     "Research Paper": "Report",
@@ -123,7 +123,7 @@ resource_type_lookup = {
     "Tech Report": "Report",
     "Text": "Text",
     "Thesis": "Dissertation",
-    "Video": "AudioVisual",
+    "Video": "Audiovisual",
     "Web Document": "Other",
 }
 language_dict = {
