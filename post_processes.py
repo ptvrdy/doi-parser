@@ -337,40 +337,6 @@ def contributors(json_list):
     return json_list
 
 
-                        
-#this functions matches "sm:Contributor" to the contributors object list
-def contributors(json_list):
-    for index, json_obj in enumerate(json_list):
-        if "sm:Contributor" in json_obj:
-            contributors = json_obj.pop("sm:Contributor").split("\n")
-            for contributor in contributors:
-                contributor = contributor.strip()
-                last_name, first_name = contributor.split(",")
-                last_name = last_name.strip()
-                first_name = first_name.strip()
-                if "|" in first_name:
-                    first_name, ORCID = first_name.split("|")
-                    ORCID = ORCID.strip()
-                    json_obj.setdefault("contributors", []).append({
-                        "name": contributor, 
-                        "nameType": "Personal", 
-                        "givenName": first_name, 
-                        "familyName": last_name, 
-                        "contributorType": "Researcher", 
-                        "nameIdentifiers": [
-                            {"nameIdentifier": ORCID, "nameIdentifierScheme": "ORCID", "schemeUri": "https://orcid.org/"}
-                        ]})
-                else:
-                    json_obj.setdefault("contributors", []).append({
-                        "name": contributor, 
-                        "nameType": "Personal", 
-                        "givenName": first_name, 
-                        "contributorType": "Researcher",
-                        "familyName": last_name})
-        else:
-            logging.info(f"sm:Contributor not found for row {index + 1}.")
-    return json_list
-
 #this function matches "sm:Key words" to subjects
 def keywords(json_list):
     for index, json_obj in enumerate(json_list):
@@ -378,6 +344,8 @@ def keywords(json_list):
             keywords_str = json_obj.pop("sm:Key words")
             if keywords_str.endswith(", "):
                     keywords_str = keywords_str[:-2]
+            if ", " in keywords_str:
+                keywords_str = keywords_str.replace(", ", "\n").strip()
             keywords_str = keywords_str.split("\n")
             for keyword in keywords_str:
                 keyword = keyword.strip()
@@ -394,11 +362,14 @@ def keywords(json_list):
 def report_number(json_list):
     for json_obj in json_list:
         if "sm:Report Number" in json_obj:
-            report_number = json_obj.pop("sm:Report Number")
-            report_number = report_number.strip()
-            json_obj.setdefault("alternateIdentifiers", []).append({
-                "alternateIdentifier": report_number, 
-                "alternateIdentifierType": "USDOT Report Number"
+            report_numbers = json_obj.pop("sm:Report Number")
+            report_numbers = report_numbers.strip()
+            report_numbers = report_numbers.split(";")
+            for report_number in report_numbers:
+                report_number = report_number.strip()
+                json_obj.setdefault("alternateIdentifiers", []).append({
+                    "alternateIdentifier": report_number, 
+                    "alternateIdentifierType": "USDOT Report Number"
                 })
     return json_list
 
@@ -406,13 +377,16 @@ def report_number(json_list):
 def contract_number(json_list):
     for json_obj in json_list:
         if "Grants, Contracts, Cooperative Agreements" in json_obj:
-            contract_number = json_obj.pop("Grants, Contracts, Cooperative Agreements")
-            contract_number = contract_number.strip()
-            json_obj.setdefault("fundingReferences", []).append({
-                "funderName": "U.S. Department of Transportation",
-                "awardNumber": contract_number, 
-                "funderIdentifier": "https://ror.org/02xfw2e90", 
-                "funderIdentifierType": "ROR"
+            contract_numbers = json_obj.pop("Grants, Contracts, Cooperative Agreements")
+            contract_numbers = contract_numbers.strip()
+            contract_numbers = contract_numbers.split(";")
+            for contract_number in contract_numbers:
+                contract_number = contract_number.strip()
+                json_obj.setdefault("fundingReferences", []).append({
+                    "funderName": "U.S. Department of Transportation",
+                    "awardNumber": contract_number, 
+                    "funderIdentifier": "https://ror.org/02xfw2e90", 
+                    "funderIdentifierType": "ROR"
                 })
     return json_list
 
