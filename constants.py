@@ -70,8 +70,11 @@ collections_to_doi_lookup = {
 }
 series_to_doi_lookup = {
     "Air Travel Consumer Report [Series]": "10.21949/1530607",
+    "Amendments": "10.21949/x6ad-nt93",
     "Boyd, Alan S. ": "10.21949/1530067",
     "Boyd, Alan S.": "10.21949/1530067",
+    "Final Rule": "10.21949/q598-f030",
+    "Special Federal Aviation Regulations": "10.21949/b9d0-1n60",
     "Volpe, John A.": "10.21949/1530983",
     "Vehicle Inventory and Use Survey (VIUS)": "10.21949/1524559",
     "What Do Americans Think About Federal Tax Options to Support Transportation?": "10.21949/1531029",
