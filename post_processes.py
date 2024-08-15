@@ -54,8 +54,13 @@ def rosap_id(json_list):
 #this function matches "ROSAP URLs" to url
 def rosap_url(json_list):
     for index, json_obj in enumerate(json_list):
-        if "ROSAP URLs" in json_obj or "ROSAP_URL" in json_obj or "ROSA P URL" in json_obj: 
-            url = json_obj.pop("ROSAP URLs", json_obj.pop("ROSAP_URL", json_obj.pop("ROSAP URL", None))).strip()
+        rosap_key = None
+        for candidate_key in ("ROSAP URLs", "ROSAP_URL", "ROSAP URL", "ROSAP_URLs"):
+            if candidate_key in json_obj:
+                rosap_key = candidate_key
+                break
+        if rosap_key is not None:
+            url = json_obj.pop(rosap_key)
             json_obj["url"] = url
             if "https://highways.dot.gov/" in url:
                 json_obj.setdefault("contributors", []).append({
