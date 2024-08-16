@@ -212,7 +212,7 @@ def creators(json_list):
                     if ORCID.startswith("https://orcid.org/"):
                         ORCID = ORCID.replace("https://orcid.org/", "")
                     json_obj.setdefault("creators", []).append({
-                        "name": creator, 
+                        "name": last_name.strip() + ", " + first_name.strip(),
                         "nameType": "Personal", 
                         "givenName": first_name.strip(), 
                         "familyName": last_name.strip(), 
