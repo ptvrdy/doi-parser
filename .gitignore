@@ -25,3 +25,7 @@ Reserve Templates/Reserve_DOIs_Headings_Only.xlsx
 Reserve Templates/Reserve_DOIs_with_Default_Data.csv
 Reserve Templates/Reserve_DOIs_with_Default_Data.xlsx
 STS_Records_Batch_Update_New_Series_Only_20240909.csv
+unit test input.csv
+unit test input.json
+unit test input.log
+unit test output match.json
