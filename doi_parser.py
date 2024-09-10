@@ -210,7 +210,7 @@ def main():
 
 				if title:  # Only write if title is found
 					logging.info(f"{Fore.YELLOW}====> Writing DOIs and Titles to {out_filename_dois_csv}")
-					csv_writer.writerow([doi_id, title])
+					csv_writer.writerow(["https://doi.org/" + doi_id, title])
 				else:
 					logging.warning(f"{Fore.RED}====> No suitable title found for DOI {doi_id}")
 
