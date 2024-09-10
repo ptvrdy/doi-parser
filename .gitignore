@@ -19,3 +19,10 @@ orcid_id_logo.PNG
 unit test input.csv
 unit test input.json
 unit test output match.json 
+Reserve Templates/DOI_Headings.csv
+Reserve Templates/DOI_Headings.xlsx
+Reserve Templates/Reserve_DOIs_Headings_Only.csv
+Reserve Templates/Reserve_DOIs_Headings_Only.xlsx
+Reserve Templates/Reserve_DOIs_with_Default_Data.csv
+Reserve Templates/Reserve_DOIs_with_Default_Data.xlsx
+STS_Records_Batch_Update_New_Series_Only_20240909.csv
