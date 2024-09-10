@@ -27,7 +27,7 @@ def ror_manual_search(corporate_creator):
         user_input_correct = input(f"You have entered the ROR ID {Fore.GREEN}{ror_id}{Style.RESET_ALL} and the ROR Display Name {Fore.GREEN}{ror_name}{Style.RESET_ALL}. Is this correct? (Y/n): ").strip().upper()
         if user_input_correct == 'N':
             retry_input = input(f"\nWould you like to retry entry? (y/n): ").strip().upper()
-            if retry_input != 'N':
+            if retry_input == 'N':
                 return None, None
             else:
                 continue
@@ -39,7 +39,7 @@ def ror_manual_addition(corporate_creator):
     while True:
         ror_id = input(f"\nPlease enter the {Fore.CYAN}ROR ID {Style.RESET_ALL}(either the full URL or just the ID): or type 'exit' to cancel: ").strip()
         if ror_id.lower() == 'exit':
-            return None, None, None
+            return None, None
         if not ror_id.startswith("https://ror.org/"):
             ror_id = "https://ror.org/" + ror_id
         ror_name = input(f"Please enter the {Fore.CYAN}ROR Display Name{Style.RESET_ALL} for your organization or type exit to cancel: ").strip()
@@ -48,7 +48,7 @@ def ror_manual_addition(corporate_creator):
         user_input_correct = input(f"You have entered the ROR ID {Fore.GREEN}{ror_id}{Style.RESET_ALL} and the ROR Display Name {Fore.GREEN}{ror_name}{Style.RESET_ALL}. Is this correct? (Y/n): ").strip().upper()
         if user_input_correct == 'N':
             retry_input = input(f"\nWould you like to retry entry? (y/n): ").strip().upper()
-            if retry_input != 'N':
+            if retry_input == 'N':
                 return None, None
             else:
                 continue
@@ -102,7 +102,7 @@ def get_ror_info(corporate_creator):
         
         ror_data = response.json()
         
-        if ror_data.get('items') is None:
+        if ror_data.get('items') is None or len(ror_data.get('items')) == 0:
             logging.error(f"Malformed ROR response for {corporate_creator}")
             ror_id, ror_name = ror_manual_addition(corporate_creator)
             if ror_id is None:
