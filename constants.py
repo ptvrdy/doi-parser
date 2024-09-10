@@ -69,11 +69,17 @@ collections_to_doi_lookup = {
     "Volpe National Transportation Systems Center, Technical Reference Center": "10.21949/1530858",
 }
 series_to_doi_lookup = {
+    "Adams, Brock": "10.21949/6n28-0t42",
     "Air Travel Consumer Report [Series]": "10.21949/1530607",
     "Amendments": "10.21949/x6ad-nt93",
     "Boyd, Alan S. ": "10.21949/1530067",
     "Boyd, Alan S.": "10.21949/1530067",
+    "Brinegar, Claude S.": "10.21949/337m-q618",
+    "Coleman, William T., Jr.": "10.21949/zpyh-yn79",
+    "Dole, Elizabeth Hanford": "10.21949/d4sv-tn50",
     "Final Rule": "10.21949/q598-f030",
+    "Goldschmidt, Neil": "10.21949/d4sv-tn50",
+    "Lewis, Andrew Lindsay, Jr.": "10.21949/y3a2-6737",
     "Special Federal Aviation Regulations": "10.21949/b9d0-1n60",
     "Volpe, John A.": "10.21949/1530983",
     "Vehicle Inventory and Use Survey (VIUS)": "10.21949/1524559",
