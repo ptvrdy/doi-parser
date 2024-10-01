@@ -64,7 +64,7 @@ def rosap_url(json_list):
             json_obj["url"] = url
             if "https://highways.dot.gov/" in url:
                 json_obj.setdefault("contributors", []).append({
-                    "name": "United States. Department of Transportation. Federal Highway Administration", 
+                    "name": "Federal Highway Administration", 
                     "nameType": "Organizational", 
                     "contributorType": "HostingInstitution", 
                     "lang": "en", 
@@ -76,7 +76,7 @@ def rosap_url(json_list):
                 })
             elif "https://rosap.ntl.bts.gov/" in url:
                 json_obj.setdefault("contributors", []).append({
-                    "name": "United States. Department of Transportation. National Transportation Library", 
+                    "name": "National Transportation Library", 
                     "nameType": "Organizational", 
                     "contributorType": "HostingInstitution", 
                     "lang": "en", 
