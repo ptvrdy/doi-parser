@@ -75,7 +75,9 @@ def get_ror_info(corporate_creator):
             logging.info(f"Picking {corporate_creator} from organization_to_ror_lookup")
             ror_id = organization_to_ror_lookup[corporate_creator]
             corporate_creator = corporate_creator.replace("United States. Department of Transportation. ", "")
-            ror_name = corporate_creator
+            ror_name_unclean = corporate_creator
+            ror_name_step1 = ror_name_unclean.replace("United States. ", "") 
+            ror_name = ror_name_step1.replace("Department of Transportation. ", "")
             return ror_id, ror_name
         
         # Check if the corporate creator has been confirmed before
@@ -101,6 +103,7 @@ def get_ror_info(corporate_creator):
             return ror_id, ror_name
         
         ror_data = response.json()
+        logging.debug(f"API Response is: {ror_data}")
         
         if ror_data.get('items') is None or len(ror_data.get('items')) == 0:
             logging.error(f"Malformed ROR response for {corporate_creator}")
