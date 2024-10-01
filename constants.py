@@ -82,6 +82,7 @@ series_to_doi_lookup = {
     "Fleet Composition of Rail Tank Cars Carrying Flammable Liquids": "10.21949/1503662",
     "Goldschmidt, Neil": "10.21949/d4sv-tn50",
     "Lewis, Andrew Lindsay, Jr.": "10.21949/y3a2-6737",
+    "National Census of Ferry Operators (NCFO)": "10.21949/5qbs-gt76",
     "National Transportation Atlas Database (NTAD)": "10.21949/1524551",
     "Special Federal Aviation Regulations": "10.21949/b9d0-1n60",
     "Volpe, John A.": "10.21949/1530983",
