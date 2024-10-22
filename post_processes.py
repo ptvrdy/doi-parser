@@ -51,6 +51,16 @@ def rosap_id(json_list):
             logging.info(f"ROSAP ID not found for row {index + 1}.")
     return json_list
     
+#this function matches "ISSN" to Alternateidentifier
+def issn_number(json_list):
+    for json_obj in json_list:
+        if "ISSN" in json_obj:
+            issn = json_obj.pop("ISSN")
+            json_obj.setdefault("alternateIdentifiers", []).append({
+                "alternateIdentifier": issn,
+                "alternateIdentifierType": "ISSN"
+            })
+    
 #this function matches "ROSAP URLs" to url
 def rosap_url(json_list):
     for index, json_obj in enumerate(json_list):
@@ -63,6 +73,18 @@ def rosap_url(json_list):
             url = json_obj.pop(rosap_key)
             json_obj["url"] = url
             if "https://highways.dot.gov/" in url:
+                json_obj.setdefault("contributors", []).append({
+                    "name": "Federal Highway Administration", 
+                    "nameType": "Organizational", 
+                    "contributorType": "HostingInstitution", 
+                    "lang": "en", 
+                    "nameIdentifiers": [
+                        {"nameIdentifier": "https://ror.org/0473rr271", 
+                         "nameIdentifierScheme": "ROR", 
+                         "schemeUri": "https://ror.org/"}
+                    ]
+                })
+            elif "https://cms.fhwa.dot.gov/" in url:
                 json_obj.setdefault("contributors", []).append({
                     "name": "Federal Highway Administration", 
                     "nameType": "Organizational", 
@@ -209,8 +231,8 @@ def creators(json_list):
                 if "|" in first_name:
                     first_name, ORCID = first_name.split("|")
                     ORCID = ORCID.strip()
-                    if ORCID.startswith("https://orcid.org/"):
-                        ORCID = ORCID.replace("https://orcid.org/", "")
+                    if not ORCID.startswith("https://orcid.org/"):
+                        ORCID = "https://orcid.org/" + ORCID
                     json_obj.setdefault("creators", []).append({
                         "name": last_name.strip() + ", " + first_name.strip(),
                         "nameType": "Personal", 
@@ -420,7 +442,7 @@ def content_notes(json_list):
                 })
             if curation_note_level_b in content_note or curation_note_level_a in content_note:
                 json_obj.setdefault("contributors", []).append({
-                    "name": "Peyton Tvrdy", 
+                    "name": "Tvrdy, Peyton", 
                     "nameType": "Personal", 
                     "givenName": "Peyton", 
                     "familyName": "Tvrdy", 
