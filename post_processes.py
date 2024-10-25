@@ -231,6 +231,8 @@ def creators(json_list):
                 if "|" in first_name:
                     first_name, ORCID = first_name.split("|")
                     ORCID = ORCID.strip()
+                    if ORCID.startswith("(ORCID: "):
+                        ORCID = ORCID.replace("(ORCID: ","")
                     if not ORCID.startswith("https://orcid.org/"):
                         ORCID = "https://orcid.org/" + ORCID
                     json_obj.setdefault("creators", []).append({
