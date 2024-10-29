@@ -6,6 +6,7 @@ from constants import (
 )
 
 import logging
+import pandas as pd
 
 from utils import (
     get_ror_info,
@@ -23,13 +24,19 @@ def delete_unwanted_columns(json_list):
         delete_unwanted(json_obj, "sm:Geographical Coverage")
         delete_unwanted(json_obj, "sm:Contracting Officer")
         delete_unwanted(json_obj, "sm:Rights Statement")
+        delete_unwanted(json_obj, "Primary URL")
+        delete_unwanted(json_obj, "Supporting Files")
+        delete_unwanted(json_obj, "Personal Publisher(s)")
+        delete_unwanted(json_obj, "Geographical Coverage")
+        delete_unwanted(json_obj, "Contracting Officer")
+        delete_unwanted(json_obj, "Rights Statement")
     return json_list
 
 #this function matches "Workroom ID" to Alternateidentifier
 def workroom_id(json_list):
     for index, json_obj in enumerate(json_list):
-        if "Workroom ID" in json_obj:
-            accession_number = json_obj.pop("Workroom ID")
+        if "Workroom ID" in json_obj or "Workroom_ID" in json_obj:
+            accession_number = json_obj.pop("Workroom ID", json_obj.pop("Workroom_ID", None))
             json_obj.setdefault("alternateIdentifiers", []).append({
                 "alternateIdentifier": accession_number, 
                 "alternateIdentifierType": "DOT ROSA P Accession Number"
@@ -117,8 +124,8 @@ def rosap_url(json_list):
 #this function matches "sm:Collection" to RelatedIdentifier
 def sm_Collection(json_list):
     for index, json_obj in enumerate(json_list):
-        if "sm:Collection" in json_obj:
-            collections = json_obj.pop("sm:Collection").split(";")
+        if "sm:Collection" in json_obj or "Collection(s) in json_obj":
+            collections = json_obj.pop("sm:Collection", json_obj.pop("Collection(s)", None)).split(";")
             for collection in collections:
                 collection = collection.strip()
                 if collection in collections_to_doi_lookup:
@@ -142,6 +149,8 @@ def handle_draft_vs_publish(json_list):
     for i, json_obj in enumerate(json_list):
         if json_obj.get("sm:Digital Object Identifier") and json_obj['sm:Digital Object Identifier'].strip():
             sm_digital_object_identifier(json_obj)
+        elif json_obj.get("Digital Object Identifier") and json_obj['Digital Object Identifier'].strip():
+            sm_digital_object_identifier(json_obj)
         else:
             logging.info(f"Setting to draft state for row {i}")
             draft_state(json_obj)
@@ -149,7 +158,7 @@ def handle_draft_vs_publish(json_list):
 
 #this function matches "sm:Digital Object Identifier" to doi, prefix and id
 def sm_digital_object_identifier(json_obj):
-    doi = json_obj.pop("sm:Digital Object Identifier")
+    doi = json_obj.pop("sm:Digital Object Identifier", json_obj.pop("Digital Object Identifier", None))
     doi_identifier = doi.replace("https://doi.org/","").strip()
     json_obj["doi"]= doi_identifier
 
@@ -176,8 +185,8 @@ def title(json_list):
 #this function matches "Alternative Title" to title and title type
 def alt_title(json_list):
     for json_obj in (json_list):
-        if "Alternative Title" in json_obj:
-            alt_title = json_obj.pop("Alternative Title")
+        if "Alternative Title" in json_obj or "Alternate Title" in json_obj:
+            alt_title = json_obj.pop("Alternative Title", json_obj.pop("Alternate Title", None))
             json_obj.setdefault("titles", []).append({
                 "title": alt_title, 
                 "titleType": "AlternativeTitle", 
@@ -188,7 +197,7 @@ def alt_title(json_list):
 #this function matches "Published Date" to Publication Year, Date, and dateType
 def publication_date(json_list):
     for index, json_obj in enumerate(json_list):
-        date = json_obj.pop("Published Date")
+        date = json_obj.pop("Published Date", json_obj.pop("Publication Date", None))
         json_obj.setdefault("dates", []).append({"date": date, "dateType": "Issued"})
         published_year = date[:4]
         json_obj["publicationYear"] = int(published_year)
@@ -197,9 +206,9 @@ def publication_date(json_list):
 #this function matches "sm:Format" to ResourceType and resourceTypeGeneral
 def resource_type(json_list):
     for index, json_obj in enumerate(json_list):
-            if "sm:Format" and "sm:Resource Type" in json_obj:
-                resource_type = json_obj.pop("sm:Format")
-                resource_type_general = json_obj.pop("sm:Resource Type")
+            if "sm:Format" and "sm:Resource Type" in json_obj or "Format" and "Resource Type" in json_obj:
+                resource_type = json_obj.pop("sm:Format", json_obj.pop("Format", None))
+                resource_type_general = json_obj.pop("sm:Resource Type", json_obj.pop("Resource Type", None))
                 if resource_type_general in resource_type_lookup:
                     resource_type_general = resource_type_general.strip()
                     resource_type = resource_type.strip()
@@ -214,8 +223,8 @@ def resource_type(json_list):
 #this function matches "sm:Creator" to creators and splits it.
 def creators(json_list):
     for index, json_obj in enumerate(json_list):
-        if "sm:Creator" in json_obj:
-            creators = json_obj.pop("sm:Creator").split("\n")
+        if "sm:Creator" in json_obj or "Personal Creator(s)" in json_obj:
+            creators = json_obj.pop("sm:Creator", json_obj.pop("Personal Creator(s)", None)).split("\n")
             for creator in creators:
                 creator = creator.strip()
                 parts = creator.split(",")
@@ -335,8 +344,8 @@ def process_corporate_field(json_list, field_name):
 # This function matches "sm:Contributor" to the contributors object list
 def contributors(json_list):
     for index, json_obj in enumerate(json_list):
-        if "sm:Contributor" in json_obj:
-            contributors = json_obj.pop("sm:Contributor").split("\n")
+        if "sm:Contributor" in json_obj or "Personal Contributor(s)" in json_obj:
+            contributors = json_obj.pop("sm:Contributor", json_obj.pop("Personal Contributor(s)", None)).split("\n")
             for contributor in contributors:
                 contributor = contributor.strip()
                 last_name, first_name = contributor.split(",")
@@ -366,11 +375,30 @@ def contributors(json_list):
     return json_list
 
 
-#this function matches "sm:Key words" to subjects
+#loading TRT file
+file_path_trt = "TRT/TRT - Export 20241028.xlsx"
+trt_data = pd.read_excel(file_path_trt)
+
+# Combining all "Concept" columns (B to M) to find the first non-empty term, bypassing hierarchy
+concept_columns = trt_data.loc[:, 'concept':'concept.11'] 
+
+# Apply a function that finds the first non-empty value in each row of concept columns
+trt_data['concept'] = concept_columns.apply(lambda row: next((term for term in row if pd.notna(term)), None), axis=1)
+
+# Extracting needed columns for term and URI, replaces URI from Closed Pool Party API Link to Public Terms URI
+trt_terms_df = trt_data[['uri', 'concept']].dropna(subset=['uri', 'concept'])
+trt_terms_df['uri'] = trt_terms_df['uri'].str.replace(
+    "https://km.nationalacademies.org/TRT-developmentv6/",
+    "https://trt.trb.org/term/"
+)
+
+# Creating a keywords dictionary with TRT term validation and adding URI classificationCode
+trt_lookup = dict(zip(trt_terms_df['concept'].str.strip().str.lower(), trt_terms_df['uri']))
+
 def keywords(json_list):
     for index, json_obj in enumerate(json_list):
-        if "sm:Key words" in json_obj:
-            keywords_str = json_obj.pop("sm:Key words")
+        if "sm:Key words" in json_obj or "Keywords (TRT Term(s) and Subject Keywords concatenated)" in json_obj:
+            keywords_str = json_obj.pop("sm:Key words", json_obj.pop("Keywords (TRT Term(s) and Subject Keywords concatenated)", None))
             if keywords_str.endswith(", "):
                     keywords_str = keywords_str[:-2]
             if ", " in keywords_str:
@@ -378,20 +406,24 @@ def keywords(json_list):
             keywords_str = keywords_str.split("\n")
             for keyword in keywords_str:
                 keyword = keyword.strip()
-                json_obj.setdefault("subjects", []).append({
-                    "subject": keyword,
-                    "schemeUri": "https://trt.trb.org/",
-                    "subjectScheme": "Transportation Research Thesaurus"
-                })
-        else:
+                trt_code = trt_lookup.get(keyword.lower())
+                if trt_code:
+                    json_obj.setdefault("subjects", []).append({
+                        "subject": keyword,
+                        "schemeUri": "https://trt.trb.org/",
+                        "subjectScheme": "Transportation Research Thesaurus",
+                        "classificationCode": trt_code
+                    })
+                else: logging.info(f"Term '{keyword}' is not found in the TRT and was excluded.")
+        else: 
             logging.info(f"sm:Key words not found for row {index + 1}.")
     return json_list
 
 #this function matches "sm:Report Number" to alternateIdentifier
 def report_number(json_list):
     for json_obj in json_list:
-        if "sm:Report Number" in json_obj:
-            report_numbers = json_obj.pop("sm:Report Number")
+        if "sm:Report Number" in json_obj or "Report Number(s)" in json_obj:    
+            report_numbers = json_obj.pop("sm:Report Number", json_obj.pop("Report Number(s)", None))
             report_numbers = report_numbers.strip()
             report_numbers = report_numbers.split(";")
             for report_number in report_numbers:
@@ -405,8 +437,8 @@ def report_number(json_list):
 #this function matches "Grants, Contracts, Cooperative Agreements" to alternateIdentifier
 def contract_number(json_list):
     for json_obj in json_list:
-        if "Grants, Contracts, Cooperative Agreements" in json_obj:
-            contract_numbers = json_obj.pop("Grants, Contracts, Cooperative Agreements")
+        if "Grants, Contracts, Cooperative Agreements" in json_obj or "Contract Number(s)" in json_obj:
+            contract_numbers = json_obj.pop("Grants, Contracts, Cooperative Agreements", json_obj.pop("Contract Number(s)", None))
             contract_numbers = contract_numbers.strip()
             contract_numbers = contract_numbers.split(";")
             for contract_number in contract_numbers:
@@ -422,8 +454,8 @@ def contract_number(json_list):
 #this function matches "sm:ResearchHub ID" to alternateIdentifier
 def researchHub_id(json_list):
     for json_obj in json_list:
-        if "sm:ResearchHub ID" in json_obj:
-            researchhub_id = json_obj.pop("sm:ResearchHub ID")
+        if "sm:ResearchHub ID" in json_obj or "ResearchHub ID" in json_obj:
+            researchhub_id = json_obj.pop("sm:ResearchHub ID", json_obj.pop("ResearchHub ID", None))
             researchhub_id = researchhub_id.strip()
             json_obj.setdefault("alternateIdentifiers", []).append({
                 "alternateIdentifier": researchhub_id, 
@@ -435,8 +467,8 @@ def content_notes(json_list):
     for json_obj in json_list:
         curation_note_level_b = "CoreTrustSeal's curation level \"B. Logical-Technical Curation.\""
         curation_note_level_a = "CoreTrustSeal's curation level \"A. Active Preservation\""
-        if "Content Notes" in json_obj:
-            content_note = json_obj.pop("Content Notes").strip()
+        if "Content Notes" in json_obj or "Public Note" in json_obj:
+            content_note = json_obj.pop("Content Notes", json_obj.pop("Public Note", None)).strip()
             json_obj.setdefault("descriptions", []).append({
                 "lang": "en", 
                 "description": content_note, 
@@ -458,8 +490,8 @@ def content_notes(json_list):
 #this function matches "Language" to language
 def language(json_list):
     for index, json_obj in enumerate(json_list):
-        if "Language" in json_obj:
-            language = json_obj.pop("Language")
+        if "Language" in json_obj or "Language(s)" in json_obj:
+            language = json_obj.pop("Language", json_obj.pop("Language(s)", None))
             language = language.strip()
             if language in language_dict:
                 json_obj["language"]=language
@@ -472,8 +504,8 @@ def language(json_list):
 #this function matches "Edition" to version
 def edition(json_list):
     for json_obj in json_list:
-        if "sm:Edition" in json_obj:
-            version = json_obj.pop("sm:Edition")
+        if "sm:Edition" in json_obj or "Edition" in json_obj:
+            version = json_obj.pop("sm:Edition", json_obj.pop("Edition", None))
             version = version.strip()
             json_obj["version"]=version
     return json_list
@@ -481,8 +513,8 @@ def edition(json_list):
 #this function matches Series and their DOIs to IsPartOf to the correct related identifier structure
 def series(json_list):
     for index, json_obj in enumerate(json_list):
-        if "Series Name" in json_obj:
-            series_dois = json_obj.pop("Series Name").split("\n")
+        if "Series Name" in json_obj or "Is Part of" in json_obj:
+            series_dois = json_obj.pop("Series Name", json_obj.pop("Is Part of", None)).split("\n")
             for series_doi in series_dois:
                 if series_doi in series_to_doi_lookup:
                     # Create a new DOI-related entry
@@ -501,8 +533,8 @@ def series(json_list):
 #this function matches "Description" to "Descriptions"/Abstract
 def description(json_list):
     for index, json_obj in enumerate(json_list):
-        if "Description" in json_obj:
-            description = json_obj.pop("Description")
+        if "Description" in json_obj or "Abstract" in json_obj:
+            description = json_obj.pop("Description", json_obj.pop("Abstract", None))
             json_obj.setdefault("descriptions", []).append({
                 "lang": "en", 
                 "description": description, 
