@@ -103,6 +103,30 @@ def rosap_url(json_list):
                          "schemeUri": "https://ror.org/"}
                     ]
                 })
+            elif "geodata.bts.gov" in url:
+                json_obj.setdefault("contributors", []).append({
+                    "name": "Bureau of Transportation Statistics",
+                    "nameType": "Organizational",
+                    "contributorType": "HostingInstitution",
+                    "lang": "en",
+                    "nameIdentifiers": [
+                        {"nameIdentifier": "https://ror.org/05xfdey77",
+                         "nameIdentifierScheme": "ROR",
+                         "schemeUri": "https://ror.org/"}
+                    ]
+                })
+            elif "https://services.arcgis.com" in url:
+                json_obj.setdefault("contributors", []).append({
+                    "name": "Bureau of Transportation Statistics",
+                    "nameType": "Organizational",
+                    "contributorType": "HostingInstitution",
+                    "lang": "en",
+                    "nameIdentifiers": [
+                        {"nameIdentifier": "https://ror.org/05xfdey77",
+                         "nameIdentifierScheme": "ROR",
+                         "schemeUri": "https://ror.org/"}
+                    ]
+                })
             elif "https://rosap.ntl.bts.gov/" in url:
                 json_obj.setdefault("contributors", []).append({
                     "name": "National Transportation Library", 
@@ -125,7 +149,8 @@ def rosap_url(json_list):
 def sm_Collection(json_list):
     for index, json_obj in enumerate(json_list):
         if "sm:Collection" in json_obj or "Collection(s) in json_obj":
-            collections = json_obj.pop("sm:Collection", json_obj.pop("Collection(s)", None)).split(";")
+            collections = json_obj.pop("sm:Collection", json_obj.pop("Collection(s)", ""))
+            collections = collections.split(";") if collections else []
             for collection in collections:
                 collection = collection.strip()
                 if collection in collections_to_doi_lookup:
@@ -224,7 +249,8 @@ def resource_type(json_list):
 def creators(json_list):
     for index, json_obj in enumerate(json_list):
         if "sm:Creator" in json_obj or "Personal Creator(s)" in json_obj:
-            creators = json_obj.pop("sm:Creator", json_obj.pop("Personal Creator(s)", None)).split("\n")
+            creators = json_obj.pop("sm:Creator", json_obj.pop("Personal Creator(s)", ""))
+            creators = creators.split("\n") if creators else []
             for creator in creators:
                 creator = creator.strip()
                 parts = creator.split(",")
@@ -345,7 +371,8 @@ def process_corporate_field(json_list, field_name):
 def contributors(json_list):
     for index, json_obj in enumerate(json_list):
         if "sm:Contributor" in json_obj or "Personal Contributor(s)" in json_obj:
-            contributors = json_obj.pop("sm:Contributor", json_obj.pop("Personal Contributor(s)", None)).split("\n")
+            contributors = json_obj.pop("sm:Contributor", json_obj.pop("Personal Contributor(s)", ""))
+            contributors = contributors.split("\n") if contributors else []
             for contributor in contributors:
                 contributor = contributor.strip()
                 last_name, first_name = contributor.split(",")
@@ -514,7 +541,8 @@ def edition(json_list):
 def series(json_list):
     for index, json_obj in enumerate(json_list):
         if "Series Name" in json_obj or "Is Part of" in json_obj:
-            series_dois = json_obj.pop("Series Name", json_obj.pop("Is Part of", None)).split("\n")
+            series_dois = json_obj.pop("Series Name", json_obj.pop("Is Part of", ""))
+            series_dois = series_dois.split("\n") if series_dois else []
             for series_doi in series_dois:
                 if series_doi in series_to_doi_lookup:
                     # Create a new DOI-related entry
