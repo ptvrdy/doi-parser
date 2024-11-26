@@ -2,7 +2,8 @@ from constants import (
     collections_to_doi_lookup,
     series_to_doi_lookup,
     resource_type_lookup,
-    language_dict
+    language_dict,
+    iana_mime_type_lookup
 )
 
 import logging
@@ -22,13 +23,11 @@ def delete_unwanted_columns(json_list):
         delete_unwanted(json_obj, "Supporting Documents URLs")
         delete_unwanted(json_obj, "sm:Publisher")
         delete_unwanted(json_obj, "sm:Geographical Coverage")
-        delete_unwanted(json_obj, "sm:Contracting Officer")
         delete_unwanted(json_obj, "sm:Rights Statement")
         delete_unwanted(json_obj, "Primary URL")
         delete_unwanted(json_obj, "Supporting Files")
         delete_unwanted(json_obj, "Personal Publisher(s)")
         delete_unwanted(json_obj, "Geographical Coverage")
-        delete_unwanted(json_obj, "Contracting Officer")
         delete_unwanted(json_obj, "Rights Statement")
     return json_list
 
@@ -239,6 +238,10 @@ def resource_type(json_list):
                     resource_type = resource_type.strip()
                     json_obj.setdefault("types", {})["resourceType"]=resource_type
                     json_obj.setdefault("types", {})["resourceTypeGeneral"]=resource_type_lookup[resource_type_general]
+                    if resource_type in iana_mime_type_lookup:
+                        json_obj.setdefault("formats", []).append(iana_mime_type_lookup[resource_type])
+                    else:
+                        logging.warn(f"Format {resource_type} is not found in the lookup for row {index +1}.")
                 else:
                     logging.warn(f"Resource type {resource_type_general} is not found in the lookup for row {index + 1}.")
             else:
@@ -367,36 +370,100 @@ def process_corporate_field(json_list, field_name):
             logging.info(f"{field_name} not found for row {index + 1}.")
     return json_list
 
-# This function matches "sm:Contributor" to the contributors object list
-def contributors(json_list):
+def contracting_officer(json_list):
     for index, json_obj in enumerate(json_list):
-        if "sm:Contributor" in json_obj or "Personal Contributor(s)" in json_obj:
-            contributors = json_obj.pop("sm:Contributor", json_obj.pop("Personal Contributor(s)", ""))
-            contributors = contributors.split("\n") if contributors else []
-            for contributor in contributors:
-                contributor = contributor.strip()
-                last_name, first_name = contributor.split(",")
+        if "sm:Contracting Officer" in json_obj or "Contracting Officer" in json_obj:
+            contracting_officers = json_obj.pop("sm:Contracting Officer", json_obj.pop("Contracting Officer", ""))
+            contracting_officers = contracting_officers.strip()
+            contracting_officers = contracting_officers.replace(";", "\n").split("\n") if contracting_officers else []
+            
+            # Store contracting officer names for deduplication
+            officer_names = set()
+
+            for contracting_officer in contracting_officers:
+                contracting_officer = contracting_officer.strip()
+                last_name, first_name = contracting_officer.split(",")
                 last_name = last_name.strip()
                 first_name = first_name.strip()
+                officer_names.add((last_name, first_name))  # Add to deduplication set
+
                 if "|" in first_name:
                     first_name, ORCID = first_name.split("|")
                     ORCID = ORCID.strip()
+                    if ORCID.startswith("(ORCID: "):
+                        ORCID = ORCID.replace("(ORCID: ","")
+                    if not ORCID.startswith("https://orcid.org/"):
+                        ORCID = "https://orcid.org/" + ORCID
                     json_obj.setdefault("contributors", []).append({
-                        "name": contributor, 
-                        "nameType": "Personal", 
-                        "givenName": first_name, 
-                        "familyName": last_name, 
-                        "contributorType": "Researcher", 
+                        "name": contracting_officer,
+                        "nameType": "Personal",
+                        "givenName": first_name,
+                        "familyName": last_name,
+                        "contributorType": "Other",
                         "nameIdentifiers": [
                             {"nameIdentifier": ORCID, "nameIdentifierScheme": "ORCID", "schemeUri": "https://orcid.org/"}
                         ]})
                 else:
                     json_obj.setdefault("contributors", []).append({
-                        "name": contributor, 
-                        "nameType": "Personal", 
-                        "givenName": first_name, 
+                        "name": contracting_officer,
+                        "nameType": "Personal",
+                        "givenName": first_name,
+                        "familyName": last_name,
+                        "contributorType": "Other"
+                    })
+
+            # Store contracting officers in the JSON for access in other functions
+            json_obj["_contracting_officer_names"] = list(officer_names)  # Convert set to list
+        else:
+            logging.info(f"sm:Contracting Officer not found for row {index + 1}.")
+    return json_list
+
+
+def contributors(json_list):
+    for index, json_obj in enumerate(json_list):
+        # Retrieve the contracting officer names for this row
+        officer_names = set(json_obj.get("_contracting_officer_names", [])) 
+
+        if "sm:Contributor" in json_obj or "Personal Contributor(s)" in json_obj:
+            contributors = json_obj.pop("sm:Contributor", json_obj.pop("Personal Contributor(s)", ""))
+            contributors = contributors.split("\n") if contributors else []
+
+            for contributor in contributors:
+                contributor = contributor.strip()
+                last_name, first_name = contributor.split(",")
+                last_name = last_name.strip()
+                first_name = first_name.strip()
+
+                # Skip if the contributor is already a contracting officer
+                if (last_name, first_name) in officer_names:
+                    logging.info(f"Skipping duplicate contributor '{first_name} {last_name}' (already a contracting officer).")
+                    continue
+
+                if "|" in first_name:
+                    first_name, ORCID = first_name.split("|")
+                    ORCID = ORCID.strip()
+                    if ORCID.startswith("(ORCID: "):
+                        ORCID = ORCID.replace("(ORCID: ","")
+                    if not ORCID.startswith("https://orcid.org/"):
+                        ORCID = "https://orcid.org/" + ORCID
+                    json_obj.setdefault("contributors", []).append({
+                        "name": contributor,
+                        "nameType": "Personal",
+                        "givenName": first_name.strip(),
+                        "familyName": last_name,
                         "contributorType": "Researcher",
-                        "familyName": last_name})
+                        "nameIdentifiers": [
+                            {"nameIdentifier": ORCID, "nameIdentifierScheme": "ORCID", "schemeUri": "https://orcid.org/"}
+                        ]
+                    })
+                else:
+                    json_obj.setdefault("contributors", []).append({
+                        "name": contributor,
+                        "nameType": "Personal",
+                        "givenName": first_name,
+                        "familyName": last_name,
+                        "contributorType": "Researcher"
+                    })
         else:
             logging.info(f"sm:Contributor not found for row {index + 1}.")
     return json_list
@@ -465,7 +532,7 @@ def report_number(json_list):
 def contract_number(json_list):
     for json_obj in json_list:
         if "Grants, Contracts, Cooperative Agreements" in json_obj or "Contract Number(s)" in json_obj:
-            contract_numbers = json_obj.pop("Grants, Contracts, Cooperative Agreements", json_obj.pop("Contract Number(s)", None))
+            contract_numbers = json_obj.pop("Grants, Contracts, Cooperative Agreements", json_obj.pop("Contract Number(s)", ""))
             contract_numbers = contract_numbers.strip()
             contract_numbers = contract_numbers.split(";")
             for contract_number in contract_numbers:
@@ -477,6 +544,7 @@ def contract_number(json_list):
                     "funderIdentifierType": "ROR"
                 })
     return json_list
+
 
 #this function matches "sm:ResearchHub ID" to alternateIdentifier
 def researchHub_id(json_list):
