@@ -171,6 +171,7 @@ def main():
 
 		headers = {
 			"content-type": "application/json",
+			"User-Agent": "doi_parser.py/2.0 (https://github.com/ptvrdy/doi-parser; mailto:peyton.tvrdy.ctr@dot.gov)",
 			"authorization": "Basic " + basic
 		}
   
@@ -244,6 +245,7 @@ def do_post_process(output):
 			lambda x: process_corporate_field(x, "sm:Corporate Creator"),
 			lambda x: process_corporate_field(x, "sm:Corporate Contributor"),
 			lambda x: process_corporate_field(x, "sm:Corporate Publisher"),
+			contracting_officer,
 			contributors,
 			keywords,
 			report_number,
