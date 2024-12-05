@@ -27,6 +27,7 @@ collections_to_doi_lookup = {
     "Attitudes and Behavior Surveys": "10.21949/45f6-zs20",
     "BTS Ports": "10.21949/1530821",
     "BTS Products": "10.21949/1530822",
+    "CAA and FAA Reports (CAAFAA)": "10.21949/1530064",
     "Civil Aeronautics Manuals": "10.21949/1530823",
     "Civil Aeronautics Regulations": "10.21949/1530824",
     "Civil Aerospace Medical Institute": "10.21949/1530825",
@@ -98,6 +99,7 @@ collections_to_doi_lookup = {
 }
 series_to_doi_lookup = {
     "Adams, Brock": "10.21949/6n28-0t42",
+    "Air Carrier Traffic Statistics (Green Book)": "10.21949/9v8v-2z95",
     "Air Travel Consumer Report [Series]": "10.21949/1530607",
     "Amendments": "10.21949/x6ad-nt93",
     "Annual Reports of the Maritime Administration": "10.21949/jp4q-2g37",
@@ -105,6 +107,7 @@ series_to_doi_lookup = {
     "Boyd, Alan S.": "10.21949/1530067",
     "Brinegar, Claude S.": "10.21949/337m-q618",
     "Card, Andrew": "10.21949/netv-sm71",
+    "Civil Aeronautics Administration Reports": "10.21949/cqtp-cp64",
     "Coleman, William T., Jr.": "10.21949/zpyh-yn79",
     "Dole, Elizabeth Hanford": "10.21949/d4sv-tn50",
     "Domestic Airline Fares Consumer Report": "10.21949/kbe4-vy59",
