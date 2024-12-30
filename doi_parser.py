@@ -232,8 +232,7 @@ def main():
 
 def do_post_process(output):
 	for func in (delete_unwanted_columns,
-     		workroom_id,
-			rosap_id,
+     		# High Priority Runs
 			rosap_url,
 			sm_Collection,
 			handle_draft_vs_publish,
@@ -245,6 +244,8 @@ def do_post_process(output):
 			lambda x: process_corporate_field(x, "sm:Corporate Creator"),
 			lambda x: process_corporate_field(x, "sm:Corporate Contributor"),
 			lambda x: process_corporate_field(x, "sm:Corporate Publisher"),
+   			series,
+			# Lower Priority Runs
 			contracting_officer,
 			contributors,
 			keywords,
@@ -252,9 +253,10 @@ def do_post_process(output):
 			contract_number,
 			researchHub_id,
 			content_notes,
+   			workroom_id,
+			rosap_id,
 			language,
 			edition,
-			series,
 			description,
    			schema,
       		wrap_object):

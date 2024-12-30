@@ -631,11 +631,18 @@ def description(json_list):
     for index, json_obj in enumerate(json_list):
         if "Description" in json_obj or "Abstract" in json_obj:
             description = json_obj.pop("Description", json_obj.pop("Abstract", None))
-            json_obj.setdefault("descriptions", []).append({
+            if "resourceTypeGeneral" == "Collection":
+                json_obj.setdefault("descriptions", []).append({
                 "lang": "en", 
                 "description": description, 
-                "descriptionType": "Abstract"
+                "descriptionType": "SeriesInformation"
                 })
+            else:
+                json_obj.setdefault("descriptions", []).append({
+                    "lang": "en", 
+                    "description": description, 
+                    "descriptionType": "Abstract"
+                    })
         else:
             logging.info(f"Description not found for row {index + 1}.")
     return json_list
