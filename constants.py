@@ -109,7 +109,7 @@ series_to_doi_lookup = {
     "Card, Andrew": "10.21949/netv-sm71",
     "Civil Aeronautics Administration Reports": "10.21949/cqtp-cp64",
     "Coleman, William T., Jr.": "10.21949/zpyh-yn79",
-    "Dole, Elizabeth Hanford": "10.21949/d4sv-tn50",
+    "Dole, Elizabeth Hanford": "10.21949/dbhc-mv55",
     "Domestic Airline Fares Consumer Report": "10.21949/kbe4-vy59",
     "Federal Aviation Regulations Amendments": "10.21949/x6ad-nt93",
     "Federal Aviation Regulations Final Rule": "10.21949/q598-f030",
