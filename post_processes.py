@@ -16,7 +16,7 @@ from utils import (
 
 # logging.basicConfig(filename="process.log", level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-#this function removes unneeded columns from the CSV: "Main Document URL", "Supporting Documents URLs", "sm:Publisher", "Geographical Coverage", "sm:Contracting Officer", "sm:Rights Statement"
+#this function removes unneeded columns from the CSV: "Main Document URL", "Supporting Documents URLs", "sm:Publisher", "Geographical Coverage", "sm:Rights Statement"
 def delete_unwanted_columns(json_list):
     for json_obj in (json_list):
         delete_unwanted(json_obj, "Main Document URL")
@@ -395,7 +395,7 @@ def contracting_officer(json_list):
                     if not ORCID.startswith("https://orcid.org/"):
                         ORCID = "https://orcid.org/" + ORCID
                     json_obj.setdefault("contributors", []).append({
-                        "name": contracting_officer,
+                        "name": last_name.strip() + ", " + first_name.strip(),
                         "nameType": "Personal",
                         "givenName": first_name,
                         "familyName": last_name,
@@ -447,7 +447,7 @@ def contributors(json_list):
                     if not ORCID.startswith("https://orcid.org/"):
                         ORCID = "https://orcid.org/" + ORCID
                     json_obj.setdefault("contributors", []).append({
-                        "name": contributor,
+                        "name": last_name.strip() + ", " + first_name.strip(),
                         "nameType": "Personal",
                         "givenName": first_name.strip(),
                         "familyName": last_name,
