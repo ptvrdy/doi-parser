@@ -629,6 +629,7 @@ def series(json_list):
 #this function matches "Description" to "Descriptions"/Abstract
 def description(json_list):
     for index, json_obj in enumerate(json_list):
+        require("resourceTypeGeneral" in json_obj, "Resource Type wasn't called yet")
         if "Description" in json_obj or "Abstract" in json_obj:
             description = json_obj.pop("Description", json_obj.pop("Abstract", None))
             if "resourceTypeGeneral" == "Collection":
@@ -660,3 +661,7 @@ def wrap_object(json_list):
         output_obj = {"data": {"type": "dois", "attributes": json_obj}}
         output_list.append(output_obj)
     return output_list
+
+def require(condition, description):
+    if not condition:
+        raise Exception(delete_unwanted_columns)
