@@ -240,13 +240,13 @@ def do_post_process(output):
 			alt_title,
 			publication_date,
 			resource_type,
+			contracting_officer,
 			creators,
 			lambda x: process_corporate_field(x, "sm:Corporate Creator"),
 			lambda x: process_corporate_field(x, "sm:Corporate Contributor"),
 			lambda x: process_corporate_field(x, "sm:Corporate Publisher"),
    			series,
 			# Lower Priority Runs
-			contracting_officer,
 			contributors,
 			keywords,
 			report_number,
@@ -255,10 +255,12 @@ def do_post_process(output):
 			content_notes,
    			workroom_id,
 			rosap_id,
+   			rights,
 			language,
 			edition,
 			description,
    			schema,
+			drop_and_pop,
       		wrap_object):
 
 		output = func(output)
