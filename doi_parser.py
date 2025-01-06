@@ -11,6 +11,7 @@ import logging
 from post_processes import *
 import requests
 import sys
+import traceback
 from utils import (
 	doi_publish
 )
@@ -53,6 +54,7 @@ def unit_test():
 		raise e
 	except Exception as e:
 		logging.error(f"An error occurred during unit testing: {e}")
+		traceback.print_exception(e, limit=5)
 		raise e
 
 #this function converts the csv file to json
@@ -228,6 +230,7 @@ def main():
    
 	except Exception as e:
 		logging.error(f"{Fore.RED}An error occurred: {e}")
+		traceback.print_exception(e)
 		sys.exit(1)
 
 def do_post_process(output):
