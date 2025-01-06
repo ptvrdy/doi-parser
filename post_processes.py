@@ -23,12 +23,10 @@ def delete_unwanted_columns(json_list):
         delete_unwanted(json_obj, "Supporting Documents URLs")
         delete_unwanted(json_obj, "sm:Publisher")
         delete_unwanted(json_obj, "sm:Geographical Coverage")
-        delete_unwanted(json_obj, "sm:Rights Statement")
         delete_unwanted(json_obj, "Primary URL")
         delete_unwanted(json_obj, "Supporting Files")
         delete_unwanted(json_obj, "Personal Publisher(s)")
         delete_unwanted(json_obj, "Geographical Coverage")
-        delete_unwanted(json_obj, "Rights Statement")
     return json_list
 
 #this function matches "Workroom ID" to Alternateidentifier
@@ -251,6 +249,9 @@ def resource_type(json_list):
 #this function matches "sm:Creator" to creators and splits it.
 def creators(json_list):
     for index, json_obj in enumerate(json_list):
+        # Retrieve the contracting officer names for this row
+        officer_names = set(json_obj.get("_contracting_officer_names", [])) 
+        
         if "sm:Creator" in json_obj or "Personal Creator(s)" in json_obj:
             creators = json_obj.pop("sm:Creator", json_obj.pop("Personal Creator(s)", ""))
             creators = creators.split("\n") if creators else []
@@ -266,6 +267,10 @@ def creators(json_list):
                     logging.error(f"Unexpected format for creator: {creator}")
                     continue # Skip to the next creator
                 
+                first_name = first_name.strip()
+                last_name = last_name.strip()
+                
+                ORCID = None
                 if "|" in first_name:
                     first_name, ORCID = first_name.split("|")
                     ORCID = ORCID.strip()
@@ -273,23 +278,29 @@ def creators(json_list):
                         ORCID = ORCID.replace("(ORCID: ","")
                     if not ORCID.startswith("https://orcid.org/"):
                         ORCID = "https://orcid.org/" + ORCID
-                    json_obj.setdefault("creators", []).append({
-                        "name": last_name.strip() + ", " + first_name.strip(),
-                        "nameType": "Personal", 
-                        "givenName": first_name.strip(), 
-                        "familyName": last_name.strip(), 
-                        "nameIdentifiers": [{
-                            "nameIdentifier": ORCID, 
-                            "nameIdentifierScheme": "ORCID", 
-                            "schemeUri": "https://orcid.org/"}
-                        ]})
-                else:
-                    json_obj.setdefault("creators", []).append({
-                        "name": creator, 
-                        "nameType": "Personal", 
-                        "givenName": first_name.strip(), 
-                        "familyName": last_name.strip()
-                        })
+                
+                # Skip if the creator is already a contracting officer
+                if (last_name, first_name) in officer_names:
+                    logging.info(f"Skipping duplicate creator '{first_name} {last_name}' (already a contracting officer).")
+                    continue
+                
+                entry = {
+                    "name": last_name.strip() + ", " + first_name.strip(),
+                    "nameType": "Personal", 
+                    "givenName": first_name, 
+                    "familyName": last_name, 
+                }
+                
+                if ORCID is not None:
+                    entry['nameIdentifiers'] = [
+                        {
+                        "nameIdentifier": ORCID, 
+                        "nameIdentifierScheme": "ORCID", 
+                        "schemeUri": "https://orcid.org/"
+                        }
+                    ]
+                json_obj.setdefault("creators", []).append(entry)
+                
         else:
             logging.info(f"sm:Creator not found for row {index + 1}.")
     return json_list
@@ -385,7 +396,6 @@ def contracting_officer(json_list):
                 last_name, first_name = contracting_officer.split(",")
                 last_name = last_name.strip()
                 first_name = first_name.strip()
-                officer_names.add((last_name, first_name))  # Add to deduplication set
 
                 if "|" in first_name:
                     first_name, ORCID = first_name.split("|")
@@ -411,6 +421,7 @@ def contracting_officer(json_list):
                         "familyName": last_name,
                         "contributorType": "Other"
                     })
+                officer_names.add((last_name, first_name))  # Add to deduplication set
 
             # Store contracting officers in the JSON for access in other functions
             json_obj["_contracting_officer_names"] = list(officer_names)  # Convert set to list
@@ -434,11 +445,7 @@ def contributors(json_list):
                 last_name = last_name.strip()
                 first_name = first_name.strip()
 
-                # Skip if the contributor is already a contracting officer
-                if (last_name, first_name) in officer_names:
-                    logging.info(f"Skipping duplicate contributor '{first_name} {last_name}' (already a contracting officer).")
-                    continue
-
+                ORCID = None
                 if "|" in first_name:
                     first_name, ORCID = first_name.split("|")
                     ORCID = ORCID.strip()
@@ -446,24 +453,26 @@ def contributors(json_list):
                         ORCID = ORCID.replace("(ORCID: ","")
                     if not ORCID.startswith("https://orcid.org/"):
                         ORCID = "https://orcid.org/" + ORCID
-                    json_obj.setdefault("contributors", []).append({
-                        "name": last_name.strip() + ", " + first_name.strip(),
-                        "nameType": "Personal",
-                        "givenName": first_name.strip(),
-                        "familyName": last_name,
-                        "contributorType": "Researcher",
-                        "nameIdentifiers": [
-                            {"nameIdentifier": ORCID, "nameIdentifierScheme": "ORCID", "schemeUri": "https://orcid.org/"}
-                        ]
-                    })
-                else:
-                    json_obj.setdefault("contributors", []).append({
-                        "name": contributor,
-                        "nameType": "Personal",
-                        "givenName": first_name,
-                        "familyName": last_name,
-                        "contributorType": "Researcher"
-                    })
+                    
+                    
+                # Skip if the contributor is already a contracting officer
+                if (last_name, first_name) in officer_names:
+                    logging.info(f"Skipping duplicate contributor '{first_name} {last_name}' (already a contracting officer).")
+                    continue
+                
+                entry = {
+                    "name": last_name.strip() + ", " + first_name.strip(),
+                    "nameType": "Personal",
+                    "givenName": first_name.strip(),
+                    "familyName": last_name,
+                    "contributorType": "Researcher",
+                }
+                
+                if ORCID is not None:
+                    entry['nameIdentifiers'] = [
+                        {"nameIdentifier": ORCID, "nameIdentifierScheme": "ORCID", "schemeUri": "https://orcid.org/"}
+                    ]
+                json_obj.setdefault("contributors", []).append(entry)
         else:
             logging.info(f"sm:Contributor not found for row {index + 1}.")
     return json_list
@@ -582,6 +591,44 @@ def content_notes(json_list):
                 })
     return json_list
 
+# this function matches Rights Statements to licenses
+def rights(json_list):
+    for index, json_obj in enumerate(json_list):
+        rights_key = None
+        for candidate_key in ("sm:Rights Statement", "Rights Statement", "Rights_Statement", "Copyright"):
+            if candidate_key in json_obj:
+                rights_key = candidate_key
+                break
+        if rights_key is not None:
+            rights = json_obj.pop(rights_key)
+            if "Attribution 4.0 International" in rights or "https://creativecommons.org/licenses/by/4.0/" in rights:
+                json_obj.setdefault("rightsList", []).append({
+                    "rights": "Creative Commons Attribution 4.0 International",
+                    "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
+                    "schemeUri": "https://spdx.org/licenses/",
+                    "rightsIdentifier": "cc-by-4.0",
+                    "rightsIdentifierScheme": "SPDX"
+                    })
+            elif "Zero" in rights or "https://creativecommons.org/publicdomain/zero/1.0/legalcode" in rights:
+                json_obj.setdefault("rightsList", []).append({
+                    "rights": "Creative Commons Zero v1.0 Universal",
+                    "rightsUri": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+                    "schemeUri": "https://spdx.org/licenses/",
+                    "rightsIdentifier": "cc0-1.0",
+                    "rightsIdentifierScheme": "SPDX"
+                    })
+            elif "Public Domain" in rights or "Open Access" in rights:
+                json_obj.setdefault("rightsList", []).append({
+                    "rights": "Creative Commons Public Domain Dedication and Certification",
+                    "rightsUri": "https://creativecommons.org/licenses/publicdomain/",
+                    "schemeUri": "https://spdx.org/licenses/",
+                    "rightsIdentifier": "cc-pddc",
+                    "rightsIdentifierScheme": "SPDX"
+                })
+            else:
+                logging.info(f"No license or rights statement for row {index + 1}.")
+    return json_list
+                
 #this function matches "Language" to language
 def language(json_list):
     for index, json_obj in enumerate(json_list):
@@ -652,6 +699,13 @@ def description(json_list):
 def schema(json_list):
     for json_obj in json_list:
         json_obj['schemaVersion'] = "https://schema.datacite.org/meta/kernel-4.5/"
+    return json_list
+
+# This function will drop unnecessary information
+def drop_and_pop(json_list):
+    for json_obj in json_list:
+        if "_contracting_officer_names" in json_obj:
+            json_obj.pop("_contracting_officer_names")
     return json_list
 
 # this function wraps the entire payload in the "data" structure with the type of "dois". This also puts all the metadata created in the process into the object "attributes."
