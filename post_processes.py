@@ -636,7 +636,7 @@ def language(json_list):
             language = json_obj.pop("Language", json_obj.pop("Language(s)", None))
             language = language.strip()
             if language in language_dict:
-                json_obj["language"]=language
+                json_obj["language"]=language_dict[language]
             else:
                 logging.warn(f"Language {language} not found in language dictionary for row {index + 1}.")
         else:
