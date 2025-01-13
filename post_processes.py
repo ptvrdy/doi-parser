@@ -698,7 +698,7 @@ def description(json_list):
 # this function declares the schema version at the end of the payload. This statement is required for objects to be accepted by the DataCite API
 def schema(json_list):
     for json_obj in json_list:
-        json_obj['schemaVersion'] = "https://schema.datacite.org/meta/kernel-4.5/"
+        json_obj['schemaVersion'] = "https://schema.datacite.org/meta/kernel-4.6/"
     return json_list
 
 # This function will drop unnecessary information
