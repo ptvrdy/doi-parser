@@ -119,7 +119,7 @@ This file is where you would make adjustments to my functions and add your own. 
 
 ## F. Update Log  
 
-This README.md file was originally created on 2024-08-02 by Peyton Tvrdy ([0000-0002-9720-4725](https://orcid.org/0000-0002-9720-4725)), Data Management and Data Curation Fellow, National Transportation Library <peyton.tvrdy.ctr@dot.gov>  
+This README.md file was originally created on 2024-08-02 by Peyton Tvrdy ([0000-0002-9720-4725](https://orcid.org/0000-0002-9720-4725)), Data Management and Data Curation Fellow, National Transportation Library [(peyton.tvrdy.ctr@dot.gov)](mailto:peyton.tvrdy.ctr@dot.gov).  
  
 2024-08-02: Version 2.0 Project Launch and README created  
-2025-01-13: Kernal updated from 4.5 to 4.6
+2025-01-13: Kernel updated from 4.5 to 4.6
