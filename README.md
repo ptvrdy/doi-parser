@@ -20,10 +20,10 @@ F. [Update Log](#f-update-log)
 
 **Title of Program:**  DOI Parser Version 2.0 for DataCite
 
-**Description of the Program:** This program takes CSV metadata files and transforms them into DataCite Schema JSON files based on the CSV headings. This version of the program is compliant with the DataCite Schema Version 4.5. The purpose of the program is convert existing metadata to the DataCite schema and post to the DataCite API to update/create DOI metadata. The program then returns the API Response and generates a CSV of the DOIs updated/created and that item's title. This program aims to streamline DOI metadata management by converting metadata to the DataCite schema, posting to their API, and returning relevant response data. 
+**Description of the Program:** This program takes CSV metadata files and transforms them into DataCite Schema JSON files based on the CSV headings. This version of the program is compliant with the DataCite Schema Version 4.6. The purpose of the program is convert existing metadata to the DataCite schema and post to the DataCite API to update/create DOI metadata. The program then returns the API Response and generates a CSV of the DOIs updated/created and that item's title. This program aims to streamline DOI metadata management by converting metadata to the DataCite schema, posting to their API, and returning relevant response data. 
 
 **Special Features of This Program:**
-1. Maps CSV headings to [DataCite Schema](https://schema.datacite.org/meta/kernel-4.5), crosswalking the metadata to the DataCite schema  
+1. Maps CSV headings to [DataCite Schema](https://schema.datacite.org/meta/kernel-4.6), crosswalking the metadata to the DataCite schema  
 2. For organizations that are contributors, creators, or publishers, searches the [ROR API](https://ror.org/) to retrieve ROR Display Names and ROR IDs  
 3. If the organization has a ROR ID, the program asks the user to confirm the match provided by the ROR API. If the API is down or cannot confirm a match, the user can manually add ROR information. If there is no ROR ID for an organization, the user can skip ROR input
 4. The program then takes the confirmed ROR information or the user input of ROR information and appends it to the organization creator, contributor, or publisher as a 'nameIdentifier' or  'publisherIdentifier'
@@ -36,7 +36,7 @@ F. [Update Log](#f-update-log)
 11. The program finishes and prints "Done!"  
 
 **Dataset Archive Link:** <https://github.com/ptvrdy/doi-parser>  
-**DataCite Schema version:** <https://schema.datacite.org/meta/kernel-4.5>  
+**DataCite Schema version:** <https://schema.datacite.org/meta/kernel-4.6>  
 
 **Authorship Information:**  
 
@@ -122,3 +122,4 @@ This file is where you would make adjustments to my functions and add your own. 
 This README.md file was originally created on 2024-08-02 by Peyton Tvrdy ([0000-0002-9720-4725](https://orcid.org/0000-0002-9720-4725)), Data Management and Data Curation Fellow, National Transportation Library <peyton.tvrdy.ctr@dot.gov>  
  
 2024-08-02: Version 2.0 Project Launch and README created  
+2025-01-13: Kernal updated from 4.5 to 4.6
