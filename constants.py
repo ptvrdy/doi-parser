@@ -75,6 +75,7 @@ collections_to_doi_lookup = {
     "Papers by H.S. Fairbank - Frank Turner - T.H. Macdonald - (FTMPAPERS) (PBHF-FT-TM-F)": "10.21949/1530846",
     "Pedestrian & Bike Forum Newsletter": "10.21949/k6bx-0n11",
     "Pipeline and Hazardous Materials Safety Administration": "10.21949/1530847",
+    "Ports Resilience": "10.21949/9tbf-2k24",
     "Public Access Resources": "10.21949/1530848",
     "Public Roads": "10.21949/1530849",
     "Realty Digest": "10.21949/mh90-5s37",
