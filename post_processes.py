@@ -229,17 +229,18 @@ def publication_date(json_list):
 def resource_type(json_list):
     for index, json_obj in enumerate(json_list):
             if "sm:Format" and "sm:Resource Type" in json_obj or "Format" and "Resource Type" in json_obj:
-                resource_type = json_obj.pop("sm:Format", json_obj.pop("Format", None))
+                format_type = json_obj.pop("sm:Format", json_obj.pop("Format", ""))
+                resource_type = json_obj.pop("sm:Resource Type", json_obj.pop("Resource Type", None))
                 resource_type_general = json_obj.pop("sm:Resource Type", json_obj.pop("Resource Type", None))
                 if resource_type_general in resource_type_lookup:
                     resource_type_general = resource_type_general.strip()
                     resource_type = resource_type.strip()
                     json_obj.setdefault("types", {})["resourceType"]=resource_type
                     json_obj.setdefault("types", {})["resourceTypeGeneral"]=resource_type_lookup[resource_type_general]
-                    if resource_type in iana_mime_type_lookup:
-                        json_obj.setdefault("formats", []).append(iana_mime_type_lookup[resource_type])
+                    if format_type in iana_mime_type_lookup:
+                        json_obj.setdefault("formats", []).append(iana_mime_type_lookup[format_type])
                     else:
-                        logging.warn(f"Format {resource_type} is not found in the lookup for row {index +1}.")
+                        logging.warn(f"Format {format_type} is not found in the lookup for row {index +1}.")
                 else:
                     logging.warn(f"Resource type {resource_type_general} is not found in the lookup for row {index + 1}.")
             else:
@@ -620,9 +621,9 @@ def rights(json_list):
             elif "Public Domain" in rights or "Open Access" in rights:
                 json_obj.setdefault("rightsList", []).append({
                     "rights": "Creative Commons Public Domain Dedication and Certification",
-                    "rightsUri": "https://creativecommons.org/licenses/publicdomain/",
+                    "rightsUri": "https://creativecommons.org/publicdomain/mark/1.0/deed.en",
                     "schemeUri": "https://spdx.org/licenses/",
-                    "rightsIdentifier": "cc-pddc",
+                    "rightsIdentifier": "cc-pdm-1.0",
                     "rightsIdentifierScheme": "SPDX"
                 })
             else:
