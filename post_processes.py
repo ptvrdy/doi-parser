@@ -7,6 +7,7 @@ from constants import (
 )
 
 import logging
+import os
 import pandas as pd
 
 from utils import (
@@ -480,8 +481,17 @@ def contributors(json_list):
 
 
 #loading TRT file
-file_path_trt = "TRT/TRT - Export 20241028.xlsx"
-trt_data = pd.read_excel(file_path_trt)
+directory = "TRT"
+files = [os.path.join(directory, f) for f in os.listdir(directory) if f.endswith(".xlsx")]
+
+if files:
+    # Find the newest file by modification time
+    newest_file = max(files, key=os.path.getmtime)
+    logging.info(f"Selecting file {newest_file} for TRT import.")
+else:
+    logging.warn(f"No TRT file found in TRT folder.")
+
+trt_data = pd.read_excel(newest_file)
 
 # Combining all "Concept" columns (B to M) to find the first non-empty term, bypassing hierarchy
 concept_columns = trt_data.loc[:, 'concept':'concept.11'] 
