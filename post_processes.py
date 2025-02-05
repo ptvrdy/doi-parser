@@ -70,7 +70,7 @@ def issn_number(json_list):
 def rosap_url(json_list):
     for index, json_obj in enumerate(json_list):
         rosap_key = None
-        for candidate_key in ("ROSAP URLs", "ROSAP_URL", "ROSAP URL", "ROSAP_URLs"):
+        for candidate_key in ("ROSAP URLs", "ROSAP_URL", "ROSAP URL", "ROSAP_URLs", "ROSAP URLS", "ROSA P URL", "ROSA P URLS"):
             if candidate_key in json_obj:
                 rosap_key = candidate_key
                 break
@@ -231,8 +231,8 @@ def resource_type(json_list):
     for index, json_obj in enumerate(json_list):
             if "sm:Format" and "sm:Resource Type" in json_obj or "Format" and "Resource Type" in json_obj:
                 format_type = json_obj.pop("sm:Format", json_obj.pop("Format", ""))
-                resource_type = json_obj.pop("sm:Resource Type", json_obj.pop("Resource Type", None))
-                resource_type_general = json_obj.pop("sm:Resource Type", json_obj.pop("Resource Type", None))
+                resource_type = json_obj.get("sm:Resource Type", json_obj.get("Resource Type", ""))
+                resource_type_general = json_obj.pop("sm:Resource Type", json_obj.pop("Resource Type", ""))
                 if resource_type_general in resource_type_lookup:
                     resource_type_general = resource_type_general.strip()
                     resource_type = resource_type.strip()
