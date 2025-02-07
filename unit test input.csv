@@ -1,12 +1,12 @@
-﻿Workroom_ID,ROSAP_ID,ROSAP_URL,sm:Collection,sm:Digital Object Identifier,Title,Alternative Title,Published Date,sm:Format,sm:Resource Type,Main Document URL,Supporting Documents URLs,sm:Creator,sm:Corporate Creator,sm:Corporate Contributor,sm:Contributor,sm:Corporate Publisher,sm:Publisher,sm:Geographical Coverage,sm:Key words,sm:Report Number,"Grants, Contracts, Cooperative Agreements",sm:Contracting Officer,sm:ResearchHub ID,Content Notes,sm:Rights Statement,Language,sm:Edition,Series Name,Description
-98485,dot:75291,https://rosap.ntl.bts.gov/view/dot/75291,US Transportation Collection,https://doi.org/10.21949/12345,"Electrification of Illinois Transit: Bridging the Gap With Heavy-Duty Technician Training Initiatives
-",Alt Title 1,2024-06-01,PDF,Tech Report,https://ntlrepository.blob.core.windows.net/lib/98000/98400/98485/Electrification_of_Illinois_Transit_202406_REM.pdf,,"Greenwood, Reggie 
-Reddy, Meghana Reddy Dharma ","Illinois Center for Transportation
+﻿Workroom_ID,ROSAP_ID,ROSAP_URL,sm:Collection,sm:Digital Object Identifier,Title,Alternative Title,Published Date,sm:Format,sm:Resource Type,Main Document URL,Supporting Documents URLs,sm:Creator,sm:Corporate Creator,sm:Corporate Contributor,sm:Contributor,sm:Corporate Publisher,sm:Publisher,sm:Geographical Coverage,sm:Key words,sm:Report Number,Grants, Contracts, Cooperative Agreements,sm:Contracting Officer,sm:ResearchHub ID,Content Notes,sm:Rights Statement,Language,sm:Edition,Series Name,Description
+98485,dot:75291,https://rosap.ntl.bts.gov/view/dot/75291,US Transportation Collection,https://doi.org/10.21949/12345,Electrification of Illinois Transit: Bridging the Gap With Heavy-Duty Technician Training Initiatives
+,Alt Title 1,2024-06-01,PDF,Tech Report,https://ntlrepository.blob.core.windows.net/lib/98000/98400/98485/Electrification_of_Illinois_Transit_202406_REM.pdf,,Greenwood, Reggie 
+Reddy, Meghana Reddy Dharma ,Illinois Center for Transportation
 Governors State University
-University of Illinois at Urbana-Champaign. Department of Civil and Environmental Engineering","Illinois. Department of Transportation
-United States. Department of Transportation. Federal Highway Administration","Greenwood, Reggie ",Illinois Center for Transportation,,"Illinois
-United States","Electric vehicles
+University of Illinois at Urbana-Champaign. Department of Civil and Environmental Engineering,Illinois. Department of Transportation
+United States. Department of Transportation. Federal Highway Administration,Greenwood, Reggie ,Illinois Center for Transportation,,Illinois
+United States,Electric vehicles
 Transit traffic
 Public private partnerships
 Bus transit
-Sustainable transportation",FHWA-ICT-24-014,R27-SP57,,11111,Content Note Here,,English,Final Report 6/1/23–6/30/24,Air Travel Consumer Report [Series],"This report examines the evolving landscape of technician training in Illinois’ transit industry, with a particular focus on electric vehicle (EV) technology."
+Sustainable transportation,FHWA-ICT-24-014,R27-SP57,,11111,Content Note Here,,English,Final Report 6/1/23–6/30/24,Air Travel Consumer Report [Series],This report examines the evolving landscape of technician training in Illinois’ transit industry, with a particular focus on electric vehicle (EV) technology.
