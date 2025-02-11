@@ -46,8 +46,8 @@ def workroom_id(json_list):
 #this function matches "ROSAP ID" to Alternateidentifier
 def rosap_id(json_list):
     for index, json_obj in enumerate(json_list):
-        if "ROSAP ID" in json_obj or "ROSAP_ID" in json_obj:
-            swat_id = json_obj.pop("ROSAP ID", json_obj.pop("ROSAP_ID", None))
+        if "ROSAP ID" in json_obj or "ROSAP_ID" in json_obj or "ROSA P_ID" in json_obj:
+            swat_id = json_obj.pop("ROSAP ID", json_obj.pop("ROSAP_ID", json_obj.pop("ROSA P_ID", None)))
             json_obj.setdefault("alternateIdentifiers", []).append({
                 "alternateIdentifier": swat_id, 
                 "alternateIdentifierType": "CDC SWAT Identifier"
@@ -70,7 +70,7 @@ def issn_number(json_list):
 def rosap_url(json_list):
     for index, json_obj in enumerate(json_list):
         rosap_key = None
-        for candidate_key in ("ROSAP URLs", "ROSAP_URL", "ROSAP URL", "ROSAP_URLs", "ROSAP URLS", "ROSA P URL", "ROSA P URLS"):
+        for candidate_key in ("ROSAP URLs", "ROSAP_URL", "ROSAP URL", "ROSAP_URLs", "ROSAP URLS", "ROSA P URL", "ROSA P URLS", "ROSA P_URL"):
             if candidate_key in json_obj:
                 rosap_key = candidate_key
                 break
