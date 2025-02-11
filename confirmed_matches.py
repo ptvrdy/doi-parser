@@ -27,7 +27,7 @@ def save_confirmed_matches(matches):
                 ror_name = ror_entries['ror_name']
                 writer.writerow({"rosap_name":rosap_name, "ror_id": ror_id, "ror_name": ror_name})
     except IOError as e:
-        logging.warn(f"Unable to write 'confirmed_matched_ror.csv' due to {e}")
+        logging.warning(f"Unable to write 'confirmed_matched_ror.csv' due to {e}")
 
 # Load confirmed matches
 confirmed_matches = load_confirmed_matches()
