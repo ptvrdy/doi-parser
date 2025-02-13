@@ -38,6 +38,8 @@ F. [Update Log](#f-update-log)
 **Dataset Archive Link:** <https://github.com/ptvrdy/doi-parser>  
 **DataCite Schema version:** <https://schema.datacite.org/meta/kernel-4.6>  
 
+**For More Information on How to Run this Program, consult the [Program's Wiki](https://github.com/ptvrdy/doi-parser/wiki).**
+
 **Authorship Information:**  
 
 >  *Co-Author Contact Information*  
@@ -57,6 +59,8 @@ F. [Update Log](#f-update-log)
 
 **Licenses/restrictions placed on the data:** https://creativecommons.org/licenses/by/4.0  
  
+**For More Information on How to Run this Program, consult the [Program's Wiki](https://github.com/ptvrdy/doi-parser/wiki).**  
+
 ## C. File Overview  
 
 File List for doi-parser  
@@ -91,6 +95,8 @@ File List for doi-parser
 >  10. Filename: `utils.py`  
 >  Short Description:  This file contains functions for searching the ROR API and manually confirming ROR information. It also deletes unnecessary columns from the input CSV. The functions and column names will need to be adjusted for your institution. Additionally, it includes a function to determine whether the program will reserve/draft DOIs using the 'POST' method or update them to the 'findable' state using the 'PUT' method. 
 
+**For More Information on How to Run this Program, consult the [Program's Wiki](https://github.com/ptvrdy/doi-parser/wiki).**  
+
 ## D. Software Information  
 
 **Instrument or software-specific information needed to interpret the data:** This software is best run through command prompt. It is best edited with Visual Studio Code. Microsoft Excel was used to create the CSV files. To run this software, open the command prompt and navigate to the folder that contains this program. Then, type the following command:  
@@ -109,6 +115,8 @@ python doi_parser.py CSV_1_20240101.csv
 pip install -r requirements.txt
 ```
 
+**For More Information on How to Run this Program, consult the [Program's Wiki](https://github.com/ptvrdy/doi-parser/wiki).**  
+
 ## E. File Specific Information  
 
 1. **constants.py**  
@@ -119,7 +127,10 @@ This file is where you would make adjustments to my functions and add your own. 
 
 ## F. Update Log  
 
-This README.md file was originally created on 2024-08-02 by Peyton Tvrdy ([0000-0002-9720-4725](https://orcid.org/0000-0002-9720-4725)), Data Management and Data Curation Fellow, National Transportation Library [(peyton.tvrdy.ctr@dot.gov)](mailto:peyton.tvrdy.ctr@dot.gov).  
+This README.md file was originally created on 2024-08-02 by Peyton Tvrdy ([0000-0002-9720-4725](https://orcid.org/0000-0002-9720-4725)), Data Management and Data Curation Fellow, National Transportation Library [(peyton.tvrdy.ctr@dot.gov)](mailto:peyton.tvrdy.ctr@dot.gov).   
+
+**For More Information on How to Run this Program, consult the [Program's Wiki](https://github.com/ptvrdy/doi-parser/wiki).**  
  
 2024-08-02: Version 2.0 Project Launch and README created  
 2025-01-13: Kernel updated from 4.5 to 4.6
+2025-02-13: Added Wiki and Links to Wiki
