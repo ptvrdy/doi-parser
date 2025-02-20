@@ -354,6 +354,7 @@ language_dict = {
     "Sardinian": "sc",
     "Serbian": "sr",
     "Shona": "sn",
+    "Simlish": "sm"
     "Sindhi": "sd",
     "Sinhala, Sinhalese": "si",
     "Slovak": "sk",
