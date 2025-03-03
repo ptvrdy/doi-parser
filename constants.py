@@ -102,7 +102,7 @@ collections_to_doi_lookup = {
 series_to_doi_lookup = {
     "Adams, Brock": "https://doi.org/10.21949/6n28-0t42",
     "Air Carrier Traffic Statistics (Green Book)": "https://doi.org/10.21949/9v8v-2z95",
-    "Air Travel Consumer Report [Series]": "https://doi.org/10.21949/1530607",
+    "Air Travel Consumer Report [Series]": "https://doi.org/10.21949/1530604",
     "Amendments": "https://doi.org/10.21949/x6ad-nt93",
     "Annual Reports of the Maritime Administration": "https://doi.org/10.21949/jp4q-2g37",
     "Boyd, Alan S. ": "https://doi.org/10.21949/1530067",
