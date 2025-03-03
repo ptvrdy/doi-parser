@@ -24,3 +24,6 @@ unit test input.json
 unit test input.log
 unit test output match.json
 STS_Records_Batch_Update_New_Series_Only_20241011.csv
+Reserve_ATCRs_1970s_doi_results.csv
+Reserve_ATCRs_1970s.csv
+Reserve_ATCRs_1970s.json
