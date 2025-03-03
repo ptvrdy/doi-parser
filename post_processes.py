@@ -8,6 +8,10 @@ from constants import (
 
 import logging
 import os
+
+from orcids import (
+    orcids
+)
 import pandas as pd
 
 from utils import (
@@ -301,6 +305,9 @@ def creators(json_list):
                     "familyName": last_name, 
                 }
                 
+                if creator in orcids:
+                    ORCID = orcids[creator][1]               
+                
                 if ORCID is not None:
                     entry['nameIdentifiers'] = [
                         {
@@ -423,6 +430,19 @@ def contracting_officer(json_list):
                         "nameIdentifiers": [
                             {"nameIdentifier": ORCID, "nameIdentifierScheme": "ORCID", "schemeUri": "https://orcid.org/"}
                         ]})
+                    
+                if contracting_officer in orcids:
+                    ORCID = orcids[contracting_officer][1]    
+                    json_obj.setdefault("contributors", []).append({
+                    "name": last_name.strip() + ", " + first_name.strip(),
+                    "nameType": "Personal",
+                    "givenName": first_name,
+                    "familyName": last_name,
+                    "contributorType": "Other",
+                    "nameIdentifiers": [
+                        {"nameIdentifier": ORCID, "nameIdentifierScheme": "ORCID", "schemeUri": "https://orcid.org/"}
+                    ]})
+                    
                 else:
                     json_obj.setdefault("contributors", []).append({
                         "name": contracting_officer,
@@ -469,6 +489,9 @@ def contributors(json_list):
                 if (last_name, first_name) in officer_names:
                     logging.info(f"Skipping duplicate contributor '{first_name} {last_name}' (already a contracting officer).")
                     continue
+                
+                if contributor in orcids:
+                    ORCID = orcids[contributor][1]      
                 
                 entry = {
                     "name": last_name.strip() + ", " + first_name.strip(),
