@@ -95,6 +95,9 @@ File List for doi-parser
 >  10. Filename: `utils.py`  
 >  Short Description:  This file contains functions for searching the ROR API and manually confirming ROR information. It also deletes unnecessary columns from the input CSV. The functions and column names will need to be adjusted for your institution. Additionally, it includes a function to determine whether the program will reserve/draft DOIs using the 'POST' method or update them to the 'findable' state using the 'PUT' method. 
 
+>  11. Filename: `orcids.py`
+>  Short Description: This is a dictionary that contains author's names, author accession number, and their ORCID ID. These values are not validated against the ORCID API.  
+
 **For More Information on How to Run this Program, consult the [Program's Wiki](https://github.com/ptvrdy/doi-parser/wiki).**  
 
 ## D. Software Information  
@@ -125,12 +128,16 @@ This file contains information that is relevant to my organization, NTL. This di
 2. **post-processes.py**  
 This file is where you would make adjustments to my functions and add your own. If implementing these functions at your institution, make sure that you change the function 'NTL_Hosting_Institution' to your institution or the institution that will host the item. Additionally, pay special attention to changing all identifiers and the content note for CoreTrustSeal curation levels.  
 
+3. **orcids.py**
+This file is where you would store your repository's/organization's author and contributors with their ORCID IDs. The program in post-processes.py check's the creator/contributor/contracting officer's name against the orcids.py file to match names to their ORCID IDs. 
+
 ## F. Update Log  
 
 This README.md file was originally created on 2024-08-02 by Peyton Tvrdy ([0000-0002-9720-4725](https://orcid.org/0000-0002-9720-4725)), Data Management and Data Curation Fellow, National Transportation Library [(peyton.tvrdy.ctr@dot.gov)](mailto:peyton.tvrdy.ctr@dot.gov).   
 
 **For More Information on How to Run this Program, consult the [Program's Wiki](https://github.com/ptvrdy/doi-parser/wiki).**  
  
-2024-08-02: Version 2.0 Project Launch and README created  
-2025-01-13: Kernel updated from 4.5 to 4.6
-2025-02-13: Added Wiki and Links to Wiki
+2024-08-02: Version 2.0 Project Launch and README created   
+2025-01-13: Kernel updated from 4.5 to 4.6  
+2025-02-13: Added Wiki and Links to Wiki  
+2025-03-03: Added ORCID matching information  
