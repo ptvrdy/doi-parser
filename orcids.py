@@ -14794,5 +14794,13 @@ orcids = {
     "Ikuma, Laura": [
         "81138",
         "https://orcid.org/0000-0003-3437-1937"
+    ],
+    "Andrawes, Bassem": [
+        "24982",
+        "https://orcid.org/0000-0002-8954-3751"
+    ],
+    "Kindratenko, Volodymyr": [
+        "81144",
+        "https://orcid.org/0000-0002-9336-4756"
     ]
 }
