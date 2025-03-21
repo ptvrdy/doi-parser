@@ -116,7 +116,14 @@ def main():
 		# this initializes post_processes.py
 		output = do_post_process(output)
 		print(f"{Fore.YELLOW}\n\n\n\n====> Now beginning transformation processes...")
-		print(f"\n====> Now Reviewing ROR Info...")
+		try:
+   			# Main processing logic
+			output = do_post_process(output)
+			print(f"\n====> Now Reviewing ROR Info...\n")
+
+		finally:
+			# Always save confirmed matches before exiting
+			save_confirmed_matches(confirmed_matches)
 		print(f"\n===============================================================================================================")
 		
 		
@@ -234,40 +241,57 @@ def main():
 		sys.exit(1)
 
 def do_post_process(output):
-	for func in (delete_unwanted_columns,
-     		# High Priority Runs
-			rosap_url,
-			sm_Collection,
-			handle_draft_vs_publish,
-			title,
-			alt_title,
-			publication_date,
-			resource_type,
-			contracting_officer,
-			creators,
-			lambda x: process_corporate_field(x, "sm:Corporate Creator"),
-			lambda x: process_corporate_field(x, "sm:Corporate Contributor"),
-			lambda x: process_corporate_field(x, "sm:Corporate Publisher"),
-   			series,
-			# Lower Priority Runs
-			contributors,
-			keywords,
-			report_number,
-			contract_number,
-			researchHub_id,
-			content_notes,
-   			workroom_id,
-			rosap_id,
-   			rights,
-			language,
-			edition,
-			description,
-   			schema,
-			drop_and_pop,
-      		wrap_object):
+    for func in (
+        delete_unwanted_columns,
+        # High Priority Runs
+        rosap_url,
+        sm_Collection,
+        handle_draft_vs_publish,
+        title,
+        alt_title,
+        publication_date,
+        resource_type,
+        contracting_officer,
+        creators,
+        lambda x: process_corporate_field(x, "sm:Corporate Creator"),
+        lambda x: process_corporate_field(x, "sm:Corporate Contributor"),
+        lambda x: process_corporate_field(x, "sm:Corporate Publisher"),
+    ):
+        output = func(output)
 
-		output = func(output)
-	return output
+    # Save confirmed matches after processing corporate fields
+    if len(confirmed_matches) % 10 == 0:
+        save_confirmed_matches(confirmed_matches)
+        print(f"{Fore.GREEN}✅ Auto-saved confirmed matches. Current count: {len(confirmed_matches)}")
+
+    for func in (
+        # Lower Priority Runs
+        contributors,
+        keywords,
+        report_number,
+        contract_number,
+        researchHub_id,
+        content_notes,
+        workroom_id,
+        rosap_id,
+        rights,
+        language,
+        edition,
+        description,
+        modified,
+        date_captured,
+        copyright_date,
+        personal_publisher,
+        tris,
+        oclc,
+        isbn,
+        schema,
+        drop_and_pop,
+        wrap_object
+    ):
+        output = func(output)
+
+    return output
  
 
 if __name__ == '__main__':
