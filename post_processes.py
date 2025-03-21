@@ -30,8 +30,30 @@ def delete_unwanted_columns(json_list):
         delete_unwanted(json_obj, "sm:Geographical Coverage")
         delete_unwanted(json_obj, "Primary URL")
         delete_unwanted(json_obj, "Supporting Files")
-        delete_unwanted(json_obj, "Personal Publisher(s)")
+        delete_unwanted(json_obj, "Alternate URL(s)")
         delete_unwanted(json_obj, "Geographical Coverage")
+        delete_unwanted(json_obj, "Classification")
+        delete_unwanted(json_obj, "Subject Keywords")
+        delete_unwanted(json_obj, "Publication Year")
+        delete_unwanted(json_obj, "Publication Month")
+        delete_unwanted(json_obj, "Publication Day")
+        delete_unwanted(json_obj, "Distribution Hold Start Date")
+        delete_unwanted(json_obj, "Distribution Hold End Date")
+        delete_unwanted(json_obj, "Supplier")
+        delete_unwanted(json_obj, "Staff Notes")
+        delete_unwanted(json_obj, "Status")
+        delete_unwanted(json_obj, "Status Comment")
+        delete_unwanted(json_obj, "Modified By")
+        delete_unwanted(json_obj, "Date Created")
+        delete_unwanted(json_obj, "Created By")
+        delete_unwanted(json_obj, "Comment Date")
+        delete_unwanted(json_obj, "Comment By")
+        delete_unwanted(json_obj, "Is Version of")
+        delete_unwanted(json_obj, "Contains")
+        delete_unwanted(json_obj, "Is Format Of")
+        delete_unwanted(json_obj, "Requires")
+        delete_unwanted(json_obj, "References")
+        delete_unwanted(json_obj, "Preceding Entry")
     return json_list
 
 #this function matches "Workroom ID" to Alternateidentifier
@@ -64,11 +86,43 @@ def rosap_id(json_list):
 def issn_number(json_list):
     for json_obj in json_list:
         if "ISSN" in json_obj:
-            issn = json_obj.pop("ISSN")
+            issn = json_obj.pop("ISSN").strip()
             json_obj.setdefault("alternateIdentifiers", []).append({
                 "alternateIdentifier": issn,
                 "alternateIdentifierType": "ISSN"
             })
+    return json_list
+    
+#this function matches "TRIS" to Alternateidentifier
+def tris(json_list):
+    for json_obj in json_list:
+        if "TRIS" in json_obj:
+            tris = json_obj.pop("TRIS").strip()
+            json_obj.setdefault("alternateIdentifiers", []).append({
+                "alternateIdentifier": tris,
+                "alternateIdentifierType": "Transportation Research Information Services (TRIS) Database Accession Number"
+            })
+    return json_list
+            
+def oclc(json_list):
+    for json_obj in json_list:
+        if "OCLC" in json_obj:
+            oclc = json_obj.pop("OCLC").strip()
+            json_obj.setdefault("alternateIdentifiers", []).append({
+                "alternateIdentifier": oclc,
+                "alternateIdentifierType": "OCLC Number"
+            })
+    return json_list
+            
+def isbn(json_list):
+    for json_obj in json_list:
+        if "ISBN" in json_list:
+            isbn = json_obj.pop("ISBN").strip()
+            json_obj.setdefault("alternateIdentifiers", []).append({
+                "alternateIdentifier": isbn,
+                "alternateIdentifierType": "ISBN"
+            })
+    return json_list
     
 #this function matches "ROSAP URLs" to url
 def rosap_url(json_list):
@@ -230,13 +284,54 @@ def publication_date(json_list):
         json_obj["publicationYear"] = int(published_year)
     return json_list
 
+def copyright_date(json_list):
+    for index, json_obj in enumerate(json_list):
+        if "Copyright Date" in json_obj:
+            copywriteDate = json_obj.pop("Copyright Date").strip()
+            json_obj.setdefault("dates", []).append({
+                "date": copywriteDate, 
+                "dateType": "Copyrighted"
+                })
+            logging.info(f"Copyright date mapped for row {index +1}.")
+    return json_list
+
+def date_captured(json_list):
+    for index, json_obj in enumerate(json_list):
+        if "Date Captured" in json_obj:
+            capturedDate = json_obj.pop("Date Captured").strip()
+            capturedDate = capturedDate.split(" ")[0]
+            json_obj.setdefault("dates", []).append({
+                "date": capturedDate,
+                "dateType": "Submitted"
+            })
+        else:
+            logging.info(f"No Date Captured for row {index +1}.")
+    return json_list        
+
+def modified(json_list):
+    for json_obj in json_list:
+        if "Date Modified" in json_obj:
+            updated = json_obj.pop("Date Modified").strip()  # Ensure no leading/trailing whitespace
+            updated = updated.split("T")[0] if "T" in updated else updated.split(" ")[0]  # Extract date only
+            
+            # Ensure "dates" exists, and append the new date
+            if "dates" not in json_obj:
+                json_obj["dates"] = []  # Create list if it doesn't exist
+
+            json_obj["dates"].append({
+                "date": updated,
+                "dateType": "Updated",
+                "dateInformation": "Date cataloging record was last modified by NTL staff."
+            })    
+    return json_list
+
 #this function matches "sm:Format" to ResourceType and resourceTypeGeneral
 def resource_type(json_list):
     for index, json_obj in enumerate(json_list):
-            if "sm:Format" and "sm:Resource Type" in json_obj or "Format" and "Resource Type" in json_obj:
-                format_type = json_obj.pop("sm:Format", json_obj.pop("Format", ""))
+            if "sm:Format" and "sm:Resource Type" in json_obj or "Format" and "Resource Type" in json_obj or "Format (NTL)" and "Resource Type (NTL)" in json_obj:
+                format_type = json_obj.pop("sm:Format", json_obj.pop("Format", json_obj.pop("Format (NTL)","")))
                 resource_type = json_obj.get("sm:Resource Type", json_obj.get("Resource Type", ""))
-                resource_type_general = json_obj.pop("sm:Resource Type", json_obj.pop("Resource Type", ""))
+                resource_type_general = json_obj.pop("sm:Resource Type", json_obj.pop("Resource Type", json_obj.pop("Resource Type (NTL)","")))
                 if resource_type_general in resource_type_lookup:
                     resource_type_general = resource_type_general.strip()
                     resource_type = resource_type.strip()
@@ -631,6 +726,20 @@ def content_notes(json_list):
                         {"nameIdentifier": "https://orcid.org/0000-0002-9720-4725", "nameIdentifierScheme": "ORCID", "schemeUri": "https://orcid.org/"}
                     ]  
                 })
+        if "Source" in json_obj:
+            source_note = json_obj.pop("Source").strip()
+            json_obj.setdefault("descriptions", []).append({
+                "lang": "en",
+                "description": source_note,
+                "descriptionType": "TechnicalInfo"
+            })
+        if "Table of Contents" in json_obj:
+            toc = json_obj.pop("Table of Contents").strip()
+            json_obj.setdefault("descriptions", []).append({
+                "lang": "en",
+                "description": toc,
+                "descriptionType": "TechnicalInfo"
+            })
     return json_list
 
 # this function matches Rights Statements to licenses
@@ -670,6 +779,18 @@ def rights(json_list):
             else:
                 logging.info(f"No license or rights statement for row {index + 1}.")
     return json_list
+
+def personal_publisher(json_list):
+    for index, json_obj in enumerate(json_list):
+        if "Personal Publisher(s)" in json_obj and "sm:Corporate Publisher" not in json_obj:
+            personal_publisher = json_obj.pop("Personal Publisher(s)").strip()
+            
+            # Ensure publisher is a dictionary with a "name" key
+            json_obj["publisher"] = {"name": personal_publisher}
+            
+            logging.info(f"Personal Publisher found for row {index +1}.")
+    return json_list
+            
                 
 #this function matches "Language" to language
 def language(json_list):
