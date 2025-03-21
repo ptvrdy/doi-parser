@@ -29,3 +29,25 @@ Reserve_ATCRs_1970s.csv
 Reserve_ATCRs_1970s.json
 2-1000.csv
 ~$main sheet.xlsx
+Metadata Export 2025-03-09/DOI_Metadata_Report.xlsx
+Tests/personal_publisher_test_doi_results.csv
+.gitignore
+Tests/personal_publisher_test.csv
+Tests/personal_publisher_test.json
+Tests/personal_publisher_test2_doi_results.csv
+Tests/personal_publisher_test2.csv
+Tests/personal_publisher_test2.json
+Tests/toc test_doi_results.csv
+Tests/toc test.csv
+Tests/toc test.json
+Tests/tris oclc test_doi_results.csv
+Tests/tris oclc test.csv
+Tests/tris oclc test.json
+main sheet.xlsx
+source toc test.csv
+unit test input.csv
+source toc test.json
+source toc test_doi_results.csv
+unit test input.csv
+unit test input.json
+unit test output match.json
