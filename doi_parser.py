@@ -114,7 +114,6 @@ def main():
 			output = csv_to_json(csv_reader)
 
 		# this initializes post_processes.py
-		output = do_post_process(output)
 		print(f"{Fore.YELLOW}\n\n\n\n====> Now beginning transformation processes...")
 		try:
    			# Main processing logic
@@ -260,12 +259,12 @@ def do_post_process(output):
         output = func(output)
 
     # Save confirmed matches after processing corporate fields
-    if len(confirmed_matches) % 10 == 0:
         save_confirmed_matches(confirmed_matches)
         print(f"{Fore.GREEN}✅ Auto-saved confirmed matches. Current count: {len(confirmed_matches)}")
 
     for func in (
         # Lower Priority Runs
+        series,
         contributors,
         keywords,
         report_number,
