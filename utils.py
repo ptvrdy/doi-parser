@@ -68,8 +68,19 @@ def verify_match(corporate_creator, ror_id, ror_name):
             print(f"{Fore.RED}Invalid input.{Style.RESET_ALL} Please enter 'Y' or 'N'.")
     
 
-def get_ror_info(corporate_creator):
+def get_ror_info(corporate_creator, skip_ror_api=False):
     try:
+        # Check if the corporate creator exists in confirmed matches
+        if corporate_creator in confirmed_matches:
+            logging.info(f'Using previously confirmed match for {corporate_creator}.')
+            ror_info = confirmed_matches[corporate_creator]
+            return ror_info['ror_id'], ror_info['ror_name']
+        
+        # If skipping ROR API checking, return None if not found
+        if skip_ror_api:
+            logging.info(f"Skipping ROR API lookup for {corporate_creator}. No match found in confirmed_matches.")
+            return None, None
+        
         # Check if the corporate creator exists in the dictionary
         if corporate_creator in organization_to_ror_lookup:
             logging.info(f"Picking {corporate_creator} from organization_to_ror_lookup")
@@ -80,12 +91,6 @@ def get_ror_info(corporate_creator):
             ror_name = ror_name_step1.replace("Department of Transportation. ", "")
             return ror_id, ror_name
         
-        # Check if the corporate creator has been confirmed before
-        if corporate_creator in confirmed_matches:
-            logging.info(f'Using previously confirmed match for {corporate_creator}.')
-            ror_info = confirmed_matches[corporate_creator]
-            return ror_info['ror_id'], ror_info['ror_name']
-        
         # Query the ROR API
         API_URL = API_URL_Lookup["API_URL"]
         logging.info(f"Preparing ORG ID Request for {corporate_creator}")
@@ -95,35 +100,17 @@ def get_ror_info(corporate_creator):
         
         if response.status_code != 200:
             logging.error(f"API request failed for '{corporate_creator}' with status code {response.status_code}.")
-            ror_id, ror_name = ror_manual_addition(corporate_creator)
-            if ror_id is None:
-                logging.info("User canceled manual entry.")
-                return None, None
-            
-            return ror_id, ror_name
+            return ror_manual_addition(corporate_creator)
         
         ror_data = response.json()
         logging.debug(f"API Response is: {ror_data}")
         
-        if ror_data.get('items') is None or len(ror_data.get('items')) == 0:
+        if not ror_data.get('items'):
             logging.error(f"Malformed ROR response for {corporate_creator}")
-            ror_id, ror_name = ror_manual_addition(corporate_creator)
-            if ror_id is None:
-                logging.info("User canceled manual entry.")
-                return None, None
-            
-            return ror_id, ror_name
+            return ror_manual_addition(corporate_creator)
         
         items_list = ror_data['items']
-        closest_match = None
-        
-        for item in items_list:
-            if item.get('chosen', False):
-                closest_match = item
-                break
-        
-        if closest_match is None:
-            closest_match = items_list[0]
+        closest_match = next((item for item in items_list if item.get('chosen', False)), items_list[0])
         
         logging.debug(f"My Closest Match Is: {closest_match}")
         ror_id = closest_match["organization"]['id']
@@ -131,37 +118,20 @@ def get_ror_info(corporate_creator):
         for name_entry in closest_match['organization'].get('names', []):
             if 'ror_display' in name_entry.get('types', []):
                 ror_name = name_entry.get('value')
-                logging.debug("Taking ror_display as the name {ror_name}")
+                logging.debug(f"Taking ror_display as the name {ror_name}")
+                
                 if verify_match(corporate_creator, ror_id, ror_name):
-                    confirmed_matches[corporate_creator] = {
-                        'ror_id': ror_id, 
-                        'ror_name': ror_name
-                    }
+                    confirmed_matches[corporate_creator] = {'ror_id': ror_id, 'ror_name': ror_name}
                     return ror_id, ror_name
-                else:
-                    ror_id, ror_name = ror_manual_search(corporate_creator)
-                    if ror_id is None:
-                        logging.info("User canceled manual search.")
-                        return None, None
-                    if verify_match(corporate_creator, ror_id, ror_name):
-                        confirmed_matches[corporate_creator] = {
-                            'ror_id': ror_id, 
-                            'ror_name': ror_name
-                        }
-                        return ror_id, ror_name
-                    else:
-                        logging.info("User cancelled verifying match. Proceeding to manual addition")
-                        ror_id, ror_name = ror_manual_addition(corporate_creator)
-                        if ror_id is None:
-                            logging.info("User canceled manual entry.")
-                            return None, None
-                        return ror_id, ror_name
-        
+                
+                return ror_manual_search(corporate_creator)
+
     except Exception as e:
-        logging.error(f"Error fetching ROR data for '{corporate_creator}'", e)
+        logging.error(f"Error fetching ROR data for '{corporate_creator}': {e}")
         sys.exit(1)
-    
+
     return None, None
+
 
 def delete_unwanted(json_obj, key):
     if key in json_obj:
