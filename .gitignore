@@ -51,3 +51,9 @@ source toc test_doi_results.csv
 unit test input.csv
 unit test input.json
 unit test output match.json
+Slater_2000-2001_metadata_to_upload_REV_DOI_Reserve_20250325_doi_results.csv
+Slater_2000-2001_metadata_to_upload_REV_DOI_Reserve_20250325.json
+Slater_2000-2001_metadata_to_upload_REV_DOI_Reserve_20250325.csv
+Weekly_Updates_NEW_DOIs_20250324_20250317_20250325_doi_results.csv
+Weekly_Updates_NEW_DOIs_20250324_20250317_20250325.json
+Weekly_Updates_NEW_DOIs_20250324_20250317_20250325.csv
