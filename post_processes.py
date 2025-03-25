@@ -254,12 +254,14 @@ def draft_state(json_obj):
             
 #this function matches "Title" to titles
 def title(json_list):
+    logging.debug("Running title function")
     for json_obj in json_list:
-        logging.debug("My object is " + str(json_obj))
-        title = json_obj.pop("Title")
-        json_obj.setdefault("titles", []).append({
-            "title": title, 
-            "lang": "en"
+        logging.debug(f"Processing object: {json_obj}")
+        if "Title" in json_obj:
+            title = json_obj.pop("Title")
+            json_obj.setdefault("titles", []).append({
+                "title": title,
+                "lang": "en"
             })
     return json_list
 
@@ -278,10 +280,14 @@ def alt_title(json_list):
 #this function matches "Published Date" to Publication Year, Date, and dateType
 def publication_date(json_list):
     for index, json_obj in enumerate(json_list):
-        date = json_obj.pop("Published Date", json_obj.pop("Publication Date", None))
+        date = json_obj.pop("Published Date", json_obj.pop("Publication Date", ""))
         json_obj.setdefault("dates", []).append({"date": date, "dateType": "Issued"})
         published_year = date[:4]
-        json_obj["publicationYear"] = int(published_year)
+        if published_year.isnumeric():
+            json_obj["publicationYear"] = int(published_year)
+        else:
+            logging.warning(f"Bad year for {index + 1} == {published_year} from date {date}")
+        
     return json_list
 
 def copyright_date(json_list):
@@ -302,7 +308,8 @@ def date_captured(json_list):
             capturedDate = capturedDate.split(" ")[0]
             json_obj.setdefault("dates", []).append({
                 "date": capturedDate,
-                "dateType": "Submitted"
+                "dateType": "Submitted",
+                "dateInformation": "Date cataloging record was first created in NTL cataloging system."
             })
         else:
             logging.info(f"No Date Captured for row {index +1}.")
@@ -417,14 +424,14 @@ def creators(json_list):
             logging.info(f"sm:Creator not found for row {index + 1}.")
     return json_list
 
-def process_corporate_field(json_list, field_name):
+def process_corporate_field(json_list, field_name, skip_ror_api=True):
     for index, json_obj in enumerate(json_list):
         if field_name in json_obj:
             corporate_values = json_obj.pop(field_name).split("\n")
             logging.debug("My object is " + str(corporate_values))
             for corporate_value in corporate_values:
                 corporate_value = corporate_value.strip()
-                ror_id, ror_name = get_ror_info(corporate_value)
+                ror_id, ror_name = get_ror_info(corporate_value, skip_ror_api)
                 
                 # Now define the field_mapping using corporate_value
                 field_mapping = {
@@ -492,6 +499,7 @@ def process_corporate_field(json_list, field_name):
         else:
             logging.info(f"{field_name} not found for row {index + 1}.")
     return json_list
+
 
 def contracting_officer(json_list):
     for index, json_obj in enumerate(json_list):
