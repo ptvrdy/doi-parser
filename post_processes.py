@@ -206,7 +206,7 @@ def sm_Collection(json_list):
     for index, json_obj in enumerate(json_list):
         if "sm:Collection" in json_obj or "Collection(s) in json_obj":
             collections = json_obj.pop("sm:Collection", json_obj.pop("Collection(s)", ""))
-            collections = collections.split(";") if collections else []
+            collections = collections.split(";") if collections else ["US Transportation Collection"]
             for collection in collections:
                 collection = collection.strip()
                 if collection in collections_to_doi_lookup:
@@ -507,15 +507,18 @@ def contracting_officer(json_list):
             contracting_officers = json_obj.pop("sm:Contracting Officer", json_obj.pop("Contracting Officer", ""))
             contracting_officers = contracting_officers.strip()
             contracting_officers = contracting_officers.replace(";", "\n").split("\n") if contracting_officers else []
+            logging.debug(print(f"I am getting stuck on line {index +1}"))
             
             # Store contracting officer names for deduplication
             officer_names = set()
 
             for contracting_officer in contracting_officers:
+                logging.debug(print(f"I have successfully gotten through line {index +1}"))
                 contracting_officer = contracting_officer.strip()
                 last_name, first_name = contracting_officer.split(",")
                 last_name = last_name.strip()
                 first_name = first_name.strip()
+                logging.debug(print(f"I Made it inside the for loop for line {index}"))
 
                 if "|" in first_name:
                     first_name, ORCID = first_name.split("|")
@@ -559,7 +562,7 @@ def contracting_officer(json_list):
             # Store contracting officers in the JSON for access in other functions
             json_obj["_contracting_officer_names"] = list(officer_names)  # Convert set to list
         else:
-            logging.info(f"sm:Contracting Officer not found for row {index + 1}.")
+            logging.info(f"sm:Contracting Officer not found for row {index}.")
     return json_list
 
 
@@ -571,12 +574,14 @@ def contributors(json_list):
         if "sm:Contributor" in json_obj or "Personal Contributor(s)" in json_obj:
             contributors = json_obj.pop("sm:Contributor", json_obj.pop("Personal Contributor(s)", ""))
             contributors = contributors.split("\n") if contributors else []
+            logging.debug(print(f"I made it inside the if for {index +1}."))
 
             for contributor in contributors:
                 contributor = contributor.strip()
                 last_name, first_name = contributor.split(",")
                 last_name = last_name.strip()
                 first_name = first_name.strip()
+                logging.debug(print(f"I am getting not getting stuck on line {index}"))
 
                 ORCID = None
                 if "|" in first_name:
@@ -758,34 +763,36 @@ def rights(json_list):
             if candidate_key in json_obj:
                 rights_key = candidate_key
                 break
-        if rights_key is not None:
+        if rights_key is None:
+            rights = "Public Domain"
+        else:
             rights = json_obj.pop(rights_key)
-            if "Attribution 4.0 International" in rights or "https://creativecommons.org/licenses/by/4.0/" in rights:
-                json_obj.setdefault("rightsList", []).append({
-                    "rights": "Creative Commons Attribution 4.0 International",
-                    "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
-                    "schemeUri": "https://spdx.org/licenses/",
-                    "rightsIdentifier": "cc-by-4.0",
-                    "rightsIdentifierScheme": "SPDX"
-                    })
-            elif "Zero" in rights or "https://creativecommons.org/publicdomain/zero/1.0/legalcode" in rights:
-                json_obj.setdefault("rightsList", []).append({
-                    "rights": "Creative Commons Zero v1.0 Universal",
-                    "rightsUri": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
-                    "schemeUri": "https://spdx.org/licenses/",
-                    "rightsIdentifier": "cc0-1.0",
-                    "rightsIdentifierScheme": "SPDX"
-                    })
-            elif "Public Domain" in rights or "Open Access" in rights:
-                json_obj.setdefault("rightsList", []).append({
-                    "rights": "Creative Commons Public Domain Dedication and Certification",
-                    "rightsUri": "https://creativecommons.org/publicdomain/mark/1.0/deed.en",
-                    "schemeUri": "https://spdx.org/licenses/",
-                    "rightsIdentifier": "cc-pdm-1.0",
-                    "rightsIdentifierScheme": "SPDX"
+        if "Attribution 4.0 International" in rights or "https://creativecommons.org/licenses/by/4.0/" in rights:
+            json_obj.setdefault("rightsList", []).append({
+                "rights": "Creative Commons Attribution 4.0 International",
+                "rightsUri": "https://creativecommons.org/licenses/by/4.0/legalcode",
+                "schemeUri": "https://spdx.org/licenses/",
+                "rightsIdentifier": "cc-by-4.0",
+                "rightsIdentifierScheme": "SPDX"
                 })
-            else:
-                logging.info(f"No license or rights statement for row {index + 1}.")
+        elif "Zero" in rights or "https://creativecommons.org/publicdomain/zero/1.0/legalcode" in rights:
+            json_obj.setdefault("rightsList", []).append({
+                "rights": "Creative Commons Zero v1.0 Universal",
+                "rightsUri": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+                "schemeUri": "https://spdx.org/licenses/",
+                "rightsIdentifier": "cc0-1.0",
+                "rightsIdentifierScheme": "SPDX"
+                })
+        elif "Public Domain" in rights or "Open Access" in rights:
+            json_obj.setdefault("rightsList", []).append({
+                "rights": "Creative Commons Public Domain Dedication and Certification",
+                "rightsUri": "https://creativecommons.org/publicdomain/mark/1.0/deed.en",
+                "schemeUri": "https://spdx.org/licenses/",
+                "rightsIdentifier": "cc-pdm-1.0",
+                "rightsIdentifierScheme": "SPDX"
+            })
+        else:
+            logging.info(f"No license or rights statement for row {index + 1}.")
     return json_list
 
 def personal_publisher(json_list):
@@ -804,12 +811,15 @@ def personal_publisher(json_list):
 def language(json_list):
     for index, json_obj in enumerate(json_list):
         if "Language" in json_obj or "Language(s)" in json_obj:
-            language = json_obj.pop("Language", json_obj.pop("Language(s)", None))
-            language = language.strip()
-            if language in language_dict:
-                json_obj["language"]=language_dict[language]
-            else:
-                logging.warn(f"Language {language} not found in language dictionary for row {index + 1}.")
+            languages = json_obj.pop("Language", json_obj.pop("Language(s)", None))
+            languages = languages.replace(";", "\n")
+            languages = languages.split("\n")
+            for language in languages:
+                language = language.strip()
+                if language in language_dict:
+                    json_obj["language"]=language_dict[language]
+                else:
+                    logging.warn(f"Language {language} not found in language dictionary for row {index + 1}.")
         else:
             logging.info(f"Language not found for row {index + 1}.")
     return json_list
@@ -828,6 +838,7 @@ def series(json_list):
     for index, json_obj in enumerate(json_list):
         if "Series Name" in json_obj or "Is Part of" in json_obj:
             series_dois = json_obj.pop("Series Name", json_obj.pop("Is Part of", ""))
+            series_dois = series_dois.replace(";", "\n")
             series_dois = series_dois.split("\n") if series_dois else []
             for series_doi in series_dois:
                 if series_doi in series_to_doi_lookup:
