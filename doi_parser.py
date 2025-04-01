@@ -17,7 +17,7 @@ from utils import (
 )
 
 stream_handler = logging.StreamHandler()
-stream_handler.setLevel(logging.WARN)
+stream_handler.setLevel(logging.INFO)
 
 logging.basicConfig(handlers=[stream_handler],
 					level=logging.INFO,
@@ -122,12 +122,13 @@ def main():
 
 		finally:
 			# Always save confirmed matches before exiting
-			save_confirmed_matches(confirmed_matches)
+			# save_confirmed_matches(confirmed_matches)
+			pass
 		print(f"\n===============================================================================================================")
 		
 		
   		# this saves any confirmed matches to the confirmed matches csv at the end of the post_processes
-		save_confirmed_matches(confirmed_matches)
+		# save_confirmed_matches(confirmed_matches)
 		
 		# this prints the 1st individual item of the CSV in the JSON DataCite schema to spot any errors you might have made/check the structure
 		logging.info("====> Finished Parsing\n")
@@ -182,8 +183,10 @@ def main():
 			"User-Agent": "doi_parser.py/2.0 (https://github.com/ptvrdy/doi-parser; mailto:peyton.tvrdy.ctr@dot.gov)",
 			"authorization": "Basic " + basic
 		}
+
+		status_code_dict = {}
   
-		for obj in output:
+		for (i, obj) in enumerate(output):
 			logging.info(f"\n====> Preparing Request")
 			print(f"\n====> Preparing Request")
 
@@ -192,6 +195,8 @@ def main():
 			logging.info(f"{Fore.YELLOW}===> Sending Request")
 			response = doi_publish(url, obj, headers)
 
+			status_code_dict.setdefault(response.status_code, []).append(i)
+   
 			logging.info("====> Handling Response: {response.status_code}")
 			if response.status_code // 100 != 2:
 				logging.debug(f"{Fore.RED}====> POST did not fire successfully! {response.status_code}")
@@ -233,6 +238,13 @@ def main():
 		
 		logging.info(f"{Fore.GREEN}====> Done !")
 		print(f"{Fore.GREEN}====> Done !")
+  
+		for (http_status_code, row_list) in status_code_dict.items():
+			success = http_status_code // 100 == 2
+			color = Fore.YELLOW if not success else Fore.GREEN
+			print(f"{color} Status Code {http_status_code}: {len(row_list)} entries")
+			if not success:
+				print(f"{Fore.YELLOW} Check these rows: {row_list}")
    
 	except Exception as e:
 		logging.error(f"{Fore.RED}An error occurred: {e}")
@@ -259,8 +271,9 @@ def do_post_process(output):
         output = func(output)
 
     # Save confirmed matches after processing corporate fields
-        save_confirmed_matches(confirmed_matches)
-        print(f"{Fore.GREEN}✅ Auto-saved confirmed matches. Current count: {len(confirmed_matches)}")
+    #if len(confirmed_matches) > 4:
+        #save_confirmed_matches(confirmed_matches)
+        #print(f"{Fore.GREEN}✅ Auto-saved confirmed matches. Current count: {len(confirmed_matches)}")
 
     for func in (
         # Lower Priority Runs
@@ -284,6 +297,7 @@ def do_post_process(output):
         tris,
         oclc,
         isbn,
+        issn_number,
         schema,
         drop_and_pop,
         wrap_object
