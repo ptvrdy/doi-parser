@@ -32,6 +32,7 @@ def ror_manual_search(corporate_creator):
             else:
                 continue
         elif user_input_correct == 'Y':
+            confirmed_matches[corporate_creator] = {"ror_id": ror_id, "ror_name": ror_name}
             return ror_id, ror_name
 
 # Prompts users to manually provide ROR ID information if the API isn't working
@@ -53,6 +54,7 @@ def ror_manual_addition(corporate_creator):
             else:
                 continue
         elif user_input_correct == 'Y':
+            confirmed_matches[corporate_creator] = {"ror_id": ror_id, "ror_name": ror_name}
             return ror_id, ror_name
         
 # Prompts user to verify the match the ROR API provided and saves the confirmed match 
@@ -71,7 +73,7 @@ def verify_match(corporate_creator, ror_id, ror_name):
 def get_ror_info(corporate_creator, skip_ror_api=False):
     try:
         # Check if the corporate creator exists in confirmed matches
-        if corporate_creator in confirmed_matches:
+        if corporate_creator in confirmed_matches and confirmed_matches[corporate_creator]["ror_name"] is not None and confirmed_matches[corporate_creator]["ror_name"] != "":
             logging.info(f'Using previously confirmed match for {corporate_creator}.')
             ror_info = confirmed_matches[corporate_creator]
             return ror_info['ror_id'], ror_info['ror_name']
