@@ -130,6 +130,7 @@ series_to_doi_lookup = {
     "Commodity Flow Survey (CFS)": "https://doi.org/10.21949/1503659",
     "Dole, Elizabeth Hanford": "https://doi.org/10.21949/dbhc-mv55",
     "Domestic Airline Fares Consumer Report": "https://doi.org/10.21949/kbe4-vy59",
+    "Federal Aviation Agency Reports": "https://doi.org/10.21949/jkma-y227",
     "Federal Aviation Regulations Amendments": "https://doi.org/10.21949/x6ad-nt93",
     "Federal Aviation Regulations Final Rule": "https://doi.org/10.21949/q598-f030",
     "Federal Lands Highway": "https://doi.org/10.21949/1529393",
