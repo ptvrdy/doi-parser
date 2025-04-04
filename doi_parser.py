@@ -243,8 +243,9 @@ def main():
 			success = http_status_code // 100 == 2
 			color = Fore.YELLOW if not success else Fore.GREEN
 			print(f"{color} Status Code {http_status_code}: {len(row_list)} entries")
+			accurate_row_number = [number + 1 for number in row_list]
 			if not success:
-				print(f"{Fore.YELLOW} Check these rows: {row_list}")
+				print(f"{Fore.YELLOW} Check these rows: {accurate_row_number}")
    
 	except Exception as e:
 		logging.error(f"{Fore.RED}An error occurred: {e}")
