@@ -91,6 +91,7 @@ collections_to_doi_lookup = {
     "Special Issue - Weekly Motor Fuel Report": "https://doi.org/10.21949/ssbv-9r29",
     "Successes in Stewardship Newsletter": "https://doi.org/10.21949/zv5p-jf66",
     "State Road Maps": "https://doi.org/10.21949/1530851",
+    "Strengthening Mobility and Revolutionizing Transportation (SMART) Program": "https://doi.org/10.21949/xp59-gc26",
     "Texas Road Maps": "https://doi.org/10.21949/2rwc-j622",
     "Transportation Satellite Accounts (TSA)": "https://doi.org/10.21949/1524557",
     "Transportation Librarians Roundtable": "https://doi.org/10.21949/1530852",
