@@ -14826,5 +14826,49 @@ orcids = {
     "Liu, Chia-Fu": [
         "73548",
         "https://orcid.org/0000-0001-7838-4516"
+    ],
+    "Cai, Jiannan": [
+        "59356",
+        "https://orcid.org/0000-0001-6110-5293"
+    ],
+    "Du, Ao": [
+        "81145",
+        "https://orcid.org/0000-0001-5808-7856"
+    ],
+    "Awolusi, Ibukun": [
+        "50569",
+        "https://orcid.org/0000-0001-8723-8609"
+    ],
+    "Maurya, Ashutosh": [
+        "81884",
+        "https://orcid.org/0009-0008-0052-7191"
+    ],
+    "Jay, Susan M": [
+        "64489",
+        "https://orcid.org/0000-0002-1331-0396"
+    ],
+    "Uyhelji, Hilary A": [
+        "64428",
+        "https://orcid.org/0000-0002-3433-8320"
+    ],
+    "Basner, Mathias": [
+        "60214",
+        "https://orcid.org/0000-0002-8453-0812"
+    ],
+    "Jones, Christopher": [
+        "51412",
+        "https://orcid.org/0000-0002-8173-721X"
+    ],
+    "Muratori, Matteo": [
+        "73322",
+        "https://orcid.org/0000-0003-1688-6742"
+    ],
+    "Popovich, Natalie": [
+        "73473",
+        "https://orcid.org/0000-0002-9460-2517"
+    ],
+    "Cruz Rivera, Juan": [
+        "81813",
+        "https://orcid.org/0009-0009-0048-8169"
     ]
 }
