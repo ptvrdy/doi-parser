@@ -14802,5 +14802,29 @@ orcids = {
     "Kindratenko, Volodymyr": [
         "81144",
         "https://orcid.org/0000-0002-9336-4756"
+    ],
+    "Dragon, Luke": [
+        "81723",
+        "https://orcid.org/0009-0007-4830-2816"
+    ],
+    "Abu-Obeidah, Adi": [
+        "61657",
+        "https://orcid.org/0000-0003-1734-6756"
+    ],
+    "Fanucci, Melissa": [
+        "60992",
+        "https://orcid.org/0009-0004-6844-9370"
+    ],
+    "Yin, Kai": [
+        "28055",
+        "https://orcid.org/0000-0002-4440-4846"
+    ],
+    "Mostavi, Ali": [
+        "81824",
+        "https://orcid.org/0000-0002-9076-9408"
+    ],
+    "Liu, Chia-Fu": [
+        "73548",
+        "https://orcid.org/0000-0001-7838-4516"
     ]
 }
