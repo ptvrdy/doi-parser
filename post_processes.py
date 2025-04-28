@@ -54,6 +54,10 @@ def delete_unwanted_columns(json_list):
         delete_unwanted(json_obj, "Requires")
         delete_unwanted(json_obj, "References")
         delete_unwanted(json_obj, "Preceding Entry")
+        delete_unwanted(json_obj, "TAG for Ingest")
+        delete_unwanted(json_obj, "Collection_PID")
+        delete_unwanted(json_obj, "Key Type")
+        delete_unwanted(json_obj, "DOCID")
     return json_list
 
 #this function matches "Workroom ID" to Alternateidentifier
@@ -424,7 +428,7 @@ def creators(json_list):
             logging.info(f"sm:Creator not found for row {index + 1}.")
     return json_list
 
-def process_corporate_field(json_list, field_name, skip_ror_api=True):
+def process_corporate_field(json_list, field_name, skip_ror_api=False):
     for index, json_obj in enumerate(json_list):
         if field_name in json_obj:
             corporate_values = json_obj.pop(field_name).split("\n")
