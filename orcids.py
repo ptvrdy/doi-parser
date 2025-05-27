@@ -14870,5 +14870,201 @@ orcids = {
     "Cruz Rivera, Juan": [
         "81813",
         "https://orcid.org/0009-0009-0048-8169"
+    ],
+    "Nesthus, Thomas E.": [
+        "32516",
+        "https://orcid.org/0000-0001-9659-0153"
+    ],
+    "Klerman, Elizabeth B": [
+        "81987",
+        "https://orcid.org/0000-0002-7402-3171"
+    ],
+    "Czeisler, Charles": [
+        "52797",
+        "https://orcid.org/0000-0002-7408-1849"
+    ],
+    "Yuan, Robin K": [
+        "81988",
+        "https://orcid.org/0000-0001-5136-9957"
+    ],
+    "Arrona-Palacios, Arturo": [
+        "81989",
+        "https://orcid.org/0000-0003-0828-3327"
+    ],
+    "Sullivan, Jason P": [
+        "81992",
+        "https://orcid.org/0000-0002-4256-5304"
+    ],
+    "Goodson, Michael S": [
+        "81993",
+        "https://orcid.org/0000-0002-5004-551X"
+    ],
+    "Hook, Loyd R": [
+        "81914",
+        "https://orcid.org/0000-0002-5098-0997"
+    ],
+    "Karp, Matthew": [
+        "73277",
+        "https://orcid.org/0000-0002-3930-9385"
+    ],
+    "Ding, Hao": [
+        "61787",
+        "https://orcid.org/0000-0001-5286-3367"
+    ],
+    "Krajnovich, Ashton": [
+        "82134",
+        "https://orcid.org/0000-0002-4883-3218"
+    ],
+    "Zhou, Wendy": [
+        "74606",
+        "https://orcid.org/0000-0001-8226-375X"
+    ],
+    "Passalacqua, Paola": [
+        "70393",
+        "https://orcid.org/0000-0002-4763-7231"
+    ],
+    "Bartos, Matt": [
+        "82211",
+        "https://orcid.org/0000-0001-6421-222X"
+    ],
+    "Timilsina, Sujana": [
+        "82212",
+        "https://orcid.org/0009-0007-4574-6753"
+    ],
+    "Oh, Jeil": [
+        "82213",
+        "https://orcid.org/0000-0002-5367-993Xs"
+    ],
+    "Whiteaker, Tim": [
+        "82215",
+        "https://orcid.org/0000-0002-1940-4158"
+    ],
+    "Austin, Barney": [
+        "70399",
+        "https://orcid.org/0009-0002-4586-2782"
+    ],
+    "Grzyb, Scott": [
+        "82220",
+        "https://orcid.org/0009-0000-3955-309X"
+    ],
+    "Avant, Jody": [
+        "82221",
+        "https://orcid.org/0009-0002-0779-1362"
+    ],
+    "Hernandez, Jaime": [
+        "28663",
+        "https://orcid.org/0000-0002-9665-0408"
+    ],
+    "Cardenas, Johann J": [
+        "82227",
+        "https://orcid.org/0000-0002-4695-7639"
+    ],
+    "Hafeez, Murryam": [
+        "82228",
+        "https://orcid.org/0000-0002-9826-1019"
+    ],
+    "Villamil, William": [
+        "82229",
+        "https://orcid.org/0009-0003-1839-2807"
+    ],
+    "Gunasekaran, Dachina": [
+        "82111",
+        "https://orcid.org/0000-0003-1431-6324"
+    ],
+    "Liu, Linan": [
+        "82205",
+        "https://orcid.org/0000-0003-2944-0889"
+    ],
+    "Grimes, James": [
+        "82207",
+        "https://orcid.org/0009-0001-5546-4027"
+    ],
+    "Holmstrom, Lusa": [
+        "82232",
+        "https://orcid.org/0009-0002-2925-9457"
+    ],
+    "Souders, Andy ": [
+        "82208",
+        "https://orcid.org/0009-0003-4912-0070"
+    ],
+    "Tok, Andre": [
+        "74137",
+        "https://orcid.org/0000-0002-0387-0170"
+    ],
+    "Ahmed, Tanjeeb": [
+        "82202",
+        "https://orcid.org/0000-0002-2849-3674"
+    ],
+    "Haworth, Lorna": [
+        "81955",
+        "https://orcid.org/0009-0009-9405-5582"
+    ],
+    "Hodgson, Benjamin": [
+        "81956",
+        "https://orcid.org/0009-0003-7580-5866"
+    ],
+    "Hecht, Leo": [
+        "81957",
+        "https://orcid.org/0009-0008-5444-5239"
+    ],
+    "See, Michelle": [
+        "81958",
+        "https://orcid.org/0009-0004-9444-3239"
+    ],
+    "Henderson, Ash": [
+        "81959",
+        "https://orcid.org/0009-0001-9625-1896"
+    ],
+    "Lemieux, Shannon": [
+        "81960",
+        "https://orcid.org/0009-0000-2943-1283"
+    ],
+    "Morris, Laura": [
+        "81961",
+        "https://orcid.org/0009-0003-4042-5847"
+    ], 
+    "Webb, Ray": [
+        "82306",
+        "https://orcid.org/0009-0008-4114-6045"
+    ],
+    "Eichorn, Kristina": [
+        "82307",
+        "https://orcid.org/0009-0003-3266-0759"
+    ],
+    "Stretz, Jeremy": [
+        "82309",
+        "https://orcid.org/0009-0000-6841-147X"
+    ],
+    "Rotering, Kurt": [
+        "82310",
+        "https://orcid.org/0009-0008-7122-709X"
+    ],
+    "Hare, Michael": [
+        "82311",
+        "https://orcid.org/0009-0004-4654-2515"
+    ],
+    "Hansen, Blake": [
+        "82312",
+        "https://orcid.org/0009-0008-5854-9027"
+    ],
+    "Azu, Moses": [
+        "82313",
+        "https://orcid.org/0009-0000-4334-7379"
+    ], 
+    "Zeng, Luwei": [
+        "82314", 
+        "https://orcid.org/0000-0003-0105-3350"
+    ],
+    "Francis, Lindsay": [
+        "82315",
+        "https://orcid.org/0009-0001-8414-7864"
+    ],
+    "Viss, Barry":[
+        "82316",
+        "https://orcid.org/0009-0003-3266-0812"
+    ],
+    "Hoppe, Travis": [
+        "76346",
+        "https://orcid.org/0000-0002-4694-3050"
     ]
 }
