@@ -57,6 +57,7 @@ def delete_unwanted_columns(json_list):
         delete_unwanted(json_obj, "TAG for Ingest")
         delete_unwanted(json_obj, "Collection_PID")
         delete_unwanted(json_obj, "Key Type")
+        delete_unwanted(json_obj, "Key Value")
         delete_unwanted(json_obj, "DOCID")
     return json_list
 
