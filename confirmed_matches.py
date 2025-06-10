@@ -11,7 +11,6 @@ def load_confirmed_matches():
             reader = csv.DictReader(f)
             for row in reader:
                 confirmed_matches[row['rosap_name']] = {"ror_id": row['ror_id'], 'ror_name':row['ror_name']}
-
     return confirmed_matches
 
 # Saves the confirmed matches to the JSON file
@@ -31,3 +30,4 @@ def save_confirmed_matches(matches):
 
 # Load confirmed matches
 confirmed_matches = load_confirmed_matches()
+rejection_list = []
