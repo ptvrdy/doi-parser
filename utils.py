@@ -7,7 +7,8 @@ import json
 import logging
 import requests
 from confirmed_matches import (
-    confirmed_matches
+    confirmed_matches,
+    rejection_list
 )
 import sys
 
@@ -62,6 +63,7 @@ def verify_match(corporate_creator, ror_id, ror_name):
     while True:
         user_input = input(f"\n\nROR would like to match {Fore.GREEN}'{corporate_creator}{Style.RESET_ALL}' to {Fore.CYAN}'{ror_name}' (ROR ID: {ror_id}){Style.RESET_ALL}. Is this a correct match? (y/N): ").strip().upper()
         if user_input == 'N':
+            rejection_list.append(corporate_creator)
             return False
         if user_input == 'Y':
             confirmed_matches[corporate_creator] = {"ror_id": ror_id, "ror_name": ror_name}
@@ -72,6 +74,11 @@ def verify_match(corporate_creator, ror_id, ror_name):
 
 def get_ror_info(corporate_creator, skip_ror_api=False):
     try:
+        # check if we already rejected this corporate creator in the same process
+        if corporate_creator in rejection_list:
+            print(f"Skipping corporate creator query for {Fore.RED}{corporate_creator}\n")
+            return None, None
+
         # Check if the corporate creator exists in confirmed matches
         if corporate_creator in confirmed_matches and confirmed_matches[corporate_creator]["ror_name"] is not None and confirmed_matches[corporate_creator]["ror_name"] != "":
             logging.info(f'Using previously confirmed match for {corporate_creator}.')

@@ -128,7 +128,7 @@ def main():
 		
 		
   		# this saves any confirmed matches to the confirmed matches csv at the end of the post_processes
-		# save_confirmed_matches(confirmed_matches)
+		save_confirmed_matches(confirmed_matches)
 		
 		# this prints the 1st individual item of the CSV in the JSON DataCite schema to spot any errors you might have made/check the structure
 		logging.info("====> Finished Parsing\n")
