@@ -107,3 +107,5 @@ DOI_Update_NEW_Partners _to_ROSAP_Special Ingest_20250403.csv
 403_errors_csv.json
 403_errors_csv.csv
 403_errors_csv_doi_results.csv
+*.csv
+*.json
