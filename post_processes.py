@@ -724,8 +724,8 @@ def researchHub_id(json_list):
 #this function matches "Content Notes" to "Descriptions"/TechnicalInfo
 def content_notes(json_list):
     for json_obj in json_list:
-        curation_note_level_b = "CoreTrustSeal's curation level \"B. Logical-Technical Curation.\""
-        curation_note_level_a = "CoreTrustSeal's curation level \"A. Active Preservation\""
+        curation_note_level_b = "B. Logical-Technical Curation."
+        curation_note_level_a = "A. Active Preservation"
         if "Content Notes" in json_obj or "Public Note" in json_obj:
             content_note = json_obj.pop("Content Notes", json_obj.pop("Public Note", None)).strip()
             json_obj.setdefault("descriptions", []).append({
@@ -787,6 +787,11 @@ def rights(json_list):
                 "schemeUri": "https://spdx.org/licenses/",
                 "rightsIdentifier": "cc0-1.0",
                 "rightsIdentifierScheme": "SPDX"
+                })
+        elif "National Renewable Energy Laboratory Dataset License" in rights or "NREL" in rights:
+            json_obj.setdefault("rightsList", []).append({
+                "rights": "National Renewable Energy Laboratory Dataset License",
+                "rightsUri": "https://data.nrel.gov/node/287/license",
                 })
         elif "Public Domain" in rights or "Open Access" in rights:
             json_obj.setdefault("rightsList", []).append({
