@@ -15066,5 +15066,53 @@ orcids = {
     "Hoppe, Travis": [
         "76346",
         "https://orcid.org/0000-0002-4694-3050"
+    ],
+    "Sienknecht, Ted": [
+        "82560",
+        "https://orcid.org/0009-0002-4774-9150"
+    ],
+    "Masterson, Patrick D.": [
+        "82561",
+        "https://orcid.org/0009-0007-8163-1558"
+    ],
+    "Hawley, Heather": [
+        "82564",
+        "https://orcid.org/0009-0002-6954-4949"
+    ],
+    "Papuga, Jeremy": [
+        "82611",
+        "https://orcid.org/0009-0007-2292-1440"
+    ],
+    "Ward, Jeremy": [
+        "82662",
+        "https://orcid.org/0009-0004-2170-6480"
+    ],
+    "Tracz, Tom": [
+        "82663",
+        "https://orcid.org/0009-0001-3851-175X"
+    ],
+    "Sines, Daniel": [
+        "82531",
+        "https://orcid.org/0009-0004-6363-2598"
+    ],
+    "Day, Christopher": [
+        "82533",
+        "https://orcid.org/0000-0002-3536-7211"
+    ],
+    "Young, Stanley": [
+        "82535",
+        "https://orcid.org/0000-0002-3955-9608"
+    ],
+    "Hainen, Alex": [
+        "71080",
+        "https://orcid.org/0000-0003-1138-9739"
+    ],
+    "Mir, Faizan": [
+        "82537",
+        "https://orcid.org/0009-0007-5222-9746"
+    ],
+    "Sandhu, Rimple": [
+        "82536",
+        "https://orcid.org/0000-0003-4415-7694"
     ]
 }
