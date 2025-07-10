@@ -3,6 +3,7 @@ from doi_parser import csv_to_json
 import json
 import requests
 from urllib.parse import quote
+import sys
 
 
 def doi_api():
@@ -13,8 +14,20 @@ def doi_api():
     dois = set()
     urls = set()
     
+    
     while True:
+        with open("config.txt", "r", encoding='utf-8') as config_file:
+            config_lines = config_file.readlines()
+            basic = ""
+            for line in config_lines:
+                if line.startswith("Basic"):
+                    basic = line.split(" ")[1].strip()
+        if not basic:
+            print(f"Authentication not found in config.txt")
+            sys.exit(1)        
+        
         print("Querying page:", page_number)
+        headers = {"authorization": "Basic " + basic}
         response = requests.get(url, headers=headers, params={'client-id': "dot.dot", "state": "registered", "page[number]": page_number, "page[size]": 25})
         
         if response.status_code != 200:
