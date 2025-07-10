@@ -6,6 +6,7 @@ from constants import (
     iana_mime_type_lookup
 )
 
+import datetime as dt
 import logging
 import os
 
@@ -141,65 +142,134 @@ def rosap_url(json_list):
             url = json_obj.pop(rosap_key)
             json_obj["url"] = url
             if "https://highways.dot.gov/" in url:
-                json_obj.setdefault("contributors", []).append({
-                    "name": "Federal Highway Administration", 
-                    "nameType": "Organizational", 
-                    "contributorType": "HostingInstitution", 
-                    "lang": "en", 
-                    "nameIdentifiers": [
-                        {"nameIdentifier": "https://ror.org/0473rr271", 
-                         "nameIdentifierScheme": "ROR", 
-                         "schemeUri": "https://ror.org/"}
-                    ]
-                })
+                json_obj.setdefault("contributors", []).extend([
+                    {
+                        "name": "Federal Highway Administration", 
+                        "nameType": "Organizational", 
+                        "contributorType": "HostingInstitution", 
+                        "lang": "en", 
+                        "nameIdentifiers": [
+                            {
+                                "nameIdentifier": "https://ror.org/0473rr271", 
+                                "nameIdentifierScheme": "ROR", 
+                                "schemeUri": "https://ror.org/"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Federal Highway Administration", 
+                        "nameType": "Organizational", 
+                        "contributorType": "Distributor", 
+                        "lang": "en", 
+                        "nameIdentifiers": [
+                            {
+                                "nameIdentifier": "https://ror.org/0473rr271", 
+                                "nameIdentifierScheme": "ROR", 
+                                "schemeUri": "https://ror.org/"
+                            }
+                        ]
+                    }
+                ])
             elif "https://cms.fhwa.dot.gov/" in url:
-                json_obj.setdefault("contributors", []).append({
+                json_obj.setdefault("contributors", []).extend([
+                    {
+                        "name": "Federal Highway Administration", 
+                        "nameType": "Organizational", 
+                        "contributorType": "HostingInstitution", 
+                        "lang": "en", 
+                        "nameIdentifiers": [
+                            {"nameIdentifier": "https://ror.org/0473rr271", 
+                            "nameIdentifierScheme": "ROR", 
+                            "schemeUri": "https://ror.org/"}
+                        ]
+                    },
+                    {
                     "name": "Federal Highway Administration", 
-                    "nameType": "Organizational", 
-                    "contributorType": "HostingInstitution", 
-                    "lang": "en", 
-                    "nameIdentifiers": [
-                        {"nameIdentifier": "https://ror.org/0473rr271", 
-                         "nameIdentifierScheme": "ROR", 
-                         "schemeUri": "https://ror.org/"}
-                    ]
-                })
+                        "nameType": "Organizational", 
+                        "contributorType": "Distributor", 
+                        "lang": "en", 
+                        "nameIdentifiers": [
+                            {"nameIdentifier": "https://ror.org/0473rr271", 
+                            "nameIdentifierScheme": "ROR", 
+                            "schemeUri": "https://ror.org/"}
+                        ]
+                    }
+                ])
             elif "geodata.bts.gov" in url:
-                json_obj.setdefault("contributors", []).append({
-                    "name": "Bureau of Transportation Statistics",
-                    "nameType": "Organizational",
-                    "contributorType": "HostingInstitution",
-                    "lang": "en",
-                    "nameIdentifiers": [
-                        {"nameIdentifier": "https://ror.org/05xfdey77",
-                         "nameIdentifierScheme": "ROR",
-                         "schemeUri": "https://ror.org/"}
-                    ]
-                })
+                json_obj.setdefault("contributors", []).append([
+                    {
+                        "name": "Bureau of Transportation Statistics",
+                        "nameType": "Organizational",
+                        "contributorType": "HostingInstitution",
+                        "lang": "en",
+                        "nameIdentifiers": [
+                            {"nameIdentifier": "https://ror.org/05xfdey77",
+                            "nameIdentifierScheme": "ROR",
+                            "schemeUri": "https://ror.org/"}
+                        ]
+                    },
+                    {
+                        "name": "Bureau of Transportation Statistics",
+                        "nameType": "Organizational",
+                        "contributorType": "Distributor",
+                        "lang": "en",
+                        "nameIdentifiers": [
+                            {"nameIdentifier": "https://ror.org/05xfdey77",
+                            "nameIdentifierScheme": "ROR",
+                            "schemeUri": "https://ror.org/"}
+                        ]
+                    }
+                ])
             elif "https://services.arcgis.com" in url:
-                json_obj.setdefault("contributors", []).append({
-                    "name": "Bureau of Transportation Statistics",
-                    "nameType": "Organizational",
-                    "contributorType": "HostingInstitution",
-                    "lang": "en",
-                    "nameIdentifiers": [
-                        {"nameIdentifier": "https://ror.org/05xfdey77",
-                         "nameIdentifierScheme": "ROR",
-                         "schemeUri": "https://ror.org/"}
-                    ]
-                })
+                json_obj.setdefault("contributors", []).append([
+                    {
+                        "name": "Bureau of Transportation Statistics",
+                        "nameType": "Organizational",
+                        "contributorType": "HostingInstitution",
+                        "lang": "en",
+                        "nameIdentifiers": [
+                            {"nameIdentifier": "https://ror.org/05xfdey77",
+                            "nameIdentifierScheme": "ROR",
+                            "schemeUri": "https://ror.org/"}
+                        ]
+                    },
+                    {
+                        "name": "Bureau of Transportation Statistics",
+                        "nameType": "Organizational",
+                        "contributorType": "Distributor",
+                        "lang": "en",
+                        "nameIdentifiers": [
+                            {"nameIdentifier": "https://ror.org/05xfdey77",
+                            "nameIdentifierScheme": "ROR",
+                            "schemeUri": "https://ror.org/"}
+                        ]
+                    }
+                ])
             elif "https://rosap.ntl.bts.gov/" in url:
-                json_obj.setdefault("contributors", []).append({
-                    "name": "National Transportation Library", 
-                    "nameType": "Organizational", 
-                    "contributorType": "HostingInstitution", 
-                    "lang": "en", 
-                    "nameIdentifiers": [
-                        {"nameIdentifier": "https://ror.org/00snbrd52", 
-                         "nameIdentifierScheme": "ROR", 
-                         "schemeUri": "https://ror.org/"}
-                    ]
-                })
+                json_obj.setdefault("contributors", []).extend([
+                    {
+                        "name": "National Transportation Library", 
+                        "nameType": "Organizational", 
+                        "contributorType": "HostingInstitution", 
+                        "lang": "en", 
+                        "nameIdentifiers": [
+                            {"nameIdentifier": "https://ror.org/00snbrd52", 
+                            "nameIdentifierScheme": "ROR", 
+                            "schemeUri": "https://ror.org/"}
+                        ]
+                    },
+                    {
+                        "name": "National Transportation Library", 
+                        "nameType": "Organizational", 
+                        "contributorType": "Distributor", 
+                        "lang": "en", 
+                        "nameIdentifiers": [
+                            {"nameIdentifier": "https://ror.org/00snbrd52", 
+                            "nameIdentifierScheme": "ROR", 
+                            "schemeUri": "https://ror.org/"}
+                        ]
+                    }
+                ])
             else:
                 logging.warn(f"ROSAP URLs contributor not mapped for {index + 1}. URL: ${url}")
         else:
@@ -235,11 +305,14 @@ def handle_draft_vs_publish(json_list):
     for i, json_obj in enumerate(json_list):
         if json_obj.get("sm:Digital Object Identifier") and json_obj['sm:Digital Object Identifier'].strip():
             sm_digital_object_identifier(json_obj)
+            json_obj['state'] = "update"
         elif json_obj.get("Digital Object Identifier") and json_obj['Digital Object Identifier'].strip():
             sm_digital_object_identifier(json_obj)
+            json_obj['state'] = "update"
         else:
             logging.info(f"Setting to draft state for row {i}")
             draft_state(json_obj)
+            json_obj['state'] = "draft"
     return json_list
 
 #this function matches "sm:Digital Object Identifier" to doi, prefix and id
@@ -336,6 +409,18 @@ def modified(json_list):
                 "dateInformation": "Date cataloging record was last modified by NTL staff."
             })    
     return json_list
+
+def date_created(json_list):
+    for json_obj in json_list:
+        state = json_obj['state']
+        if state == "draft":
+            json_obj.setdefault("dates", []).append({
+                "date": dt.datetime.today().strftime("%Y-%m-%d"),
+                "dateType": "Created",
+                "dateInformation": "Date DOI and record was created by NTL staff."
+            })  
+    return json_list
+        
 
 #this function matches "sm:Format" to ResourceType and resourceTypeGeneral
 def resource_type(json_list):
@@ -623,6 +708,22 @@ def contributors(json_list):
             logging.info(f"sm:Contributor not found for row {index + 1}.")
     return json_list
 
+# this function adds the NTL Data Curator generic email as the contact person for the DOI
+def contactPoint(json_list):
+    for json_obj in json_list:
+        json_obj.setdefault("contributors", []).append({
+            "name": "National Transportation Library",
+            "nameType": "Organizational",
+            "contributorType": "ContactPerson",
+            "nameIdentifiers": [
+                {
+                    "nameIdentifier": "https://ror.org/00snbrd52",
+                    "nameIdentifierScheme": "ROR",
+                    "schemeUri": "https://ror.org/"
+                }
+            ]
+        })
+    return json_list
 
 #loading TRT file
 directory = "TRT"
@@ -898,6 +999,8 @@ def drop_and_pop(json_list):
     for json_obj in json_list:
         if "_contracting_officer_names" in json_obj:
             json_obj.pop("_contracting_officer_names")
+        if "state" in json_obj:
+            json_obj.pop("state")
     return json_list
 
 # this function wraps the entire payload in the "data" structure with the type of "dois". This also puts all the metadata created in the process into the object "attributes."
