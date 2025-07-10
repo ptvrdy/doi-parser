@@ -15114,5 +15114,93 @@ orcids = {
     "Sandhu, Rimple": [
         "82536",
         "https://orcid.org/0000-0003-4415-7694"
+    ],
+    "Cruzado, Ivette": [
+        "43267",
+        "https://orcid.org/0000-0002-1733-7780"
+    ],
+    "Rodríguez-Román, Daniel": [
+        "68054",
+        "https://orcid.org/0000-0003-2834-7500"
+    ],
+    "Neal, Tempestt": [
+        "82795",
+        "https://orcid.org/0000-0002-6807-6277"
+    ],
+    "Wolfe, Brooke": [
+        "82802",
+        "https://orcid.org/0009-0007-9429-4992"
+    ],
+    "Li, Xiaopeng": [
+        "28295",
+        "https://orcid.org/0000-0002-5264-3775"
+    ],
+    "Huang, Heye": [
+        "82789",
+        "https://orcid.org/0000-0002-8964-8764"
+    ],
+    "Santiago-Ibarra, Joshua R": [
+        "68063",
+        "https://orcid.org/0000-0001-9472-8104"
+    ],
+    "Santiago, Joshua": [
+        "75849",
+        "https://orcid.org/0000-0001-9472-8104"
+    ],
+    "Smith, Elliott T": [
+        "82779",
+        "https://orcid.org/0000-0001-8464-5196"
+    ],
+    "Zinnen, Jack H": [
+        "82780",
+        "https://orcid.org/0000-0002-5551-3781"
+    ],
+    "Janssen, Eric D": [
+        "82781",
+        "https://orcid.org/0009-0000-9402-4158"
+    ],
+    "Marcum, Paul B": [
+        "82782",
+        "https://orcid.org/0009-0006-3495-1412"
+    ],
+    "Schelsky, Wendy M": [
+        "77036",
+        "https://orcid.org/0000-0002-5742-757X"
+    ],
+    "Zaya, David N": [
+        "82783",
+        "https://orcid.org/0000-0001-7393-3889"
+    ],
+    "Barnes, David L.": [
+        "35401",
+        "https://orcid.org/0000-0003-1479-6882"
+    ],
+    "Connor, Billy": [
+        "3057",
+        "https://orcid.org/0000-0002-4289-2620"
+    ],
+    "Belz, Nathan P.": [
+        "44167",
+        "https://orcid.org/0000-0003-0814-110X"
+    ],
+    "Badgley, Jonathan": [
+        "54573",
+        "https://orcid.org/0000-0002-0096-119X"
+    ],
+    "Gillham, Olivia": [
+        "36970",
+        "https://orcid.org/0000-0003-2969-7959"
+    ],
+    "Oberg, Alex": [
+        "51386",
+        "https://orcid.org/0009-0001-1548-6002"
+    ],
+    "Oberg, Alexander": [
+        "58642",
+        "https://orcid.org/0009-0001-1548-6002"
+    ],
+    "Zhang, Kevin": [
+        "70582",
+        "https://orcid.org/0000-0002-3813-8502"
     ]
 }
