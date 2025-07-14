@@ -709,9 +709,47 @@ def contributors(json_list):
     return json_list
 
 # this function adds the NTL Data Curator generic email as the contact person for the DOI
-def contactPoint(json_list):
-    for json_obj in json_list:
-        json_obj.setdefault("contributors", []).append({
+def contact_point(json_list):
+    for index, json_obj in enumerate(json_list):
+        poc = None
+        for candidate_key in ("Point of Contact", "Contact Person", "Contact", "POC"):
+            if candidate_key in json_obj:
+                poc = json_obj.pop(candidate_key)
+                break
+        if poc is not None:
+            poc = poc.strip()
+            last_name, first_name = poc.split(",")
+            last_name = last_name.strip()
+            first_name = first_name.strip()
+            logging.debug(print(f"I am getting not getting stuck on line {index}"))
+            if poc in orcids:
+                ORCID = orcids[poc][1]  
+                json_obj.setdefault("contributors", []).append({
+                "name": last_name.strip() + ", " + first_name.strip(),
+                "nameType": "Personal",
+                "givenName": first_name.strip(),
+                "familyName": last_name,
+                "contributorType": "ContactPerson",
+                "nameIdentifiers": [
+                    {
+                        "nameIdentifier": ORCID,
+                        "nameIdentifierScheme": "ORCID", 
+                        "schemeUri": "https://orcid.org/"
+                    }
+                ]
+                })
+                logging.info(f"Contact Person found for row {index +1}.")
+            else:
+                json_obj.setdefault("contributors", []).append({
+                "name": last_name.strip() + ", " + first_name.strip(),
+                "nameType": "Personal",
+                "givenName": first_name.strip(),
+                "familyName": last_name,
+                "contributorType": "ContactPerson",
+                })
+                logging.info(f"Contact Person found for row {index +1}.")
+        else:
+            json_obj.setdefault("contributors", []).append({
             "name": "National Transportation Library",
             "nameType": "Organizational",
             "contributorType": "ContactPerson",
@@ -723,7 +761,9 @@ def contactPoint(json_list):
                 }
             ]
         })
+        logging.info(f"Using default NTL contact info for row {index + 1}.")
     return json_list
+        
 
 #loading TRT file
 directory = "TRT"
@@ -893,6 +933,11 @@ def rights(json_list):
             json_obj.setdefault("rightsList", []).append({
                 "rights": "National Renewable Energy Laboratory Dataset License",
                 "rightsUri": "https://data.nrel.gov/node/287/license",
+                })
+        elif "http://www.usa.gov/publicdomain/label/1.0/" in rights or "USA Governement Copyright": 
+            json_obj.setdefault("rightsList", []).append({
+                "rights": "United States Government Public Domain License",
+                "rightsUri": "http://www.usa.gov/publicdomain/label/1.0/",
                 })
         elif "Public Domain" in rights or "Open Access" in rights:
             json_obj.setdefault("rightsList", []).append({
