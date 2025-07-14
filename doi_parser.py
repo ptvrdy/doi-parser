@@ -285,7 +285,7 @@ def do_post_process(output):
         contract_number,
         researchHub_id,
         content_notes,
-        contactPoint,
+        contact_point,
         workroom_id,
         rosap_id,
         rights,
