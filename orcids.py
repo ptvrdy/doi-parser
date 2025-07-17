@@ -15202,5 +15202,49 @@ orcids = {
     "Zhang, Kevin": [
         "70582",
         "https://orcid.org/0000-0002-3813-8502"
+    ],
+    "Choi, Inchul": [
+        "64279",
+        "https://orcid.org/0000-0002-2048-7026"
+    ],
+    "Baker, Daniel": [
+        "82960",
+        "https://orcid.org/0009-0005-5270-0820"
+    ],
+    "El-Adle, Amro": [
+        "82965",
+        "https://orcid.org/0000-0002-8492-5267"
+    ],
+    "Alden, Madeline": [
+        "82966",
+        "https://orcid.org/0009-0002-8653-0389"
+    ],
+    "Chen, Yin-Hsuen": [
+        "82968",
+        "https://orcid.org/0000-0003-4809-5718"
+    ],
+    "Davidson, Melissa": [
+        "82969",
+        "https://orcid.org/0009-0003-8657-4629"
+    ],
+    "O'Brien, Kevin": [
+        "82972",
+        "https://orcid.org/0000-0001-7980-640X"
+    ],
+    "Chuquin, Nick": [
+        "82975",
+        "https://orcid.org/0009-0002-7448-7571"
+    ],
+    "Coffey, Cindy": [
+        "82976",
+        "https://orcid.org/0009-0004-5994-3975"
+    ],
+    "Krum, Andrew": [
+        "47647",
+        "https://orcid.org/0000-0002-0864-2652"
+    ],
+    "Titlow, Kyle": [
+        "67161",
+        "https://orcid.org/0000-0002-0496-4785"
     ]
 }
