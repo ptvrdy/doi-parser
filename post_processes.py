@@ -921,7 +921,7 @@ def rights(json_list):
                 "rightsIdentifier": "cc-by-4.0",
                 "rightsIdentifierScheme": "SPDX"
                 })
-        elif "Zero" in rights or "https://creativecommons.org/publicdomain/zero/1.0/legalcode" in rights:
+        elif "Zero" in rights or "https://creativecommons.org/publicdomain/zero/1.0/" in rights:
             json_obj.setdefault("rightsList", []).append({
                 "rights": "Creative Commons Zero v1.0 Universal",
                 "rightsUri": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
@@ -934,7 +934,7 @@ def rights(json_list):
                 "rights": "National Renewable Energy Laboratory Dataset License",
                 "rightsUri": "https://data.nrel.gov/node/287/license",
                 })
-        elif "http://www.usa.gov/publicdomain/label/1.0/" in rights or "USA Governement Copyright": 
+        elif "http://www.usa.gov/publicdomain/label/1.0/" in rights or "USA Governement Copyright" in rights: 
             json_obj.setdefault("rightsList", []).append({
                 "rights": "United States Government Public Domain License",
                 "rightsUri": "http://www.usa.gov/publicdomain/label/1.0/",
