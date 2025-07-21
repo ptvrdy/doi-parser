@@ -110,3 +110,5 @@ DOI_Update_NEW_Partners _to_ROSAP_Special Ingest_20250403.csv
 *.csv
 *.json
 ~$Funder_Contract_Info.xlsx
+.vscode/settings.json
+.vscode/settings.json

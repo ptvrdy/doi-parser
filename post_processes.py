@@ -833,21 +833,63 @@ def report_number(json_list):
                 })
     return json_list
 
-#this function matches "Grants, Contracts, Cooperative Agreements" to alternateIdentifier
+
+# Load Contract/Funding Information
+directory = "Funder Information"
+file = [os.path.join(directory, f) for f in os.listdir(directory) if f.endswith(".xlsx")][0]
+
+funding_data = pd.read_excel(file)
+
+# Ensure we work with string values
+funding_data["contract_number_stripped"] = funding_data["contract_number_stripped"].astype(str)
+
+# Create a lookup dictionary from the Excel file
+funding_lookup = {
+    row["contract_number_stripped"]: {
+        "funderName": row["funder_name"],
+        "awardNumber": row["contract_number_preferred"],
+        "funderIdentifier": row["funder_identifier"],
+        "funderIdentifierType": "ROR",
+        "awardURI": row["contract_uri"],
+        "awardTitle": row["contract_title"]
+    }
+    for _, row in funding_data.iterrows()
+}
+
+
+# Function to normalize contract number
+def normalize_contract_number(contract_number):
+    if "69A" in contract_number:
+        contract_number = contract_number[contract_number.index("69A"):]
+    return contract_number.replace("-", "").strip()
+
+
+# Main function to apply to your JSON list
 def contract_number(json_list):
     for json_obj in json_list:
-        if "Grants, Contracts, Cooperative Agreements" in json_obj or "Contract Number(s)" in json_obj:
-            contract_numbers = json_obj.pop("Grants, Contracts, Cooperative Agreements", json_obj.pop("Contract Number(s)", ""))
-            contract_numbers = contract_numbers.strip()
-            contract_numbers = contract_numbers.split(";")
-            for contract_number in contract_numbers:
+        contract_field = None
+        if "Grants, Contracts, Cooperative Agreements" in json_obj:
+            contract_field = "Grants, Contracts, Cooperative Agreements"
+        elif "Contract Number(s)" in json_obj:
+            contract_field = "Contract Number(s)"
+
+        if contract_field:
+            raw_contracts = json_obj.pop(contract_field, "")
+            for contract_number in raw_contracts.split(";"):
                 contract_number = contract_number.strip()
-                json_obj.setdefault("fundingReferences", []).append({
-                    "funderName": "U.S. Department of Transportation",
-                    "awardNumber": contract_number, 
-                    "funderIdentifier": "https://ror.org/02xfw2e90", 
-                    "funderIdentifierType": "ROR"
-                })
+                normalized = normalize_contract_number(contract_number)
+
+                if normalized in funding_lookup:
+                    # Use info from Excel
+                    json_obj.setdefault("fundingReferences", []).append(funding_lookup[normalized])
+                else:
+                    # Default fallback
+                    json_obj.setdefault("fundingReferences", []).append({
+                        "funderName": "U.S. Department of Transportation",
+                        "awardNumber": contract_number,
+                        "funderIdentifier": "https://ror.org/02xfw2e90",
+                        "funderIdentifierType": "ROR"
+                    })
     return json_list
 
 
