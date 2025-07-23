@@ -521,7 +521,8 @@ def process_corporate_field(json_list, field_name, skip_ror_api=False):
             logging.debug("My object is " + str(corporate_values))
             for corporate_value in corporate_values:
                 corporate_value = corporate_value.strip()
-                ror_id, ror_name = get_ror_info(corporate_value, skip_ror_api)
+                ror_id, ror_name, affiliation_ror_id, affiliation_ror_name = get_ror_info(corporate_value, skip_ror_api)
+                
                 
                 # Now define the field_mapping using corporate_value
                 field_mapping = {
@@ -558,10 +559,12 @@ def process_corporate_field(json_list, field_name, skip_ror_api=False):
                             "name": ror_name,
                             "nameType": "Organizational",
                             "contributorType": "Sponsor",
-                            "nameIdentifiers": [{
-                                "schemeUri": "https://ror.org/",
-                                "nameIdentifier": ror_id,
-                                "nameIdentifierScheme": "ROR"}
+                            "nameIdentifiers": [
+                                {
+                                    "schemeUri": "https://ror.org/",
+                                    "nameIdentifier": ror_id,
+                                    "nameIdentifierScheme": "ROR"
+                                }
                             ]
                         }
                     else:
@@ -576,18 +579,49 @@ def process_corporate_field(json_list, field_name, skip_ror_api=False):
                                 }
                             ]
                         }
+
+                    # Include affiliation only if both are provided
+                    if affiliation_ror_id and affiliation_ror_name:
+                        entry["affiliation"] = [
+                            {
+                                "name": affiliation_ror_name,
+                                "affiliationIdentifier": affiliation_ror_id,
+                                "affiliationIdentifierScheme": "ROR"
+                            }
+                        ]
                 else:
-                    entry = {
-                        **{k: v for k, v in output_structure.items() if k != "key"}
-                    }
+                    entry = {}
+                    if affiliation_ror_id and affiliation_ror_name and ror_name:
+                        entry = {
+                            "name": ror_name,
+                            "nameType": "Organizational",
+                            "contributorType": "Sponsor",  # Or dynamically set if you support it
+                            "affiliation": [
+                                {
+                                    "name": affiliation_ror_name,
+                                    "affiliationIdentifier": affiliation_ror_id,
+                                    "affiliationIdentifierScheme": "ROR"
+                                }
+                            ]
+                        }
+                    elif ror_name:
+                        entry = {
+                            "name": ror_name,
+                            "nameType": "Organizational",
+                        }
+                    else:
+                        entry = {
+                            "name": corporate_value,
+                            "nameType": "Organizational",
+                            "contributorType": "Sponsor"  # again, dynamically set if needed
+                        }
                     logging.info(f"ROR for {corporate_value} not found for row {index + 1}.")
-                    
-                if field_name == "sm:Corporate Publisher":
-                    json_obj[output_structure["key"]] = entry
-                else:
-                    json_obj.setdefault(output_structure["key"], []).append(entry)
-        else:
-            logging.info(f"{field_name} not found for row {index + 1}.")
+                if "key" in output_structure:
+                    key = output_structure["key"]
+                    if key in json_obj:
+                        json_obj[key].append(entry)
+                    else:
+                        json_obj[key] = entry
     return json_list
 
 
