@@ -15246,5 +15246,41 @@ orcids = {
     "Titlow, Kyle": [
         "67161",
         "https://orcid.org/0000-0002-0496-4785"
-    ]
+    ],
+    "Vallamsundar, Suriya": [
+        "43783",
+        "https://orcid.org/0000-0003-2136-5407"
+    ],
+    "Jaikumar, Rohit": [
+        "63687",
+        "https://orcid.org/0000-0002-1172-1562"
+    ],
+    "Askariyeh, Mohammad": [
+        "50826",
+        "https://orcid.org/0000-0001-5376-8978"
+    ],
+    "Kuzio, Jacqueline": [
+        "52853",
+        "https://orcid.org/0000-0002-1441-8876"
+    ],
+    "Shukla, Harshit": [
+        "77468",
+        "https://orcid.org/0000-0001-7506-9203"
+    ],
+    "Naranjo, Jenny": [
+        "81232"
+        "https://orcid.org/0000-0003-0095-7462"
+    ],
+    "Ramani, Tara": [
+        "28352",
+        "https://orcid.org/0000-0002-7960-0812"
+    ],
+    "Farzaneh, Reza": [
+        "33307",
+        "https://orcid.org/0000-0002-7467-0408"
+    ],
+    "Chavez, Mayra C": [
+        "63690",
+        "https://orcid.org/0000-0003-2511-0823"
+    ],
 }
