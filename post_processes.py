@@ -270,6 +270,31 @@ def rosap_url(json_list):
                         ]
                     }
                 ])
+            elif "data.transportation.gov" in url:
+                json_obj.setdefault("contributors", []).append([
+                    {
+                        "name": "United States Department of Transportation",
+                        "nameType": "Organizational",
+                        "contributorType": "HostingInstitution",
+                        "lang": "en",
+                        "nameIdentifiers": [
+                            {"nameIdentifier": "https://ror.org/02xfw2e90",
+                            "nameIdentifierScheme": "ROR",
+                            "schemeUri": "https://ror.org/"}
+                        ]
+                    },
+                    {
+                        "name": "United States Department of Transportation",
+                        "nameType": "Organizational",
+                        "contributorType": "Distributor",
+                        "lang": "en",
+                        "nameIdentifiers": [
+                            {"nameIdentifier": "https://ror.org/02xfw2e90",
+                            "nameIdentifierScheme": "ROR",
+                            "schemeUri": "https://ror.org/"}
+                        ]
+                    }
+                ])
             else:
                 logging.warn(f"ROSAP URLs contributor not mapped for {index + 1}. URL: ${url}")
         else:
@@ -782,19 +807,19 @@ def contact_point(json_list):
                 "contributorType": "ContactPerson",
                 })
                 logging.info(f"Contact Person found for row {index +1}.")
-        else:
-            json_obj.setdefault("contributors", []).append({
-            "name": "National Transportation Library",
-            "nameType": "Organizational",
-            "contributorType": "ContactPerson",
-            "nameIdentifiers": [
-                {
-                    "nameIdentifier": "https://ror.org/00snbrd52",
-                    "nameIdentifierScheme": "ROR",
-                    "schemeUri": "https://ror.org/"
-                }
-            ]
-        })
+        # else:
+        #     json_obj.setdefault("contributors", []).append({
+        #     "name": "National Transportation Library",
+        #     "nameType": "Organizational",
+        #     "contributorType": "ContactPerson",
+        #     "nameIdentifiers": [
+        #         {
+        #             "nameIdentifier": "https://ror.org/00snbrd52",
+        #             "nameIdentifierScheme": "ROR",
+        #             "schemeUri": "https://ror.org/"
+        #         }
+        #     ]
+        # })
         logging.info(f"Using default NTL contact info for row {index + 1}.")
     return json_list
         
