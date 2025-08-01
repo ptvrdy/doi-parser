@@ -15283,4 +15283,56 @@ orcids = {
         "63690",
         "https://orcid.org/0000-0003-2511-0823"
     ],
+    "Tanner, Braden": [
+        "83147",
+        "https://orcid.org/0000-0002-2572-1360"
+    ],
+    "Torrence, Brett S.": [
+        "64178",
+        "https://orcid.org/0009-0009-7217-9349"
+    ],
+    "DiDomenica, Rebecca": [
+        "82081",
+        "https://orcid.org/0009-0009-4726-578X"
+    ],
+    "Fercho, Kelene A.": [
+        "64177",
+        "https://orcid.org/0000-0003-0577-186X"
+    ],
+    "Mofle, Theodore C.": [
+        "64281",
+        "https://orcid.org/0000-0003-2217-9083"
+    ],
+    "Baumgartner, Hannah M": [
+        "82080",
+        "https://orcid.org/0000-0002-8385-9229"
+    ],
+    "Stinson, Monique": [
+        "62602",
+        "https://orcid.org/0000-0003-1337-1903"
+    ],
+    "Lim, Hyeonsup": [
+        "63353",
+        "https://orcid.org/0000-0002-3936-0092"
+    ],
+    "Hileman, Christy": [
+        "64173",
+        "https://orcid.org/0000-0002-1897-3789"
+    ],
+    "Greenhaw, Richard": [
+        "64501",
+        "https://orcid.org/0000-0002-9863-7821"
+    ],
+    "Kratchounova, Daniela": [
+        "52703",
+        "https://orcid.org/0000-0002-9914-9926"
+    ],
+    "Mahmassani, Hani S.": [
+        "9491",
+        "https://orcid.org/0000-0002-8443-8928"
+    ],
+    "Hamdar, Samer H": [
+        "77841",
+        "https://orcid.org/0000-0001-6896-367X"
+    ]
 }
