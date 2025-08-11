@@ -1040,6 +1040,14 @@ def rights(json_list):
                 "rights": "United States Government Public Domain License",
                 "rightsUri": "http://www.usa.gov/publicdomain/label/1.0/",
                 })
+        elif "Apache License Version 2.0" in rights or "https://www.apache.org/licenses/LICENSE-2.0" in rights: 
+            json_obj.setdefault("rightsList", []).append({
+                "rights": "Apache License 2.0",
+                "rightsUri": "http://www.apache.org/licenses/LICENSE-2.0",
+                "schemeUri": "https://spdx.org/licenses/",
+                "rightsIdentifier": "apache-2.0",
+                "rightsIdentifierScheme": "SPDX"
+            })
         elif "Public Domain" in rights or "Open Access" in rights:
             json_obj.setdefault("rightsList", []).append({
                 "rights": "Creative Commons Public Domain Dedication and Certification",
