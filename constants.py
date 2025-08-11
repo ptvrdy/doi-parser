@@ -25,6 +25,7 @@ collections_to_doi_lookup = {
     "Advisory Circulars": "https://doi.org/10.21949/1530859", 
     "Air Quality + Sustainable Transportation Highlights": "https://doi.org/10.21949/y3r3-3y74",
     "Attitudes and Behavior Surveys": "https://doi.org/10.21949/45f6-zs20",
+    "Autonomous Vehicles": "https://doi.org/10.21949/1x81-qs91",
     "BTS Data Spotlight": "https://doi.org/10.21949/e6w2-7784",
     "BTS Ports": "https://doi.org/10.21949/1530821",
     "BTS Products": "https://doi.org/10.21949/1530822",
